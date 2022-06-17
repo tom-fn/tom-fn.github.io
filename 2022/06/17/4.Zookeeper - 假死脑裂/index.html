@@ -4,17 +4,21 @@
 
 <head>
     
-    <title>文章归档：2022/6 - 非鱼博客</title>
+    <title>非鱼博客</title>
     <meta charset="UTF-8">
     <meta name="keywords" content="java">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
     
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <meta property="og:type" content="website">
+    <meta name="description" content="该问题就是服务集群因为网络震荡导致的多主多从问题，解决方案就是设置服务切换的超时时间，但也同时会导致无法达到高可用的要求。 注：该问题没什么卵用，就是为了告诉大家有 “假死脑裂” 这个词，避免面试时尴尬 ╮(￣▽￣)╭">
+<meta property="og:type" content="article">
 <meta property="og:title" content="非鱼博客">
-<meta property="og:url" content="http://example.com/archives/2022/06/index.html">
+<meta property="og:url" content="http://example.com/2022/06/17/4.Zookeeper%20-%20%E5%81%87%E6%AD%BB%E8%84%91%E8%A3%82/index.html">
 <meta property="og:site_name" content="非鱼博客">
+<meta property="og:description" content="该问题就是服务集群因为网络震荡导致的多主多从问题，解决方案就是设置服务切换的超时时间，但也同时会导致无法达到高可用的要求。 注：该问题没什么卵用，就是为了告诉大家有 “假死脑裂” 这个词，避免面试时尴尬 ╮(￣▽￣)╭">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-17T02:57:09.647Z">
+<meta property="article:modified_time" content="2022-05-17T09:42:53.551Z">
 <meta property="article:author" content="funing.ma">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
@@ -24,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1655449240831">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1655449240801">
     
-    <link rel="stylesheet" href="/css/style.css?v=1655449240831">
+    <link rel="stylesheet" href="/css/style.css?v=1655449240801">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1655449240831">
+            <link rel="stylesheet" href="/custom.css?v=1655449240801">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -298,234 +302,51 @@
     </div>
     <div id="nexmoe-content">
         <div class="nexmoe-primary">
-            <section class="nexmoe-posts">
-    
-    <div class="nexmoe-post">
-        <a href="/2022/06/17/5.MySQL%20-%20%E4%BC%98%E5%8C%96%EF%BC%88%E9%87%8D%E7%82%B9%E6%8E%8C%E6%8F%A1%EF%BC%89/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 56.71874999999999%;"> 
-                    <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658037152&t=8ed7596444aa8350ee3422f6c31875d4" alt="" loading="lazy">
-                    <h1></h1>
-                </div>
-            
-        </a>
+            <div class="nexmoe-post">
 
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月17日</a>
-            
-            
-            
-        </div>
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 56.71874999999999%;"> 
+              <img data-fancybox="gallery" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658037152&t=8ed7596444aa8350ee3422f6c31875d4" alt="" loading="lazy">
+              <h1></h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月17日</a>
+</div>
+      
 
-        <article>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2022/06/17/4.Zookeeper%20-%20%E5%81%87%E6%AD%BB%E8%84%91%E8%A3%82/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 56.71874999999999%;"> 
-                    <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658037152&t=8ed7596444aa8350ee3422f6c31875d4" alt="" loading="lazy">
-                    <h1></h1>
-                </div>
-            
-        </a>
+      <p>该问题就是服务集群因为网络震荡导致的多主多从问题，解决方案就是设置服务切换的超时时间，但也同时会导致无法达到高可用的要求。</p>
+<p><strong>注：该问题没什么卵用，就是为了告诉大家有 “假死脑裂” 这个词，避免面试时尴尬 ╮(￣▽￣)╭</strong></p>
 
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月17日</a>
-            
-            
-            
-        </div>
+      <p><img data-fancybox="gallery" src="https://i.dawnlab.me/53a8c7cf3ad77a0f0a456ce2c6afe88a.png"  alt="53a8c7cf3ad77a0f0a456ce2c6afe88a.png" data-caption="53a8c7cf3ad77a0f0a456ce2c6afe88a.png" loading="lazy"></p>
+  </article>
 
-        <article>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2022/06/17/3.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%AD%BB%E4%BF%A1%E3%80%81%E5%BB%B6%E8%BF%9F%E3%80%81%E9%87%8D%E8%AF%95%E9%98%9F%E5%88%97/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 56.71874999999999%;"> 
-                    <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658037152&t=8ed7596444aa8350ee3422f6c31875d4" alt="" loading="lazy">
-                    <h1></h1>
-                </div>
-            
-        </a>
-
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月17日</a>
-            
-            
-            
-        </div>
-
-        <article>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2022/06/17/1.Java%20%E5%9F%BA%E7%A1%80%20-%20JDK8%20%E6%96%B0%E7%89%B9%E6%80%A7/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 56.71874999999999%;"> 
-                    <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658037152&t=8ed7596444aa8350ee3422f6c31875d4" alt="Java 基础 - JDK8 新特性" loading="lazy">
-                    <h1>Java 基础 - JDK8 新特性</h1>
-                </div>
-            
-        </a>
-
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月17日</a>
-            
-            
-            
-        </div>
-
-        <article>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2022/06/17/10.Java%20%E5%9F%BA%E7%A1%80%20-%20%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 56.71874999999999%;"> 
-                    <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658037152&t=8ed7596444aa8350ee3422f6c31875d4" alt="" loading="lazy">
-                    <h1></h1>
-                </div>
-            
-        </a>
-
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月17日</a>
-            
-            
-            
-        </div>
-
-        <article>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2022/06/17/9.Java%20%E5%9F%BA%E7%A1%80%20-%20%E9%87%8D%E8%BD%BD%E5%92%8C%E9%87%8D%E5%86%99%E7%9A%84%E5%8C%BA%E5%88%AB/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 56.71874999999999%;"> 
-                    <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658037152&t=8ed7596444aa8350ee3422f6c31875d4" alt="" loading="lazy">
-                    <h1></h1>
-                </div>
-            
-        </a>
-
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月17日</a>
-            
-            
-            
-        </div>
-
-        <article>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2022/06/17/8.Java%20%E5%9F%BA%E7%A1%80%20-%20int%20%E5%92%8C%20Integer%20%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 56.71874999999999%;"> 
-                    <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658037152&t=8ed7596444aa8350ee3422f6c31875d4" alt="" loading="lazy">
-                    <h1></h1>
-                </div>
-            
-        </a>
-
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月17日</a>
-            
-            
-            
-        </div>
-
-        <article>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2022/06/17/7.Java%20%E5%9F%BA%E7%A1%80%20-%20final,%20finally,%20finalize/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 56.71874999999999%;"> 
-                    <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658037152&t=8ed7596444aa8350ee3422f6c31875d4" alt="" loading="lazy">
-                    <h1></h1>
-                </div>
-            
-        </a>
-
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月17日</a>
-            
-            
-            
-        </div>
-
-        <article>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2022/06/17/6.Java%20%E5%9F%BA%E7%A1%80%20-%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%89%B9%E5%BE%81/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 56.71874999999999%;"> 
-                    <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658037152&t=8ed7596444aa8350ee3422f6c31875d4" alt="" loading="lazy">
-                    <h1></h1>
-                </div>
-            
-        </a>
-
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月17日</a>
-            
-            
-            
-        </div>
-
-        <article>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2022/06/02/2.Java%20%E5%9F%BA%E7%A1%80%20-%20%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 56.71874999999999%;"> 
-                    <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658037152&t=8ed7596444aa8350ee3422f6c31875d4" alt="双亲委派模型" loading="lazy">
-                    <h1>双亲委派模型</h1>
-                </div>
-            
-        </a>
-
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月02日</a>
-            
-            
-            
-        </div>
-
-        <article>
-            
-        </article>
-    </div>
-    
-</section>
-
-    <nav class="nexmoe-page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/archives/2022/06/page/2/">2</a><a class="extend next" rel="next" href="/archives/2022/06/page/2/"><i class="nexmoefont icon-right"></i></a>
-    </nav>
   
+      
+    <div class="nexmoe-post-copyright">
+        <strong>本文作者：</strong>funing.ma<br>
+        <strong>本文链接：</strong><a href="http://example.com/2022/06/17/4.Zookeeper%20-%20%E5%81%87%E6%AD%BB%E8%84%91%E8%A3%82/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;17&#x2F;4.Zookeeper%20-%20%E5%81%87%E6%AD%BB%E8%84%91%E8%A3%82&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;17&#x2F;4.Zookeeper%20-%20%E5%81%87%E6%AD%BB%E8%84%91%E8%A3%82&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置评论框插槽
+      </div>
+  
+</div>
             <div class="nexmoe-post-right">
               <div class="nexmoe-fixed">
                   <div class="nexmoe-tool"> 
@@ -569,7 +390,7 @@
 
  
 
-<script async src="/js/app.js?v=1655449240833"></script>
+<script async src="/js/app.js?v=1655449240803"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 
