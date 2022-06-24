@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656058819483">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656059365108">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656058819483">
+    <link rel="stylesheet" href="/css/style.css?v=1656059365108">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656058819483">
+            <link rel="stylesheet" href="/custom.css?v=1656059365108">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -271,7 +271,7 @@
           </li>
         
           <li>
-            <a href="/2013/07/13/11.Java%20%E5%9F%BA%E7%A1%80%20-%20%E8%AF%B4%E8%AF%B4%E5%8F%8D%E5%B0%84%E7%9A%84%E7%94%A8%E9%80%94%E5%8F%8A%E5%AE%9E%E7%8E%B0/">说说反射的用途及实现</a>
+            <a href="/2013/07/13/1.Java%20%E5%9F%BA%E7%A1%80%20-%20JDK8%20%E6%96%B0%E7%89%B9%E6%80%A7/">JDK8 新特性</a>
           </li>
         
       </ul>
@@ -319,7 +319,7 @@
         &copy; 2022 烦恼多一点
         Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
         & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
-        <br><a target="_blank" href="https://beian.miit.gov.cn/">鄂ICP备2020018486号</a> <br><a target="_blank" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"> <img src="https://i.dawnlab.me/c0268c1e6cfd0863d6ba35be1575941a.png" width="150px"></a>
+        <br><a target="_blank" href="https://beian.miit.gov.cn/">宁ICP备2021002460号</a> <br>
     </div>
 </div><!-- .nexmoe-drawer -->
     </div>
@@ -410,7 +410,7 @@
 <p>这种实现存在的问题，过度依赖当前服务器的时间了，如果在大量的并发请求下，都判断出了锁过期，而这个时候再去设置锁的时候，最终是会只有一个线程，但是可能会导致不同服务器根据自身不同的时间覆盖掉最终获取锁的那个线程设置的时间。</p>
 <h2 id="Tair-实现"><a href="#Tair-实现" class="headerlink" title="Tair 实现"></a>Tair 实现</h2><p>通过 Tair 来实现分布式锁和 Redis 的实现核心差不多，不过 Tair 有个很方便的 api，感觉是实现分布式锁的最佳配置，就是 Put api 调用的时候需要传入一个 version，就和数据库的乐观锁一样，修改数据之后，版本会自动累加，如果传入的版本和当前数据版本不一致，就不允许修改。</p>
 
-      <p><img data-fancybox="gallery" src="https://i.dawnlab.me/53a8c7cf3ad77a0f0a456ce2c6afe88a.png"  alt="53a8c7cf3ad77a0f0a456ce2c6afe88a.png" data-caption="53a8c7cf3ad77a0f0a456ce2c6afe88a.png" loading="lazy"></p>
+      <p><img data-fancybox="gallery" src="http://photo.heiau.cn/ningboke/utools/weixin.png"  alt="weixin.png" data-caption="weixin.png" loading="lazy"></p>
   </article>
 
   
@@ -487,7 +487,7 @@
 
  
 
-<script async src="/js/app.js?v=1656058819488"></script>
+<script async src="/js/app.js?v=1656059365113"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

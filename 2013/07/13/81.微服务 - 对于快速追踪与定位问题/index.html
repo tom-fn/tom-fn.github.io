@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656058819535">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656059365151">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656058819535">
+    <link rel="stylesheet" href="/css/style.css?v=1656059365151">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656058819535">
+            <link rel="stylesheet" href="/custom.css?v=1656059365151">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -271,7 +271,7 @@
           </li>
         
           <li>
-            <a href="/2013/07/13/11.Java%20%E5%9F%BA%E7%A1%80%20-%20%E8%AF%B4%E8%AF%B4%E5%8F%8D%E5%B0%84%E7%9A%84%E7%94%A8%E9%80%94%E5%8F%8A%E5%AE%9E%E7%8E%B0/">说说反射的用途及实现</a>
+            <a href="/2013/07/13/1.Java%20%E5%9F%BA%E7%A1%80%20-%20JDK8%20%E6%96%B0%E7%89%B9%E6%80%A7/">JDK8 新特性</a>
           </li>
         
       </ul>
@@ -319,7 +319,7 @@
         &copy; 2022 烦恼多一点
         Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
         & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
-        <br><a target="_blank" href="https://beian.miit.gov.cn/">鄂ICP备2020018486号</a> <br><a target="_blank" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"> <img src="https://i.dawnlab.me/c0268c1e6cfd0863d6ba35be1575941a.png" width="150px"></a>
+        <br><a target="_blank" href="https://beian.miit.gov.cn/">宁ICP备2021002460号</a> <br>
     </div>
 </div><!-- .nexmoe-drawer -->
     </div>
@@ -342,7 +342,7 @@
 
       <p>在微服务复杂的链式调用中，我们会比单体架构更难以追踪与定位问题。因此，在设计的时候，需要特别注意。一种比较好的方案是，当 RESTful API 接口出现非 2xx 的 HTTP 错误码响应时，采用全局的异常结构响应信息。其中，code 字段用来表示某类错误的错误码，在微服务中应该加上“{biz_name}&#x2F;”前缀以便于定位错误发生在哪个业务系统上。我们来看一个案例，假设“用户中心”某个接口没有权限获取资源而出现错误，我们的业务系统可以响应“UC&#x2F;AUTH_DENIED”，并且通过自动生成的 UUID 值的 request_id 字段，在日志系统中获得错误的详细信息。</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">HTTP/<span class="number">1.1</span> <span class="number">400</span> Bad Request</span><br><span class="line">Content-Type<span class="punctuation">:</span> application/json</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;code&quot;</span><span class="punctuation">:</span> <span class="string">&quot;INVALID_ARGUMENT&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&#123;error message&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;cause&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&#123;cause message&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;request_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;01234567-89ab-cdef-0123-456789abcdef&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;host_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&#123;server identity&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;server_time&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2014-01-01T12:00:00Z&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-      <p><img data-fancybox="gallery" src="https://i.dawnlab.me/53a8c7cf3ad77a0f0a456ce2c6afe88a.png"  alt="53a8c7cf3ad77a0f0a456ce2c6afe88a.png" data-caption="53a8c7cf3ad77a0f0a456ce2c6afe88a.png" loading="lazy"></p>
+      <p><img data-fancybox="gallery" src="http://photo.heiau.cn/ningboke/utools/weixin.png"  alt="weixin.png" data-caption="weixin.png" loading="lazy"></p>
   </article>
 
   
@@ -412,7 +412,7 @@
 
  
 
-<script async src="/js/app.js?v=1656058819536"></script>
+<script async src="/js/app.js?v=1656059365153"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

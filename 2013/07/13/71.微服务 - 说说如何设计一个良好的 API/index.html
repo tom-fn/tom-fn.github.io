@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656058819506">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656059365127">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656058819506">
+    <link rel="stylesheet" href="/css/style.css?v=1656059365127">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656058819506">
+            <link rel="stylesheet" href="/custom.css?v=1656059365127">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -271,7 +271,7 @@
           </li>
         
           <li>
-            <a href="/2013/07/13/11.Java%20%E5%9F%BA%E7%A1%80%20-%20%E8%AF%B4%E8%AF%B4%E5%8F%8D%E5%B0%84%E7%9A%84%E7%94%A8%E9%80%94%E5%8F%8A%E5%AE%9E%E7%8E%B0/">说说反射的用途及实现</a>
+            <a href="/2013/07/13/1.Java%20%E5%9F%BA%E7%A1%80%20-%20JDK8%20%E6%96%B0%E7%89%B9%E6%80%A7/">JDK8 新特性</a>
           </li>
         
       </ul>
@@ -319,7 +319,7 @@
         &copy; 2022 烦恼多一点
         Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
         & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
-        <br><a target="_blank" href="https://beian.miit.gov.cn/">鄂ICP备2020018486号</a> <br><a target="_blank" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"> <img src="https://i.dawnlab.me/c0268c1e6cfd0863d6ba35be1575941a.png" width="150px"></a>
+        <br><a target="_blank" href="https://beian.miit.gov.cn/">宁ICP备2021002460号</a> <br>
     </div>
 </div><!-- .nexmoe-drawer -->
     </div>
@@ -446,7 +446,7 @@
 
 <h3 id="一个完整的案例"><a href="#一个完整的案例" class="headerlink" title="一个完整的案例"></a>一个完整的案例</h3><p>最后，我们使用一个完整的案例将前面介绍的知识整合起来。这里，使用“获取用户列表”的案例。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">【GET】     /v1/users?[&amp;keyword=xxx][&amp;enable=<span class="number">1</span>][&amp;offset=<span class="number">0</span>][&amp;limit=<span class="number">20</span>] 获取用户列表</span><br><span class="line">功能说明：获取用户列表</span><br><span class="line">请求方式：GET</span><br><span class="line">参数说明</span><br><span class="line">- keyword: 模糊查找的关键字。[选填]</span><br><span class="line">- enable: 启用状态[<span class="number">1</span>-启用 <span class="number">2</span>-禁用]。[选填]</span><br><span class="line">- offset: 获取位置偏移，从 <span class="number">0</span> 开始。[选填]</span><br><span class="line">- limit: 每次获取返回的条数，缺省为 <span class="number">20</span> 条，最大不超过 <span class="number">100</span>。 [选填]</span><br><span class="line">响应内容</span><br><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;count&quot;</span>:<span class="number">100</span>,</span><br><span class="line">    <span class="string">&quot;items&quot;</span>:[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&quot;id&quot;</span> : <span class="string">&quot;01234567-89ab-cdef-0123-456789abcdef&quot;</span>,</span><br><span class="line">            <span class="string">&quot;name&quot;</span> : <span class="string">&quot;example&quot;</span>,</span><br><span class="line">            <span class="string">&quot;created_time&quot;</span>: <span class="number">1496676420000</span>,</span><br><span class="line">            <span class="string">&quot;updated_time&quot;</span>: <span class="number">1496676420000</span>,</span><br><span class="line">            ...</span><br><span class="line">        &#125;,</span><br><span class="line">        ...</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">失败响应</span><br><span class="line">HTTP/<span class="number">1.1</span> <span class="number">403</span> UC/AUTH_DENIED</span><br><span class="line">Content-Type: application/json</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;code&quot;</span>: <span class="string">&quot;INVALID_ARGUMENT&quot;</span>,</span><br><span class="line">    <span class="string">&quot;message&quot;</span>: <span class="string">&quot;&#123;error message&#125;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;cause&quot;</span>: <span class="string">&quot;&#123;cause message&#125;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;request_id&quot;</span>: <span class="string">&quot;01234567-89ab-cdef-0123-456789abcdef&quot;</span>,</span><br><span class="line">    <span class="string">&quot;host_id&quot;</span>: <span class="string">&quot;&#123;server identity&#125;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;server_time&quot;</span>: <span class="string">&quot;2014-01-01T12:00:00Z&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">错误代码</span><br><span class="line">- <span class="number">403</span> UC/AUTH_DENIED    授权受限</span><br></pre></td></tr></table></figure>
-      <p><img data-fancybox="gallery" src="https://i.dawnlab.me/53a8c7cf3ad77a0f0a456ce2c6afe88a.png"  alt="53a8c7cf3ad77a0f0a456ce2c6afe88a.png" data-caption="53a8c7cf3ad77a0f0a456ce2c6afe88a.png" loading="lazy"></p>
+      <p><img data-fancybox="gallery" src="http://photo.heiau.cn/ningboke/utools/weixin.png"  alt="weixin.png" data-caption="weixin.png" loading="lazy"></p>
   </article>
 
   
@@ -523,7 +523,7 @@
 
  
 
-<script async src="/js/app.js?v=1656058819513"></script>
+<script async src="/js/app.js?v=1656059365133"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 
