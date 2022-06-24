@@ -4,21 +4,21 @@
 
 <head>
     
-    <title>非鱼博客</title>
+    <title>Zookeeper-假死闹裂 - 非鱼博客</title>
     <meta charset="UTF-8">
     <meta name="keywords" content="java">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
     
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <meta name="description" content="概述面向对象的三个基本特征是：封装、继承、多态。 封装封装最好理解了。封装是面向对象的特征之一，是对象和类概念的主要特性。封装，也就是把客观事物封装成抽象的类，并且类可以把自己的数据和方法只让可信的类或者对象操作，对不可信的进行信息隐藏。 继承面向对象编程 (OOP) 语言的一个主要功能就是“继承”。继承是指这样一种能力：它可以使用现有类的所有功能，并在无需重新编写原来的类的情况下对这些功能进行扩">
+    <meta name="description" content="该问题就是服务集群因为网络震荡导致的多主多从问题，解决方案就是设置服务切换的超时时间，但也同时会导致无法达到高可用的要求。 注：该问题没什么卵用，就是为了告诉大家有 “假死脑裂” 这个词，避免面试时尴尬 ╮(￣▽￣)╭">
 <meta property="og:type" content="article">
-<meta property="og:title" content="非鱼博客">
-<meta property="og:url" content="http://example.com/2022/06/24/6.Java%20%E5%9F%BA%E7%A1%80%20-%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%89%B9%E5%BE%81/index.html">
+<meta property="og:title" content="Zookeeper-假死闹裂">
+<meta property="og:url" content="http://example.com/2013/07/13/4.Zookeeper%20-%20%E5%81%87%E6%AD%BB%E8%84%91%E8%A3%82/index.html">
 <meta property="og:site_name" content="非鱼博客">
-<meta property="og:description" content="概述面向对象的三个基本特征是：封装、继承、多态。 封装封装最好理解了。封装是面向对象的特征之一，是对象和类概念的主要特性。封装，也就是把客观事物封装成抽象的类，并且类可以把自己的数据和方法只让可信的类或者对象操作，对不可信的进行信息隐藏。 继承面向对象编程 (OOP) 语言的一个主要功能就是“继承”。继承是指这样一种能力：它可以使用现有类的所有功能，并在无需重新编写原来的类的情况下对这些功能进行扩">
+<meta property="og:description" content="该问题就是服务集群因为网络震荡导致的多主多从问题，解决方案就是设置服务切换的超时时间，但也同时会导致无法达到高可用的要求。 注：该问题没什么卵用，就是为了告诉大家有 “假死脑裂” 这个词，避免面试时尴尬 ╮(￣▽￣)╭">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-06-24T06:07:05.895Z">
-<meta property="article:modified_time" content="2022-05-18T08:32:08.504Z">
+<meta property="article:published_time" content="2013-07-13T12:46:25.000Z">
+<meta property="article:modified_time" content="2022-06-24T06:12:48.325Z">
 <meta property="article:author" content="烦恼多一点">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656050851212">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656051363602">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656050851212">
+    <link rel="stylesheet" href="/css/style.css?v=1656051363602">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656050851212">
+            <link rel="stylesheet" href="/custom.css?v=1656051363602">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -240,7 +240,7 @@
   <div class="nexmoe-widget-wrap">
     <h3 class="nexmoe-widget-title">文章归档</h3>
     <div class="nexmoe-widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">86</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/">2013</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">76</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/">2013</a><span class="archive-list-count">12</span></li></ul>
     </div>
   </div>
 
@@ -329,21 +329,19 @@
 
   <article>
       
-          <div class="nexmoe-post-cover" style="padding-bottom: 56.71874999999999%;"> 
-              <img data-fancybox="gallery" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658037152&t=8ed7596444aa8350ee3422f6c31875d4" alt="" loading="lazy">
-              <h1></h1>
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img src="http://www.dmoe.cc/random.php" alt="Zookeeper-假死闹裂" loading="lazy">
+              <h1>Zookeeper-假死闹裂</h1>
           </div>
       
       
       <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
-    <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月24日</a>
+    <a><i class="nexmoefont icon-calendar-fill"></i>2013年07月13日</a>
 </div>
       
 
-      <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>面向对象的三个基本特征是：封装、继承、多态。</p>
-<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>封装最好理解了。封装是面向对象的特征之一，是对象和类概念的主要特性。<br>封装，也就是把客观事物封装成抽象的类，并且类可以把自己的数据和方法只让可信的类或者对象操作，对不可信的进行信息隐藏。</p>
-<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>面向对象编程 (OOP) 语言的一个主要功能就是“继承”。继承是指这样一种能力：它可以使用现有类的所有功能，并在无需重新编写原来的类的情况下对这些功能进行扩展。</p>
-<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p>多态性（polymorphisn）是允许你将父对象设置成为和一个或更多的他的子对象相等的技术，赋值之后，父对象就可以根据当前赋值给它的子对象的特性以不同的方式运作。简单的说，就是一句话：允许将子类类型的指针赋值给父类类型的指针。<br> 实现多态，有二种方式，覆盖，重载。</p>
+      <p>该问题就是服务集群因为网络震荡导致的多主多从问题，解决方案就是设置服务切换的超时时间，但也同时会导致无法达到高可用的要求。</p>
+<p><strong>注：该问题没什么卵用，就是为了告诉大家有 “假死脑裂” 这个词，避免面试时尴尬 ╮(￣▽￣)╭</strong></p>
 
       <p><img data-fancybox="gallery" src="https://i.dawnlab.me/53a8c7cf3ad77a0f0a456ce2c6afe88a.png"  alt="53a8c7cf3ad77a0f0a456ce2c6afe88a.png" data-caption="53a8c7cf3ad77a0f0a456ce2c6afe88a.png" loading="lazy"></p>
   </article>
@@ -352,7 +350,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/06/24/6.Java%20%E5%9F%BA%E7%A1%80%20-%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%89%B9%E5%BE%81/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;24&#x2F;6.Java%20%E5%9F%BA%E7%A1%80%20-%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%89%B9%E5%BE%81&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;24&#x2F;6.Java%20%E5%9F%BA%E7%A1%80%20-%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%89%B9%E5%BE%81&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://example.com/2013/07/13/4.Zookeeper%20-%20%E5%81%87%E6%AD%BB%E8%84%91%E8%A3%82/" title="http:&#x2F;&#x2F;example.com&#x2F;2013&#x2F;07&#x2F;13&#x2F;4.Zookeeper%20-%20%E5%81%87%E6%AD%BB%E8%84%91%E8%A3%82&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2013&#x2F;07&#x2F;13&#x2F;4.Zookeeper%20-%20%E5%81%87%E6%AD%BB%E8%84%91%E8%A3%82&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -379,13 +377,6 @@
                       
                         
                           
-                          
-                              <button class="mdui-fab catalog" style="overflow:unset;">
-                                  <i class="nexmoefont icon-i-catalog"></i>
-                                  <div class="nexmoe-toc">
-                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">封装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF"><span class="toc-number">3.</span> <span class="toc-text">继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E6%80%81"><span class="toc-number">4.</span> <span class="toc-text">多态</span></a></li></ol>
-                                  </div>
-                              </button>
                           
                           
                       
@@ -422,7 +413,7 @@
 
  
 
-<script async src="/js/app.js?v=1656050851213"></script>
+<script async src="/js/app.js?v=1656051363603"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

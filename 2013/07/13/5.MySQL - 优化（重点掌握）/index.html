@@ -4,7 +4,7 @@
 
 <head>
     
-    <title>非鱼博客</title>
+    <title>MySQL-优化 - 非鱼博客</title>
     <meta charset="UTF-8">
     <meta name="keywords" content="java">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
@@ -12,14 +12,14 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <meta name="description" content="概述 表关联查询时务必遵循 小表驱动大表 原则；  使用查询语句 where 条件时，不允许出现 函数，否则索引会失效；  使用单表查询时，相同字段尽量不要用 OR，因为可能导致索引失效，比如：SELECT * FROM table WHERE name &#x3D; &#39;手机&#39; OR name &#x3D; &#39;电脑&#39;，可以使用 UNION 替代；  LIKE 语句不允许使用 % 开头，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="非鱼博客">
-<meta property="og:url" content="http://example.com/2022/06/24/5.MySQL%20-%20%E4%BC%98%E5%8C%96%EF%BC%88%E9%87%8D%E7%82%B9%E6%8E%8C%E6%8F%A1%EF%BC%89/index.html">
+<meta property="og:title" content="MySQL-优化">
+<meta property="og:url" content="http://example.com/2013/07/13/5.MySQL%20-%20%E4%BC%98%E5%8C%96%EF%BC%88%E9%87%8D%E7%82%B9%E6%8E%8C%E6%8F%A1%EF%BC%89/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="概述 表关联查询时务必遵循 小表驱动大表 原则；  使用查询语句 where 条件时，不允许出现 函数，否则索引会失效；  使用单表查询时，相同字段尽量不要用 OR，因为可能导致索引失效，比如：SELECT * FROM table WHERE name &#x3D; &#39;手机&#39; OR name &#x3D; &#39;电脑&#39;，可以使用 UNION 替代；  LIKE 语句不允许使用 % 开头，">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7986413-e51eb8b4705c5ea3.png">
-<meta property="article:published_time" content="2022-06-24T06:07:05.893Z">
-<meta property="article:modified_time" content="2022-05-18T07:51:38.501Z">
+<meta property="article:published_time" content="2013-07-13T12:46:25.000Z">
+<meta property="article:modified_time" content="2022-06-24T06:12:32.978Z">
 <meta property="article:author" content="烦恼多一点">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
@@ -30,13 +30,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656050851213">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656051363603">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656050851213">
+    <link rel="stylesheet" href="/css/style.css?v=1656051363603">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656050851213">
+            <link rel="stylesheet" href="/custom.css?v=1656051363603">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -242,7 +242,7 @@
   <div class="nexmoe-widget-wrap">
     <h3 class="nexmoe-widget-title">文章归档</h3>
     <div class="nexmoe-widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">86</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/">2013</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">76</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/">2013</a><span class="archive-list-count">12</span></li></ul>
     </div>
   </div>
 
@@ -331,14 +331,14 @@
 
   <article>
       
-          <div class="nexmoe-post-cover" style="padding-bottom: 56.71874999999999%;"> 
-              <img data-fancybox="gallery" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658037152&t=8ed7596444aa8350ee3422f6c31875d4" alt="" loading="lazy">
-              <h1></h1>
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img src="http://www.dmoe.cc/random.php" alt="MySQL-优化" loading="lazy">
+              <h1>MySQL-优化</h1>
           </div>
       
       
       <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
-    <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月24日</a>
+    <a><i class="nexmoefont icon-calendar-fill"></i>2013年07月13日</a>
 </div>
       
 
@@ -459,7 +459,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/06/24/5.MySQL%20-%20%E4%BC%98%E5%8C%96%EF%BC%88%E9%87%8D%E7%82%B9%E6%8E%8C%E6%8F%A1%EF%BC%89/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;24&#x2F;5.MySQL%20-%20%E4%BC%98%E5%8C%96%EF%BC%88%E9%87%8D%E7%82%B9%E6%8E%8C%E6%8F%A1%EF%BC%89&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;24&#x2F;5.MySQL%20-%20%E4%BC%98%E5%8C%96%EF%BC%88%E9%87%8D%E7%82%B9%E6%8E%8C%E6%8F%A1%EF%BC%89&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://example.com/2013/07/13/5.MySQL%20-%20%E4%BC%98%E5%8C%96%EF%BC%88%E9%87%8D%E7%82%B9%E6%8E%8C%E6%8F%A1%EF%BC%89/" title="http:&#x2F;&#x2F;example.com&#x2F;2013&#x2F;07&#x2F;13&#x2F;5.MySQL%20-%20%E4%BC%98%E5%8C%96%EF%BC%88%E9%87%8D%E7%82%B9%E6%8E%8C%E6%8F%A1%EF%BC%89&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2013&#x2F;07&#x2F;13&#x2F;5.MySQL%20-%20%E4%BC%98%E5%8C%96%EF%BC%88%E9%87%8D%E7%82%B9%E6%8E%8C%E6%8F%A1%EF%BC%89&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -529,7 +529,7 @@
 
  
 
-<script async src="/js/app.js?v=1656050851217"></script>
+<script async src="/js/app.js?v=1656051363605"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

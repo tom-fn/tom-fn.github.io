@@ -4,21 +4,21 @@
 
 <head>
     
-    <title>非鱼博客</title>
+    <title>抽象类和接口有什么区别 - 非鱼博客</title>
     <meta charset="UTF-8">
     <meta name="keywords" content="java">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
     
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <meta name="description" content="重载 Overload表示同一个类中可以有多个名称相同的方法，但这些方法的参数列表各不相同（即参数个数或类型不同）。 重写 Override表示子类中的方法可以与父类中的某个方法的名称和参数完全相同，通过子类创建的实例对象调用这个方法时，将调用子类中的定义方法，这相当于把父类中定义的那个完全相同的方法给覆盖了，这也是面向对象编程的多态性的一种表现。子类覆盖父类的方法时，只能比父类抛出更少的异常，或">
+    <meta name="description" content="参数 抽象类 接口    默认的方法实现 它可以有默认的方法实现 接口完全是抽象的。它根本不存在方法的实现   实现 子类使用 extends 关键字来继承抽象类。如果子类不是抽象类的话，它需要提供抽象类中所有声明的方法的实现。 子类使用关键字 implements 来实现接口。它需要提供接口中所有声明的方法的实现   构造器 抽象类可以有构造器 接口不能有构造器   与正常 Java 类的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="非鱼博客">
-<meta property="og:url" content="http://example.com/2022/06/24/9.Java%20%E5%9F%BA%E7%A1%80%20-%20%E9%87%8D%E8%BD%BD%E5%92%8C%E9%87%8D%E5%86%99%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
+<meta property="og:title" content="抽象类和接口有什么区别">
+<meta property="og:url" content="http://example.com/2013/07/13/10.Java%20%E5%9F%BA%E7%A1%80%20-%20%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/index.html">
 <meta property="og:site_name" content="非鱼博客">
-<meta property="og:description" content="重载 Overload表示同一个类中可以有多个名称相同的方法，但这些方法的参数列表各不相同（即参数个数或类型不同）。 重写 Override表示子类中的方法可以与父类中的某个方法的名称和参数完全相同，通过子类创建的实例对象调用这个方法时，将调用子类中的定义方法，这相当于把父类中定义的那个完全相同的方法给覆盖了，这也是面向对象编程的多态性的一种表现。子类覆盖父类的方法时，只能比父类抛出更少的异常，或">
+<meta property="og:description" content="参数 抽象类 接口    默认的方法实现 它可以有默认的方法实现 接口完全是抽象的。它根本不存在方法的实现   实现 子类使用 extends 关键字来继承抽象类。如果子类不是抽象类的话，它需要提供抽象类中所有声明的方法的实现。 子类使用关键字 implements 来实现接口。它需要提供接口中所有声明的方法的实现   构造器 抽象类可以有构造器 接口不能有构造器   与正常 Java 类的">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-06-24T06:07:05.900Z">
-<meta property="article:modified_time" content="2022-05-18T08:48:49.913Z">
+<meta property="article:published_time" content="2013-07-13T12:46:25.000Z">
+<meta property="article:modified_time" content="2022-06-24T06:15:50.360Z">
 <meta property="article:author" content="烦恼多一点">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656050851207">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656051363595">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656050851207">
+    <link rel="stylesheet" href="/css/style.css?v=1656051363595">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656050851207">
+            <link rel="stylesheet" href="/custom.css?v=1656051363595">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -240,7 +240,7 @@
   <div class="nexmoe-widget-wrap">
     <h3 class="nexmoe-widget-title">文章归档</h3>
     <div class="nexmoe-widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">86</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/">2013</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">76</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/">2013</a><span class="archive-list-count">12</span></li></ul>
     </div>
   </div>
 
@@ -329,19 +329,71 @@
 
   <article>
       
-          <div class="nexmoe-post-cover" style="padding-bottom: 56.71874999999999%;"> 
-              <img data-fancybox="gallery" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1658037152&t=8ed7596444aa8350ee3422f6c31875d4" alt="" loading="lazy">
-              <h1></h1>
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img src="http://www.dmoe.cc/random.php" alt="抽象类和接口有什么区别" loading="lazy">
+              <h1>抽象类和接口有什么区别</h1>
           </div>
       
       
       <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
-    <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月24日</a>
+    <a><i class="nexmoefont icon-calendar-fill"></i>2013年07月13日</a>
 </div>
       
 
-      <h2 id="重载-Overload"><a href="#重载-Overload" class="headerlink" title="重载 Overload"></a>重载 Overload</h2><p>表示同一个类中可以有多个名称相同的方法，但这些方法的参数列表各不相同（即参数个数或类型不同）。</p>
-<h2 id="重写-Override"><a href="#重写-Override" class="headerlink" title="重写 Override"></a>重写 Override</h2><p>表示子类中的方法可以与父类中的某个方法的名称和参数完全相同，通过子类创建的实例对象调用这个方法时，将调用子类中的定义方法，这相当于把父类中定义的那个完全相同的方法给覆盖了，这也是面向对象编程的多态性的一种表现。子类覆盖父类的方法时，只能比父类抛出更少的异常，或者是抛出父类抛出的异常的子异常，因为子类可以解决父类的一些问题，不能比父类有更多的问题。子类方法的访问权限只能比父类的更大，不能更小。如果父类的方法是private类型，那么，子类则不存在覆盖的限制，相当于子类中增加了一个全新的方法</p>
+      <table>
+<thead>
+<tr>
+<th>参数</th>
+<th>抽象类</th>
+<th>接口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>默认的方法实现</td>
+<td>它可以有默认的方法实现</td>
+<td>接口完全是抽象的。它根本不存在方法的实现</td>
+</tr>
+<tr>
+<td>实现</td>
+<td>子类使用 extends 关键字来继承抽象类。如果子类不是抽象类的话，它需要提供抽象类中所有声明的方法的实现。</td>
+<td>子类使用关键字 implements 来实现接口。它需要提供接口中所有声明的方法的实现</td>
+</tr>
+<tr>
+<td>构造器</td>
+<td>抽象类可以有构造器</td>
+<td>接口不能有构造器</td>
+</tr>
+<tr>
+<td>与正常 Java 类的区别</td>
+<td>除了你不能实例化抽象类之外，它和普通Java类没有任何区别</td>
+<td>接口是完全不同的类型</td>
+</tr>
+<tr>
+<td>访问修饰符</td>
+<td>抽象方法可以有 public、protected 和 default 这些修饰符</td>
+<td>接口方法默认修饰符是 public。你不可以使用其它修饰符。</td>
+</tr>
+<tr>
+<td>main 方法</td>
+<td>抽象方法可以有 main 方法并且我们可以运行它</td>
+<td>接口没有 main 方法，因此我们不能运行它。</td>
+</tr>
+<tr>
+<td>多继承</td>
+<td>抽象方法可以继承一个类和实现多个接口</td>
+<td>接口只可以继承一个或多个其它接口</td>
+</tr>
+<tr>
+<td>速度</td>
+<td>它比接口速度要快</td>
+<td>接口是稍微有点慢的，因为它需要时间去寻找在类中实现的方法。</td>
+</tr>
+<tr>
+<td>添加新方法</td>
+<td>如果你往抽象类中添加新的方法，你可以给它提供默认的实现。因此你不需要改变你现在的代码。</td>
+<td>如果你往接口中添加方法，那么你必须改变实现该接口的类。</td>
+</tr>
+</tbody></table>
 
       <p><img data-fancybox="gallery" src="https://i.dawnlab.me/53a8c7cf3ad77a0f0a456ce2c6afe88a.png"  alt="53a8c7cf3ad77a0f0a456ce2c6afe88a.png" data-caption="53a8c7cf3ad77a0f0a456ce2c6afe88a.png" loading="lazy"></p>
   </article>
@@ -350,7 +402,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/06/24/9.Java%20%E5%9F%BA%E7%A1%80%20-%20%E9%87%8D%E8%BD%BD%E5%92%8C%E9%87%8D%E5%86%99%E7%9A%84%E5%8C%BA%E5%88%AB/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;24&#x2F;9.Java%20%E5%9F%BA%E7%A1%80%20-%20%E9%87%8D%E8%BD%BD%E5%92%8C%E9%87%8D%E5%86%99%E7%9A%84%E5%8C%BA%E5%88%AB&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;24&#x2F;9.Java%20%E5%9F%BA%E7%A1%80%20-%20%E9%87%8D%E8%BD%BD%E5%92%8C%E9%87%8D%E5%86%99%E7%9A%84%E5%8C%BA%E5%88%AB&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://example.com/2013/07/13/10.Java%20%E5%9F%BA%E7%A1%80%20-%20%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/" title="http:&#x2F;&#x2F;example.com&#x2F;2013&#x2F;07&#x2F;13&#x2F;10.Java%20%E5%9F%BA%E7%A1%80%20-%20%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2013&#x2F;07&#x2F;13&#x2F;10.Java%20%E5%9F%BA%E7%A1%80%20-%20%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -377,13 +429,6 @@
                       
                         
                           
-                          
-                              <button class="mdui-fab catalog" style="overflow:unset;">
-                                  <i class="nexmoefont icon-i-catalog"></i>
-                                  <div class="nexmoe-toc">
-                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E8%BD%BD-Overload"><span class="toc-number">1.</span> <span class="toc-text">重载 Overload</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E5%86%99-Override"><span class="toc-number">2.</span> <span class="toc-text">重写 Override</span></a></li></ol>
-                                  </div>
-                              </button>
                           
                           
                       
@@ -420,7 +465,7 @@
 
  
 
-<script async src="/js/app.js?v=1656050851208"></script>
+<script async src="/js/app.js?v=1656051363596"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 
