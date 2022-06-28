@@ -4,33 +4,39 @@
 
 <head>
     
-    <title>文章归档：2013 - 非鱼博客</title>
+    <title>死信、延迟、重试队列 - 非鱼博客</title>
     <meta charset="UTF-8">
     <meta name="keywords" content="java">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
     
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <meta property="og:type" content="website">
-<meta property="og:title" content="非鱼博客">
-<meta property="og:url" content="http://example.com/archives/2013/page/9/index.html">
+    <meta name="description" content="死信队列DLQ(Deal Letter Queue)，死信队列。当一个消息在队列中变成死信之后，他能被重新发送到 DLQ 中，与 DLQ 绑定到队列就是死信队列。 什么情况下需要死信队列 消息被拒绝 消息过期 队列达到最大长度  生产者生产一条消息，存储到普通队列中；设置队列的过期时间为 10 秒，在 10 秒内没有消费者消费消息，那么判定消息过期；此时如果设置了死信队列，过期消息被丢给死信队列交">
+<meta property="og:type" content="article">
+<meta property="og:title" content="死信、延迟、重试队列">
+<meta property="og:url" content="http://example.com/2022/07/13/3.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%AD%BB%E4%BF%A1%E3%80%81%E5%BB%B6%E8%BF%9F%E3%80%81%E9%87%8D%E8%AF%95%E9%98%9F%E5%88%97/index.html">
 <meta property="og:site_name" content="非鱼博客">
+<meta property="og:description" content="死信队列DLQ(Deal Letter Queue)，死信队列。当一个消息在队列中变成死信之后，他能被重新发送到 DLQ 中，与 DLQ 绑定到队列就是死信队列。 什么情况下需要死信队列 消息被拒绝 消息过期 队列达到最大长度  生产者生产一条消息，存储到普通队列中；设置队列的过期时间为 10 秒，在 10 秒内没有消费者消费消息，那么判定消息过期；此时如果设置了死信队列，过期消息被丢给死信队列交">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7986413-37fd83396989490c.png">
+<meta property="article:published_time" content="2022-07-13T12:46:25.000Z">
+<meta property="article:modified_time" content="2022-06-28T09:48:29.229Z">
 <meta property="article:author" content="烦恼多一点">
-<meta property="article:tag" content="java">
+<meta property="article:tag" content="消息队列">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7986413-37fd83396989490c.png">
     
 <link rel="stylesheet" href="/lib/fancybox/fancybox.css">
 <link rel="stylesheet" href="/lib/justifiedGallery/justifiedGallery.min.css">
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656308526726">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656409979236">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656308526726">
+    <link rel="stylesheet" href="/css/style.css?v=1656409979236">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656308526726">
+            <link rel="stylesheet" href="/custom.css?v=1656409979236">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -56,7 +62,7 @@
     </div>
     <div class="nexmoe-count">
         <div><span>文章</span>88</div>
-        <div><span>标签</span>1</div>
+        <div><span>标签</span>4</div>
         <div><span>分类</span>0</div>
     </div>
     <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
@@ -208,12 +214,12 @@
         
   <div class="nexmoe-widget-wrap">
     <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
-      <a href="/tags/java/" style="font-size: 10px;">java</a>
+      <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a>
     </div>
     
       <script>
         var maxTagcloud = parseInt(17);
-        var tags_length = parseInt(1);
+        var tags_length = parseInt(4);
         var tags_arr = [];
         for(var i = 0; i < tags_length; i++){
           tags_arr.push(i);
@@ -236,7 +242,7 @@
   <div class="nexmoe-widget-wrap">
     <h3 class="nexmoe-widget-title">文章归档</h3>
     <div class="nexmoe-widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/">2013</a><span class="archive-list-count">84</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/">2013</a><span class="archive-list-count">77</span></li></ul>
     </div>
   </div>
 
@@ -251,23 +257,23 @@
       <ul>
         
           <li>
-            <a href="/2022/07/13/83.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E8%A7%84%E8%8C%83/">MySQL规范</a>
+            <a href="/2022/07/13/1.Java%20%E5%9F%BA%E7%A1%80%20-%20JDK8%20%E6%96%B0%E7%89%B9%E6%80%A7/">JDK8 新特性</a>
           </li>
         
           <li>
-            <a href="/2022/07/13/84%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E7%B4%A2%E5%BC%95%E4%BD%BF%E7%94%A8%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">mysql索引使用的注意事项</a>
+            <a href="/2022/07/13/2.Java%20%E5%9F%BA%E7%A1%80%20-%20%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/">双亲委派模型</a>
           </li>
         
           <li>
-            <a href="/2022/06/02/%E7%AC%AC%E4%B8%80%E7%AF%87Hexo-blog%E6%96%87%E7%AB%A0/">瀑布流图片</a>
+            <a href="/2022/07/13/3.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%AD%BB%E4%BF%A1%E3%80%81%E5%BB%B6%E8%BF%9F%E3%80%81%E9%87%8D%E8%AF%95%E9%98%9F%E5%88%97/">死信、延迟、重试队列</a>
           </li>
         
           <li>
-            <a href="/2022/06/02/hello-world/">Hello World</a>
+            <a href="/2022/07/13/4.Zookeeper%20-%20%E5%81%87%E6%AD%BB%E8%84%91%E8%A3%82/">Zookeeper-假死闹裂</a>
           </li>
         
           <li>
-            <a href="/2013/07/13/1.Java%20%E5%9F%BA%E7%A1%80%20-%20JDK8%20%E6%96%B0%E7%89%B9%E6%80%A7/">JDK8 新特性</a>
+            <a href="/2022/07/13/5.MySQL%20-%20%E4%BC%98%E5%8C%96%EF%BC%88%E9%87%8D%E7%82%B9%E6%8E%8C%E6%8F%A1%EF%BC%89/">MySQL-优化</a>
           </li>
         
       </ul>
@@ -321,102 +327,60 @@
     </div>
     <div id="nexmoe-content">
         <div class="nexmoe-primary">
-            <section class="nexmoe-posts">
-    
-    <div class="nexmoe-post">
-        <a href="/2013/07/13/%E5%B8%A6%E5%9B%BE%E7%89%87%E7%9A%84%E6%96%87%E7%AB%A0%20-%20%E5%89%AF%E6%9C%AC/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 62.5%;"> 
-                    <img src="http://www.dmoe.cc/random.php" alt="标题带图片的文章" loading="lazy">
-                    <h1>标题带图片的文章</h1>
-                </div>
-            
-        </a>
+            <div class="nexmoe-post">
 
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2013年07月13日</a>
-            
-            
-            
-        </div>
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img src="https://cdn.seovx.com/?mom=302" alt="死信、延迟、重试队列" loading="lazy">
+              <h1>死信、延迟、重试队列</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年07月13日</a>
+</div>
+      
 
-        <article>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2013/07/13/%E5%B8%A6%E5%9B%BE%E7%89%87%E7%9A%84%E6%96%87%E7%AB%A0/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 62.5%;"> 
-                    <img src="http://www.dmoe.cc/random.php" alt="标题带图片的文章" loading="lazy">
-                    <h1>标题带图片的文章</h1>
-                </div>
-            
-        </a>
+      <h2 id="死信队列"><a href="#死信队列" class="headerlink" title="死信队列"></a>死信队列</h2><p>DLQ(Deal Letter Queue)，死信队列。当一个消息在队列中变成死信之后，他能被重新发送到 DLQ 中，与 DLQ 绑定到队列就是死信队列。</p>
+<h3 id="什么情况下需要死信队列"><a href="#什么情况下需要死信队列" class="headerlink" title="什么情况下需要死信队列"></a>什么情况下需要死信队列</h3><ul>
+<li>消息被拒绝</li>
+<li>消息过期</li>
+<li>队列达到最大长度<br><img data-fancybox="gallery" src="https://upload-images.jianshu.io/upload_images/7986413-37fd83396989490c.png" alt="image" data-caption="image" loading="lazy"></li>
+</ul>
+<p>生产者生产一条消息，存储到普通队列中；设置队列的过期时间为 10 秒，在 10 秒内没有消费者消费消息，那么判定消息过期；此时如果设置了死信队列，过期消息被丢给死信队列交换机，然后被存储在死信队列中。</p>
+<h2 id="延迟队列"><a href="#延迟队列" class="headerlink" title="延迟队列"></a>延迟队列</h2><p>顾名思义就是延迟执行消息，比如我们可以增加一个队列并设置其超时时间为 10 秒并且不设置任何消费者，等到消息超时，我们可以将消息放入死信队列，让消费者监听这个死信队列就达到了延迟队列的效果。</p>
+<h2 id="重试队列"><a href="#重试队列" class="headerlink" title="重试队列"></a>重试队列</h2><p>重试的消息在延迟的某个时间点（业务可设置）后，再次投递给消费者。而如果一直这样重复消费都持续失败到一定次数，就会投递到死信队列，最后需要进行人工干预。</p>
 
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2013年07月13日</a>
-            
-            
-            
-        </div>
+      <p><img data-fancybox="gallery" src="http://photo.heiau.cn/ningboke/utools/weixin.png"  alt="weixin.png" data-caption="weixin.png" loading="lazy"></p>
+  </article>
 
-        <article>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2013/07/13/72.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%20RESTful%20API%20%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 62.5%;"> 
-                    <img src="http://www.dmoe.cc/random.php" alt="如何理解 RESTful API 的幂等性" loading="lazy">
-                    <h1>如何理解 RESTful API 的幂等性</h1>
-                </div>
-            
-        </a>
-
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2013年07月13日</a>
-            
-            
-            
-        </div>
-
-        <article>
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/2013/07/13/75.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E6%80%8E%E4%B9%88%E8%80%83%E8%99%91%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 62.5%;"> 
-                    <img src="http://www.dmoe.cc/random.php" alt="怎么考虑数据一致性问题" loading="lazy">
-                    <h1>怎么考虑数据一致性问题</h1>
-                </div>
-            
-        </a>
-
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2013年07月13日</a>
-            
-            
-            
-        </div>
-
-        <article>
-            
-        </article>
-    </div>
-    
-</section>
-
-    <nav class="nexmoe-page-nav">
-        <a class="extend prev" rel="prev" href="/archives/2013/page/8/"><i class="nexmoefont icon-left"></i></a><a class="page-number" href="/archives/2013/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2013/page/7/">7</a><a class="page-number" href="/archives/2013/page/8/">8</a><span class="page-number current">9</span>
-    </nav>
   
+      
+    <div class="nexmoe-post-copyright">
+        <strong>本文作者：</strong>烦恼多一点<br>
+        <strong>本文链接：</strong><a href="http://example.com/2022/07/13/3.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%AD%BB%E4%BF%A1%E3%80%81%E5%BB%B6%E8%BF%9F%E3%80%81%E9%87%8D%E8%AF%95%E9%98%9F%E5%88%97/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;07&#x2F;13&#x2F;3.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%AD%BB%E4%BF%A1%E3%80%81%E5%BB%B6%E8%BF%9F%E3%80%81%E9%87%8D%E8%AF%95%E9%98%9F%E5%88%97&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;07&#x2F;13&#x2F;3.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%AD%BB%E4%BF%A1%E3%80%81%E5%BB%B6%E8%BF%9F%E3%80%81%E9%87%8D%E8%AF%95%E9%98%9F%E5%88%97&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置评论框插槽
+      </div>
+  
+</div>
             <div class="nexmoe-post-right">
               <div class="nexmoe-fixed">
                   <div class="nexmoe-tool"> 
@@ -424,6 +388,13 @@
                       
                         
                           
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%BB%E4%BF%A1%E9%98%9F%E5%88%97"><span class="toc-number">1.</span> <span class="toc-text">死信队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E9%9C%80%E8%A6%81%E6%AD%BB%E4%BF%A1%E9%98%9F%E5%88%97"><span class="toc-number">1.1.</span> <span class="toc-text">什么情况下需要死信队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97"><span class="toc-number">2.</span> <span class="toc-text">延迟队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E8%AF%95%E9%98%9F%E5%88%97"><span class="toc-number">3.</span> <span class="toc-text">重试队列</span></a></li></ol>
+                                  </div>
+                              </button>
                           
                           
                       
@@ -460,7 +431,7 @@
 
  
 
-<script async src="/js/app.js?v=1656308526727"></script>
+<script async src="/js/app.js?v=1656409979239"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 
