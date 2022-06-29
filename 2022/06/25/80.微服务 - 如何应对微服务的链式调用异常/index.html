@@ -13,7 +13,7 @@
     <meta name="description" content="一般情况下，每个微服务之间是独立的，如果某个服务宕机，只会影响到当前服务，而不会对整个业务系统产生影响。但是，服务端可能会在多个微服务之间产生一条链式调用，并把整合后的信息返回给客户端。在调用过程中，如果某个服务宕机或者网络不稳定可能造成整个请求失败。因此，为了应对微服务的链式调用异常，我们需要在设计微服务调用链时不宜过长，以免客户端长时间等待，以及中间环节出现错误造成整个请求失败。此外，可以考虑">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何应对微服务的链式调用异常">
-<meta property="og:url" content="http://example.com/2022/06/25/80.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8%E5%BC%82%E5%B8%B8/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/06/25/80.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8%E5%BC%82%E5%B8%B8/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="一般情况下，每个微服务之间是独立的，如果某个服务宕机，只会影响到当前服务，而不会对整个业务系统产生影响。但是，服务端可能会在多个微服务之间产生一条链式调用，并把整合后的信息返回给客户端。在调用过程中，如果某个服务宕机或者网络不稳定可能造成整个请求失败。因此，为了应对微服务的链式调用异常，我们需要在设计微服务调用链时不宜过长，以免客户端长时间等待，以及中间环节出现错误造成整个请求失败。此外，可以考虑">
 <meta property="og:locale" content="zh_CN">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368666">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801852">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368666">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801852">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368666">
+            <link rel="stylesheet" href="/custom.css?v=1656513801852">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -122,19 +122,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -349,7 +336,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/06/25/80.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8%E5%BC%82%E5%B8%B8/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;25&#x2F;80.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8%E5%BC%82%E5%B8%B8&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;25&#x2F;80.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8%E5%BC%82%E5%B8%B8&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/06/25/80.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8%E5%BC%82%E5%B8%B8/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;25&#x2F;80.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8%E5%BC%82%E5%B8%B8&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;25&#x2F;80.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8%E5%BC%82%E5%B8%B8&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -412,7 +399,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368667"></script>
+<script async src="/js/app.js?v=1656513801854"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

@@ -13,7 +13,7 @@
     <meta name="description" content="Spring 中的 org.springframework.beans 包和 org.springframework.context 包构成了 Spring 框架 IoC 容器的基础。  BeanFactory 接口提供了一个先进的配置机制，使得任何类型的对象的配置成为可能。ApplicationContext 接口对 BeanFactory（是一个子接口）进行了扩展，在 BeanFactory">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring IOC 如何实现">
-<meta property="og:url" content="http://example.com/2022/05/28/48.Spring%20-%20Spring%20IOC%20%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/05/28/48.Spring%20-%20Spring%20IOC%20%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="Spring 中的 org.springframework.beans 包和 org.springframework.context 包构成了 Spring 框架 IoC 容器的基础。  BeanFactory 接口提供了一个先进的配置机制，使得任何类型的对象的配置成为可能。ApplicationContext 接口对 BeanFactory（是一个子接口）进行了扩展，在 BeanFactory">
 <meta property="og:locale" content="zh_CN">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368744">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801932">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368744">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801932">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368744">
+            <link rel="stylesheet" href="/custom.css?v=1656513801932">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -122,19 +122,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -356,7 +343,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/05/28/48.Spring%20-%20Spring%20IOC%20%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;05&#x2F;28&#x2F;48.Spring%20-%20Spring%20IOC%20%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;05&#x2F;28&#x2F;48.Spring%20-%20Spring%20IOC%20%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/05/28/48.Spring%20-%20Spring%20IOC%20%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;05&#x2F;28&#x2F;48.Spring%20-%20Spring%20IOC%20%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;05&#x2F;28&#x2F;48.Spring%20-%20Spring%20IOC%20%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -419,7 +406,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368745"></script>
+<script async src="/js/app.js?v=1656513801934"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

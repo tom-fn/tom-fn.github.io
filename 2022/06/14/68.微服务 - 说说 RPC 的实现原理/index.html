@@ -13,7 +13,7 @@
     <meta name="description" content="首先需要有处理网络连接通讯的模块，负责连接建立、管理和消息的传输。其次需要有编解码的模块，因为网络通讯都是传输的字节码，需要将我们使用的对象序列化和反序列化。剩下的就是客户端和服务器端的部分，服务器端暴露要开放的服务接口，客户调用服务接口的一个代理实现，这个代理实现负责收集数据、编码并传输给服务器然后等待结果返回。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="说说 RPC 的实现原理">
-<meta property="og:url" content="http://example.com/2022/06/14/68.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20RPC%20%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/06/14/68.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20RPC%20%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="首先需要有处理网络连接通讯的模块，负责连接建立、管理和消息的传输。其次需要有编解码的模块，因为网络通讯都是传输的字节码，需要将我们使用的对象序列化和反序列化。剩下的就是客户端和服务器端的部分，服务器端暴露要开放的服务接口，客户调用服务接口的一个代理实现，这个代理实现负责收集数据、编码并传输给服务器然后等待结果返回。">
 <meta property="og:locale" content="zh_CN">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368700">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801885">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368701">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801885">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368701">
+            <link rel="stylesheet" href="/custom.css?v=1656513801885">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -122,19 +122,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -349,7 +336,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/06/14/68.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20RPC%20%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;14&#x2F;68.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20RPC%20%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;14&#x2F;68.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20RPC%20%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/06/14/68.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20RPC%20%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;14&#x2F;68.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20RPC%20%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;14&#x2F;68.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20RPC%20%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -412,7 +399,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368702"></script>
+<script async src="/js/app.js?v=1656513801887"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

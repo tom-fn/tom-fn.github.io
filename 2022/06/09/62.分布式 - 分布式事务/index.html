@@ -13,7 +13,7 @@
     <meta name="description" content="分布式一致性在分布式系统中，为了保证数据的高可用，通常，我们会将数据保留多个副本(replica)，这些副本会放置在不同的物理的机器上。为了对用户提供正确的 CRUD 等语义，我们需要保证这些放置在不同物理机器上的副本是一致的。 为了解决这种分布式一致性问题，前人在性能和数据一致性的反反复复权衡过程中总结了许多典型的协议和算法。其中比较著名的有二阶提交协议（Two Phase Commitment">
 <meta property="og:type" content="article">
 <meta property="og:title" content="分布式事务">
-<meta property="og:url" content="http://example.com/2022/06/09/62.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/06/09/62.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="分布式一致性在分布式系统中，为了保证数据的高可用，通常，我们会将数据保留多个副本(replica)，这些副本会放置在不同的物理的机器上。为了对用户提供正确的 CRUD 等语义，我们需要保证这些放置在不同物理机器上的副本是一致的。 为了解决这种分布式一致性问题，前人在性能和数据一致性的反反复复权衡过程中总结了许多典型的协议和算法。其中比较著名的有二阶提交协议（Two Phase Commitment">
 <meta property="og:locale" content="zh_CN">
@@ -32,13 +32,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368717">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801896">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368717">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801896">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368717">
+            <link rel="stylesheet" href="/custom.css?v=1656513801896">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -126,19 +126,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -451,7 +438,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/06/09/62.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;09&#x2F;62.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;09&#x2F;62.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/06/09/62.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;09&#x2F;62.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;09&#x2F;62.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -521,7 +508,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368718"></script>
+<script async src="/js/app.js?v=1656513801898"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

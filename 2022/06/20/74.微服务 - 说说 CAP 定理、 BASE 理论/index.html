@@ -13,7 +13,7 @@
     <meta name="description" content="CAP 定理2000 年 7 月，加州大学伯克利分校的 Eric Brewer 教授在 ACM PODC 会议上提出 CAP 猜想。2年后，麻省理工学院的 Seth Gilbert 和 Nancy Lynch 从理论上证明了 CAP。之后，CAP 理论正式成为分布式计算领域的公认定理。 CAP 理论为：一个分布式系统最多只能同时满足一致性（Consistency）、可用性（Availability">
 <meta property="og:type" content="article">
 <meta property="og:title" content="说说 CAP 定理、 BASE 理论">
-<meta property="og:url" content="http://example.com/2022/06/20/74.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20CAP%20%E5%AE%9A%E7%90%86%E3%80%81%20BASE%20%E7%90%86%E8%AE%BA/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/06/20/74.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20CAP%20%E5%AE%9A%E7%90%86%E3%80%81%20BASE%20%E7%90%86%E8%AE%BA/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="CAP 定理2000 年 7 月，加州大学伯克利分校的 Eric Brewer 教授在 ACM PODC 会议上提出 CAP 猜想。2年后，麻省理工学院的 Seth Gilbert 和 Nancy Lynch 从理论上证明了 CAP。之后，CAP 理论正式成为分布式计算领域的公认定理。 CAP 理论为：一个分布式系统最多只能同时满足一致性（Consistency）、可用性（Availability">
 <meta property="og:locale" content="zh_CN">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368681">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801865">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368681">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801865">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368681">
+            <link rel="stylesheet" href="/custom.css?v=1656513801865">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -122,19 +122,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -364,7 +351,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/06/20/74.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20CAP%20%E5%AE%9A%E7%90%86%E3%80%81%20BASE%20%E7%90%86%E8%AE%BA/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;20&#x2F;74.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20CAP%20%E5%AE%9A%E7%90%86%E3%80%81%20BASE%20%E7%90%86%E8%AE%BA&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;20&#x2F;74.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20CAP%20%E5%AE%9A%E7%90%86%E3%80%81%20BASE%20%E7%90%86%E8%AE%BA&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/06/20/74.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20CAP%20%E5%AE%9A%E7%90%86%E3%80%81%20BASE%20%E7%90%86%E8%AE%BA/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;20&#x2F;74.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20CAP%20%E5%AE%9A%E7%90%86%E3%80%81%20BASE%20%E7%90%86%E8%AE%BA&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;20&#x2F;74.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20CAP%20%E5%AE%9A%E7%90%86%E3%80%81%20BASE%20%E7%90%86%E8%AE%BA&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -434,7 +421,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368683"></script>
+<script async src="/js/app.js?v=1656513801867"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

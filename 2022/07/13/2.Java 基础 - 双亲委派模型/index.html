@@ -13,7 +13,7 @@
     <meta name="description" content="类加载器加载类的开放性类加载器（ClassLoader) 是Java语言的一项创新，也是Java语言流行的一个重要原因，在类加载的第一阶段“加载”过程中需要通过一个类的全限定名来回去定义此类的二进制字节流，完成这个动作的代码块就是 类加载器，这一动作是放在Java虚拟机外部去实现的，以便让应用程序自己去决定如何获取所需的类。 虚拟机规范并没有指明二进制字节流要从一个Class文件获取，或者说根本没">
 <meta property="og:type" content="article">
 <meta property="og:title" content="双亲委派模型">
-<meta property="og:url" content="http://example.com/2022/07/13/2.Java%20%E5%9F%BA%E7%A1%80%20-%20%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/07/13/2.Java%20%E5%9F%BA%E7%A1%80%20-%20%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="类加载器加载类的开放性类加载器（ClassLoader) 是Java语言的一项创新，也是Java语言流行的一个重要原因，在类加载的第一阶段“加载”过程中需要通过一个类的全限定名来回去定义此类的二进制字节流，完成这个动作的代码块就是 类加载器，这一动作是放在Java虚拟机外部去实现的，以便让应用程序自己去决定如何获取所需的类。 虚拟机规范并没有指明二进制字节流要从一个Class文件获取，或者说根本没">
 <meta property="og:locale" content="zh_CN">
@@ -30,13 +30,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368623">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801812">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368623">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801812">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368623">
+            <link rel="stylesheet" href="/custom.css?v=1656513801812">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -124,19 +124,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -370,7 +357,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/07/13/2.Java%20%E5%9F%BA%E7%A1%80%20-%20%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;07&#x2F;13&#x2F;2.Java%20%E5%9F%BA%E7%A1%80%20-%20%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;07&#x2F;13&#x2F;2.Java%20%E5%9F%BA%E7%A1%80%20-%20%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/07/13/2.Java%20%E5%9F%BA%E7%A1%80%20-%20%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;07&#x2F;13&#x2F;2.Java%20%E5%9F%BA%E7%A1%80%20-%20%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;07&#x2F;13&#x2F;2.Java%20%E5%9F%BA%E7%A1%80%20-%20%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -442,7 +429,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368629"></script>
+<script async src="/js/app.js?v=1656513801820"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

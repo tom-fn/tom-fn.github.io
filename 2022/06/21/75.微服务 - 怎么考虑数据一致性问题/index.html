@@ -13,7 +13,7 @@
     <meta name="description" content="单体应用的数据一致性想象一下如果我们经营着一家大型企业，下属有航空公司、租车公司、和连锁酒店。我们为客户提供一站式的旅游行程规划服务，这样客户只需要提供出行目的地，我们帮助客户预订机票、租车、以及预订酒店。从业务的角度，我们必须保证上述三个服务的预订都完成才能满足一个成功的旅游行程，否则不能成行。 我们的单体应用要满足这个需求非常简单，只需将这个三个服务请求放到同一个数据库事务中，数据库会帮我们保">
 <meta property="og:type" content="article">
 <meta property="og:title" content="怎么考虑数据一致性问题">
-<meta property="og:url" content="http://example.com/2022/06/21/75.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E6%80%8E%E4%B9%88%E8%80%83%E8%99%91%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/06/21/75.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E6%80%8E%E4%B9%88%E8%80%83%E8%99%91%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="单体应用的数据一致性想象一下如果我们经营着一家大型企业，下属有航空公司、租车公司、和连锁酒店。我们为客户提供一站式的旅游行程规划服务，这样客户只需要提供出行目的地，我们帮助客户预订机票、租车、以及预订酒店。从业务的角度，我们必须保证上述三个服务的预订都完成才能满足一个成功的旅游行程，否则不能成行。 我们的单体应用要满足这个需求非常简单，只需将这个三个服务请求放到同一个数据库事务中，数据库会帮我们保">
 <meta property="og:locale" content="zh_CN">
@@ -45,13 +45,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368677">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801862">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368677">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801862">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368677">
+            <link rel="stylesheet" href="/custom.css?v=1656513801862">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -139,19 +139,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -536,7 +523,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/06/21/75.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E6%80%8E%E4%B9%88%E8%80%83%E8%99%91%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;21&#x2F;75.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E6%80%8E%E4%B9%88%E8%80%83%E8%99%91%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;21&#x2F;75.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E6%80%8E%E4%B9%88%E8%80%83%E8%99%91%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/06/21/75.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E6%80%8E%E4%B9%88%E8%80%83%E8%99%91%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;21&#x2F;75.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E6%80%8E%E4%B9%88%E8%80%83%E8%99%91%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;21&#x2F;75.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E6%80%8E%E4%B9%88%E8%80%83%E8%99%91%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -606,7 +593,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368681"></script>
+<script async src="/js/app.js?v=1656513801865"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

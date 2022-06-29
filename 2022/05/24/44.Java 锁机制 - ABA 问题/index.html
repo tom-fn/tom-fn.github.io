@@ -13,7 +13,7 @@
     <meta name="description" content="CAS 会导致“ABA问题”。  CAS 算法实现一个重要前提需要取出内存中某时刻的数据，而在下时刻比较并替换，那么在这个时间差类会导致数据的变化。  比如说一个线程 one 从内存位置 V 中取出 A，这时候另一个线程 two 也从内存中取出 A，并且 two 进行了一些操作变成了 B，然后 two 又将 V 位置的数据变成 A，这时候线程 one 进行 CAS 操作发现内存中仍然是 A，然后">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ABA 问题">
-<meta property="og:url" content="http://example.com/2022/05/24/44.Java%20%E9%94%81%E6%9C%BA%E5%88%B6%20-%20ABA%20%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/05/24/44.Java%20%E9%94%81%E6%9C%BA%E5%88%B6%20-%20ABA%20%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="CAS 会导致“ABA问题”。  CAS 算法实现一个重要前提需要取出内存中某时刻的数据，而在下时刻比较并替换，那么在这个时间差类会导致数据的变化。  比如说一个线程 one 从内存位置 V 中取出 A，这时候另一个线程 two 也从内存中取出 A，并且 two 进行了一些操作变成了 B，然后 two 又将 V 位置的数据变成 A，这时候线程 one 进行 CAS 操作发现内存中仍然是 A，然后">
 <meta property="og:locale" content="zh_CN">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368751">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801938">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368751">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801938">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368751">
+            <link rel="stylesheet" href="/custom.css?v=1656513801938">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -122,19 +122,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -358,7 +345,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/05/24/44.Java%20%E9%94%81%E6%9C%BA%E5%88%B6%20-%20ABA%20%E9%97%AE%E9%A2%98/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;05&#x2F;24&#x2F;44.Java%20%E9%94%81%E6%9C%BA%E5%88%B6%20-%20ABA%20%E9%97%AE%E9%A2%98&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;05&#x2F;24&#x2F;44.Java%20%E9%94%81%E6%9C%BA%E5%88%B6%20-%20ABA%20%E9%97%AE%E9%A2%98&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/05/24/44.Java%20%E9%94%81%E6%9C%BA%E5%88%B6%20-%20ABA%20%E9%97%AE%E9%A2%98/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;05&#x2F;24&#x2F;44.Java%20%E9%94%81%E6%9C%BA%E5%88%B6%20-%20ABA%20%E9%97%AE%E9%A2%98&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;05&#x2F;24&#x2F;44.Java%20%E9%94%81%E6%9C%BA%E5%88%B6%20-%20ABA%20%E9%97%AE%E9%A2%98&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -423,7 +410,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368753"></script>
+<script async src="/js/app.js?v=1656513801939"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

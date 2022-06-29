@@ -13,7 +13,7 @@
     <meta name="description" content="代理模式：在 AOP 和 Remoting 中被用的比较多。  单例模式：在 Spring 配置文件中定义的 Bean 默认为单例模式。  模板方法：用来解决代码重复的问题。比如. RestTemplate, JmsTemplate, JpaTemplate。  前端控制器：Spring 提供了 DispatcherServlet 来对请求进行分发。  视图帮助(View Helper )：Sp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring 框架中用到了哪些设计模式">
-<meta property="og:url" content="http://example.com/2022/06/05/58.Spring%20-%20Spring%20%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%94%A8%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/06/05/58.Spring%20-%20Spring%20%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%94%A8%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="代理模式：在 AOP 和 Remoting 中被用的比较多。  单例模式：在 Spring 配置文件中定义的 Bean 默认为单例模式。  模板方法：用来解决代码重复的问题。比如. RestTemplate, JmsTemplate, JpaTemplate。  前端控制器：Spring 提供了 DispatcherServlet 来对请求进行分发。  视图帮助(View Helper )：Sp">
 <meta property="og:locale" content="zh_CN">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368723">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801909">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368723">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801909">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368723">
+            <link rel="stylesheet" href="/custom.css?v=1656513801909">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -122,19 +122,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -364,7 +351,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/06/05/58.Spring%20-%20Spring%20%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%94%A8%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;05&#x2F;58.Spring%20-%20Spring%20%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%94%A8%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;05&#x2F;58.Spring%20-%20Spring%20%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%94%A8%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/06/05/58.Spring%20-%20Spring%20%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%94%A8%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;05&#x2F;58.Spring%20-%20Spring%20%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%94%A8%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;05&#x2F;58.Spring%20-%20Spring%20%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%94%A8%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -427,7 +414,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368725"></script>
+<script async src="/js/app.js?v=1656513801910"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

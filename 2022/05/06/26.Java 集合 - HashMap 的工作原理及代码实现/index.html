@@ -13,7 +13,7 @@
     <meta name="description" content="HashMap 基于 hashing 原理，我们通过 put() 和 get() 方法储存和获取对象。当我们将键值对传递给 put() 方法时，它调用键对象的 hashCode() 方法来计算 hashcode，让后找到 bucket 位置来储存值对象。当获取对象时，通过键对象的 equals() 方法找到正确的键值对，然后返回值对象。HashMap 使用链表来解决碰撞问题，当发生碰撞了，对象将会">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HashMap 的工作原理及代码实现">
-<meta property="og:url" content="http://example.com/2022/05/06/26.Java%20%E9%9B%86%E5%90%88%20-%20HashMap%20%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/05/06/26.Java%20%E9%9B%86%E5%90%88%20-%20HashMap%20%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="HashMap 基于 hashing 原理，我们通过 put() 和 get() 方法储存和获取对象。当我们将键值对传递给 put() 方法时，它调用键对象的 hashCode() 方法来计算 hashcode，让后找到 bucket 位置来储存值对象。当获取对象时，通过键对象的 equals() 方法找到正确的键值对，然后返回值对象。HashMap 使用链表来解决碰撞问题，当发生碰撞了，对象将会">
 <meta property="og:locale" content="zh_CN">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368778">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801968">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368778">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801968">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368778">
+            <link rel="stylesheet" href="/custom.css?v=1656513801968">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -122,19 +122,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -349,7 +336,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/05/06/26.Java%20%E9%9B%86%E5%90%88%20-%20HashMap%20%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;05&#x2F;06&#x2F;26.Java%20%E9%9B%86%E5%90%88%20-%20HashMap%20%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;05&#x2F;06&#x2F;26.Java%20%E9%9B%86%E5%90%88%20-%20HashMap%20%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/05/06/26.Java%20%E9%9B%86%E5%90%88%20-%20HashMap%20%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;05&#x2F;06&#x2F;26.Java%20%E9%9B%86%E5%90%88%20-%20HashMap%20%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;05&#x2F;06&#x2F;26.Java%20%E9%9B%86%E5%90%88%20-%20HashMap%20%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -414,7 +401,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368779"></script>
+<script async src="/js/app.js?v=1656513801969"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

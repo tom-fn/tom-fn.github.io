@@ -13,7 +13,7 @@
     <meta name="description" content="首先，需要了解系统为什么使用分布式。 随着互联网的发展，传统单工程项目的很多性能瓶颈越发凸显，性能瓶颈可以有几个方面：  应用服务层：随着用户量的增加，并发量增加，单项目难以承受如此大的并发请求导致的性能瓶颈。 底层数据库层：随着业务的发展，数据库压力越来越大，导致的性能瓶颈。  场景1：应用系统集群的 Session 共享应用系统集群最简单的就是服务器集群，比如：Tomcat 集群。应用系统集群">
 <meta property="og:type" content="article">
 <meta property="og:title" content="谈谈业务中使用分布式的场景">
-<meta property="og:url" content="http://example.com/2022/06/06/59.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E8%B0%88%E8%B0%88%E4%B8%9A%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84%E5%9C%BA%E6%99%AF/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/06/06/59.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E8%B0%88%E8%B0%88%E4%B8%9A%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84%E5%9C%BA%E6%99%AF/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="首先，需要了解系统为什么使用分布式。 随着互联网的发展，传统单工程项目的很多性能瓶颈越发凸显，性能瓶颈可以有几个方面：  应用服务层：随着用户量的增加，并发量增加，单项目难以承受如此大的并发请求导致的性能瓶颈。 底层数据库层：随着业务的发展，数据库压力越来越大，导致的性能瓶颈。  场景1：应用系统集群的 Session 共享应用系统集群最简单的就是服务器集群，比如：Tomcat 集群。应用系统集群">
 <meta property="og:locale" content="zh_CN">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368721">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801907">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368721">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801907">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368721">
+            <link rel="stylesheet" href="/custom.css?v=1656513801907">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -122,19 +122,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -357,7 +344,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/06/06/59.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E8%B0%88%E8%B0%88%E4%B8%9A%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84%E5%9C%BA%E6%99%AF/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;06&#x2F;59.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E8%B0%88%E8%B0%88%E4%B8%9A%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84%E5%9C%BA%E6%99%AF&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;06&#x2F;59.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E8%B0%88%E8%B0%88%E4%B8%9A%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84%E5%9C%BA%E6%99%AF&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/06/06/59.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E8%B0%88%E8%B0%88%E4%B8%9A%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84%E5%9C%BA%E6%99%AF/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;06&#x2F;59.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E8%B0%88%E8%B0%88%E4%B8%9A%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84%E5%9C%BA%E6%99%AF&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;06&#x2F;59.%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%E8%B0%88%E8%B0%88%E4%B8%9A%E5%8A%A1%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84%E5%9C%BA%E6%99%AF&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -427,7 +414,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368723"></script>
+<script async src="/js/app.js?v=1656513801909"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

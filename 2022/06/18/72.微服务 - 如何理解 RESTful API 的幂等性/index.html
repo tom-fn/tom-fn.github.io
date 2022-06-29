@@ -13,7 +13,7 @@
     <meta name="description" content="什么是幂等性HTTP 幂等方法，是指无论调用多少次都不会有不同结果的 HTTP 方法。不管你调用一次，还是调用一百次，一千次，结果都是相同的。 123456GET     &#x2F;tickets       # 获取ticket列表GET     &#x2F;tickets&#x2F;12    # 查看某个具体的ticketPOST    &#x2F;tickets       # 新建一个ticketPUT     &#x2F;ticke">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何理解 RESTful API 的幂等性">
-<meta property="og:url" content="http://example.com/2022/06/18/72.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%20RESTful%20API%20%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/06/18/72.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%20RESTful%20API%20%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="什么是幂等性HTTP 幂等方法，是指无论调用多少次都不会有不同结果的 HTTP 方法。不管你调用一次，还是调用一百次，一千次，结果都是相同的。 123456GET     &#x2F;tickets       # 获取ticket列表GET     &#x2F;tickets&#x2F;12    # 查看某个具体的ticketPOST    &#x2F;tickets       # 新建一个ticketPUT     &#x2F;ticke">
 <meta property="og:locale" content="zh_CN">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368686">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801870">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368686">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801871">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368686">
+            <link rel="stylesheet" href="/custom.css?v=1656513801871">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -122,19 +122,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -383,7 +370,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/06/18/72.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%20RESTful%20API%20%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;18&#x2F;72.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%20RESTful%20API%20%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;18&#x2F;72.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%20RESTful%20API%20%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/06/18/72.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%20RESTful%20API%20%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;18&#x2F;72.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%20RESTful%20API%20%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;18&#x2F;72.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%20RESTful%20API%20%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -453,7 +440,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368687"></script>
+<script async src="/js/app.js?v=1656513801876"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

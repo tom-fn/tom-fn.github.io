@@ -13,7 +13,7 @@
     <meta name="description" content="参数 抽象类 接口    默认的方法实现 它可以有默认的方法实现 接口完全是抽象的。它根本不存在方法的实现   实现 子类使用 extends 关键字来继承抽象类。如果子类不是抽象类的话，它需要提供抽象类中所有声明的方法的实现。 子类使用关键字 implements 来实现接口。它需要提供接口中所有声明的方法的实现   构造器 抽象类可以有构造器 接口不能有构造器   与正常 Java 类的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="抽象类和接口有什么区别">
-<meta property="og:url" content="http://example.com/2022/04/19/10.Java%20%E5%9F%BA%E7%A1%80%20-%20%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/04/19/10.Java%20%E5%9F%BA%E7%A1%80%20-%20%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="参数 抽象类 接口    默认的方法实现 它可以有默认的方法实现 接口完全是抽象的。它根本不存在方法的实现   实现 子类使用 extends 关键字来继承抽象类。如果子类不是抽象类的话，它需要提供抽象类中所有声明的方法的实现。 子类使用关键字 implements 来实现接口。它需要提供接口中所有声明的方法的实现   构造器 抽象类可以有构造器 接口不能有构造器   与正常 Java 类的">
 <meta property="og:locale" content="zh_CN">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368800">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513802066">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368800">
+    <link rel="stylesheet" href="/css/style.css?v=1656513802066">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368800">
+            <link rel="stylesheet" href="/custom.css?v=1656513802066">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -122,19 +122,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -402,7 +389,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/04/19/10.Java%20%E5%9F%BA%E7%A1%80%20-%20%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;04&#x2F;19&#x2F;10.Java%20%E5%9F%BA%E7%A1%80%20-%20%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;04&#x2F;19&#x2F;10.Java%20%E5%9F%BA%E7%A1%80%20-%20%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/04/19/10.Java%20%E5%9F%BA%E7%A1%80%20-%20%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;04&#x2F;19&#x2F;10.Java%20%E5%9F%BA%E7%A1%80%20-%20%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;04&#x2F;19&#x2F;10.Java%20%E5%9F%BA%E7%A1%80%20-%20%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -467,7 +454,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368801"></script>
+<script async src="/js/app.js?v=1656513802067"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

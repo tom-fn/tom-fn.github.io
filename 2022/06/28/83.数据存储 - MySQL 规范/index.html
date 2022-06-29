@@ -13,7 +13,7 @@
     <meta name="description" content="基础规范 表存储引擎必须使用InnoDB 表字符集默认使用utf8，必要时使用·utf8bm4 通用无乱码分险，汉字3字节，英文1字节 utf8mb4是utf8的超集，有存储4字节例如表情符号时，使用它   禁止使用存储过程，视图，触发器，Event 对数据库性能影响较大，互联网业务，能让站点层和服务层干的事情，不要交到数据库层 调试，排错，迁移都比较困难，扩展性较差   禁止在数据库中存储发文件">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL规范">
-<meta property="og:url" content="http://example.com/2022/06/28/83.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E8%A7%84%E8%8C%83/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/06/28/83.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E8%A7%84%E8%8C%83/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="基础规范 表存储引擎必须使用InnoDB 表字符集默认使用utf8，必要时使用·utf8bm4 通用无乱码分险，汉字3字节，英文1字节 utf8mb4是utf8的超集，有存储4字节例如表情符号时，使用它   禁止使用存储过程，视图，触发器，Event 对数据库性能影响较大，互联网业务，能让站点层和服务层干的事情，不要交到数据库层 调试，排错，迁移都比较困难，扩展性较差   禁止在数据库中存储发文件">
 <meta property="og:locale" content="zh_CN">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368649">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801834">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368650">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801834">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368650">
+            <link rel="stylesheet" href="/custom.css?v=1656513801834">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -122,19 +122,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -490,7 +477,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/06/28/83.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E8%A7%84%E8%8C%83/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;28&#x2F;83.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E8%A7%84%E8%8C%83&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;28&#x2F;83.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E8%A7%84%E8%8C%83&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/06/28/83.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E8%A7%84%E8%8C%83/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;28&#x2F;83.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E8%A7%84%E8%8C%83&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;28&#x2F;83.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E8%A7%84%E8%8C%83&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -560,7 +547,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368652"></script>
+<script async src="/js/app.js?v=1656513801837"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

@@ -13,7 +13,7 @@
     <meta name="description" content="版本号在 RESTful API 中，API 接口应该尽量兼容之前的版本。但是，在实际业务开发场景中，可能随着业务需求的不断迭代，现有的 API 接口无法支持旧版本的适配，此时如果强制升级服务端的 API 接口将导致客户端旧有功能出现故障。实际上，Web 端是部署在服务器，因此它可以很容易为了适配服务端的新的 API 接口进行版本升级，然而像 Android 端、IOS 端、PC 端等其他客户端是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="说说如何设计一个良好的 API">
-<meta property="og:url" content="http://example.com/2022/06/17/71.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%89%AF%E5%A5%BD%E7%9A%84%20API/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/06/17/71.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%89%AF%E5%A5%BD%E7%9A%84%20API/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="版本号在 RESTful API 中，API 接口应该尽量兼容之前的版本。但是，在实际业务开发场景中，可能随着业务需求的不断迭代，现有的 API 接口无法支持旧版本的适配，此时如果强制升级服务端的 API 接口将导致客户端旧有功能出现故障。实际上，Web 端是部署在服务器，因此它可以很容易为了适配服务端的新的 API 接口进行版本升级，然而像 Android 端、IOS 端、PC 端等其他客户端是">
 <meta property="og:locale" content="zh_CN">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368688">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801877">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368688">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801877">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368688">
+            <link rel="stylesheet" href="/custom.css?v=1656513801877">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -122,19 +122,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -453,7 +440,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/06/17/71.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%89%AF%E5%A5%BD%E7%9A%84%20API/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;17&#x2F;71.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%89%AF%E5%A5%BD%E7%9A%84%20API&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;17&#x2F;71.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%89%AF%E5%A5%BD%E7%9A%84%20API&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/06/17/71.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%89%AF%E5%A5%BD%E7%9A%84%20API/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;17&#x2F;71.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%89%AF%E5%A5%BD%E7%9A%84%20API&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;17&#x2F;71.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%89%AF%E5%A5%BD%E7%9A%84%20API&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -523,7 +510,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368694"></script>
+<script async src="/js/app.js?v=1656513801882"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

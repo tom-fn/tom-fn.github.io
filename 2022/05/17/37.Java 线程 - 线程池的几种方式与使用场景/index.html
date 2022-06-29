@@ -13,7 +13,7 @@
     <meta name="description" content="在 Executors 类里面提供了一些静态工厂，生成一些常用的线程池。  newFixedThreadPool：创建固定大小的线程池。线程池的大小一旦达到最大值就会保持不变，如果某个线程因为执行异常而结束，那么线程池会补充一个新线程。 newCachedThreadPool：创建一个可缓存的线程池。如果线程池的大小超过了处理任务所需要的线程，那么就会回收部分空闲（60秒不执行任务）的线程，当任务">
 <meta property="og:type" content="article">
 <meta property="og:title" content="线程池的几种方式与使用场景">
-<meta property="og:url" content="http://example.com/2022/05/17/37.Java%20%E7%BA%BF%E7%A8%8B%20-%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/05/17/37.Java%20%E7%BA%BF%E7%A8%8B%20-%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="在 Executors 类里面提供了一些静态工厂，生成一些常用的线程池。  newFixedThreadPool：创建固定大小的线程池。线程池的大小一旦达到最大值就会保持不变，如果某个线程因为执行异常而结束，那么线程池会补充一个新线程。 newCachedThreadPool：创建一个可缓存的线程池。如果线程池的大小超过了处理任务所需要的线程，那么就会回收部分空闲（60秒不执行任务）的线程，当任务">
 <meta property="og:locale" content="zh_CN">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368761">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801949">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368761">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801949">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368761">
+            <link rel="stylesheet" href="/custom.css?v=1656513801949">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -122,19 +122,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -356,7 +343,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/05/17/37.Java%20%E7%BA%BF%E7%A8%8B%20-%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;05&#x2F;17&#x2F;37.Java%20%E7%BA%BF%E7%A8%8B%20-%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;05&#x2F;17&#x2F;37.Java%20%E7%BA%BF%E7%A8%8B%20-%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/05/17/37.Java%20%E7%BA%BF%E7%A8%8B%20-%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;05&#x2F;17&#x2F;37.Java%20%E7%BA%BF%E7%A8%8B%20-%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;05&#x2F;17&#x2F;37.Java%20%E7%BA%BF%E7%A8%8B%20-%20%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -421,7 +408,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368762"></script>
+<script async src="/js/app.js?v=1656513801950"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

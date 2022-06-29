@@ -13,7 +13,7 @@
     <meta name="description" content="OAuth 是一个关于授权的开放网络标准，它允许第三方网站在用户授权的前提下访问用户在服务商那里存储的各种信息。实际上，OAuth 2.0 允许用户提供一个令牌给第三方网站，一个令牌对应一个特定的第三方网站，同时该令牌只能在特定的时间内访问特定的资源。用户在客户端使用用户名和密码在用户中心获得授权，然后客户端在访问应用是附上 Token 令牌。此时，应用接收到客户端的 Token 令牌到用户中心进">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微服务的安全">
-<meta property="og:url" content="http://example.com/2022/06/27/82.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%AE%89%E5%85%A8/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/06/27/82.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%AE%89%E5%85%A8/index.html">
 <meta property="og:site_name" content="非鱼博客">
 <meta property="og:description" content="OAuth 是一个关于授权的开放网络标准，它允许第三方网站在用户授权的前提下访问用户在服务商那里存储的各种信息。实际上，OAuth 2.0 允许用户提供一个令牌给第三方网站，一个令牌对应一个特定的第三方网站，同时该令牌只能在特定的时间内访问特定的资源。用户在客户端使用用户名和密码在用户中心获得授权，然后客户端在访问应用是附上 Token 令牌。此时，应用接收到客户端的 Token 令牌到用户中心进">
 <meta property="og:locale" content="zh_CN">
@@ -30,13 +30,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513368659">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656513801841">
     
-    <link rel="stylesheet" href="/css/style.css?v=1656513368659">
+    <link rel="stylesheet" href="/css/style.css?v=1656513801841">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1656513368659">
+            <link rel="stylesheet" href="/custom.css?v=1656513801841">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -124,19 +124,6 @@
         <div class="nexmoe-widget-wrap">
 	<div class="nexmoe-widget nexmoe-social">
 		<a
-			class="mdui-ripple"
-			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ群'}"
-			style="
-				color: rgb(249, 174, 8);
-				background-color: rgba(249, 174, 8, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-QQ"
-			></i> </a
-		><a
 			class="mdui-ripple"
 			href="https://space.bilibili.com/484355498"
 			target="_blank"
@@ -353,7 +340,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://example.com/2022/06/27/82.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%AE%89%E5%85%A8/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;27&#x2F;82.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%AE%89%E5%85%A8&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;27&#x2F;82.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%AE%89%E5%85%A8&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/06/27/82.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%AE%89%E5%85%A8/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;27&#x2F;82.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%AE%89%E5%85%A8&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;27&#x2F;82.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%AE%89%E5%85%A8&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -416,7 +403,7 @@
 
  
 
-<script async src="/js/app.js?v=1656513368662"></script>
+<script async src="/js/app.js?v=1656513801844"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 
