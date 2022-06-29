@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+    
+    <title>Spring 事务底层原理 - 非鱼博客</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="java">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="划分处理单元 IOC由于 Spring 解决的问题是对单个数据库进行局部事务处理的，具体的实现首相用 Spring 中的 IOC 划分了事务处理单元。并且将对事务的各种配置放到了 IOC 容器中（设置事务管理器，设置事务的传播特性及隔离机制）。 AOP 拦截需要进行事务处理的类Spring 事务处理模块是通过 AOP 功能来实现声明式事务处理的，具体操作（比如事务实行的配置和读取，事务对象的抽象）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring 事务底层原理">
+<meta property="og:url" content="http://example.com/2022/06/01/53.Spring%20-%20Spring%20%E4%BA%8B%E5%8A%A1%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="非鱼博客">
+<meta property="og:description" content="划分处理单元 IOC由于 Spring 解决的问题是对单个数据库进行局部事务处理的，具体的实现首相用 Spring 中的 IOC 划分了事务处理单元。并且将对事务的各种配置放到了 IOC 容器中（设置事务管理器，设置事务的传播特性及隔离机制）。 AOP 拦截需要进行事务处理的类Spring 事务处理模块是通过 AOP 功能来实现声明式事务处理的，具体操作（比如事务实行的配置和读取，事务对象的抽象）">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-01T12:46:25.000Z">
+<meta property="article:modified_time" content="2022-06-29T08:11:53.968Z">
+<meta property="article:author" content="烦恼多一点">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+    
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/justifiedGallery/justifiedGallery.min.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656490337942">
+    
+    <link rel="stylesheet" href="/css/style.css?v=1656490337942">
+
+    
+        
+            <link rel="stylesheet" href="/custom.css?v=1656490337942">
+        
+    
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="mdui-drawer-body-left">
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&amp;refer=http%3A%2F%2Fup.enterdesk.com&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=auto?sec=1658037152&amp;t=8ed7596444aa8350ee3422f6c31875d4)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="烦恼多一点" class="mdui-btn mdui-btn-icon"><img src="http://photo.heiau.cn/ningboke/utools/20220612_231108_0000.png" alt="烦恼多一点"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="烦恼多一点">
+            <img src="http://photo.heiau.cn/ningboke/utools/20220612_231108_0000.png" alt="烦恼多一点" alt="烦恼多一点">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>88</div>
+        <div><span>标签</span>7</div>
+        <div><span>分类</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/donate.html" title="给我赞助">
+            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
+            <div class="mdui-list-item-content">
+                给我赞助
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="搜索"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ群'}"
+			style="
+				color: rgb(249, 174, 8);
+				background-color: rgba(249, 174, 8, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/484355498"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-bilibi li"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/tom-fn/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://www.zhihu.com/people/zi-an-78-78"
+			target="_blank"
+			mdui-tooltip="{content: '知乎'}"
+			style="
+				color: rgb(30, 136, 229);
+				background-color: rgba(30, 136, 229, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-zhihu"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://twitter.com/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: 'Twitter'}"
+			style="
+				color: rgb(59, 151, 239);
+				background-color: rgba(59, 151, 239, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-twitter"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://nexmoe.com/atom.xml"
+			target="_blank"
+			mdui-tooltip="{content: 'RSS'}"
+			style="
+				color: rgb(247, 132, 34);
+				background-color: rgba(247, 132, 34, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-rss"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 17.5px;">线程</a> <a href="/tags/%E9%94%81%E6%9C%BA%E5%88%B6/" style="font-size: 12.5px;">锁机制</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 15px;">集合</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(7);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">86</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/">2013</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">最新文章</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/13/1.Java%20%E5%9F%BA%E7%A1%80%20-%20JDK8%20%E6%96%B0%E7%89%B9%E6%80%A7/">JDK8 新特性</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/13/2.Java%20%E5%9F%BA%E7%A1%80%20-%20%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/">双亲委派模型</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/13/3.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%AD%BB%E4%BF%A1%E3%80%81%E5%BB%B6%E8%BF%9F%E3%80%81%E9%87%8D%E8%AF%95%E9%98%9F%E5%88%97/">死信、延迟、重试队列</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/13/4.Zookeeper%20-%20%E5%81%87%E6%AD%BB%E8%84%91%E8%A3%82/">Zookeeper-假死闹裂</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/13/5.MySQL%20-%20%E4%BC%98%E5%8C%96%EF%BC%88%E9%87%8D%E7%82%B9%E6%8E%8C%E6%8F%A1%EF%BC%89/">MySQL-优化</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-link">
+		<ul>
+        
+            <li>
+                <a href="http://heiau.cn/" target="_blank" >
+                    <img src="http://photo.heiau.cn/ningboke/utools/%E5%B0%8F%E4%BA%BA%E5%84%BF.png" alt="小宁同学"></img>
+                    <p>小宁同学</p>
+                </a>
+            </li>
+        
+            <li>
+                <a href="http://heiau.cn/" target="_blank" >
+                    <img src="http://photo.heiau.cn/ningboke/utools/20220612_231108_0000.png" alt="非鱼博客"></img>
+                    <p>非鱼博客</p>
+                </a>
+            </li>
+        
+		</ul>
+    </div>
+</div>
+<style>
+.nexmoe-widget-wrap .nexmoe-link ul li a {
+    text-align : center;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a img {
+    max-width : 100%;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a p {
+    margin: 10px 0;
+}
+</style>
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 烦恼多一点
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href="https://beian.miit.gov.cn/">宁ICP备2021002460号</a> <br>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img src="https://api.r10086.com/img-api.php?type=动漫综合3" alt="Spring 事务底层原理" loading="lazy">
+              <h1>Spring 事务底层原理</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月01日</a>
+</div>
+      
+
+      <h2 id="划分处理单元-IOC"><a href="#划分处理单元-IOC" class="headerlink" title="划分处理单元 IOC"></a>划分处理单元 IOC</h2><p>由于 Spring 解决的问题是对单个数据库进行局部事务处理的，具体的实现首相用 Spring 中的 IOC 划分了事务处理单元。并且将对事务的各种配置放到了 IOC 容器中（设置事务管理器，设置事务的传播特性及隔离机制）。</p>
+<h2 id="AOP-拦截需要进行事务处理的类"><a href="#AOP-拦截需要进行事务处理的类" class="headerlink" title="AOP 拦截需要进行事务处理的类"></a>AOP 拦截需要进行事务处理的类</h2><p>Spring 事务处理模块是通过 AOP 功能来实现声明式事务处理的，具体操作（比如事务实行的配置和读取，事务对象的抽象），用 <code>TransactionProxyFactoryBean</code> 接口来使用 AOP 功能，生成 proxy 代理对象，通过 <code>TransactionInterceptor</code> 完成对代理方法的拦截，将事务处理的功能编织到拦截的方法中。读取 IOC 容器事务配置属性，转化为 Spring 事务处理需要的内部数据结构（<code>TransactionAttributeSourceAdvisor</code>），转化为 <code>TransactionAttribute</code> 表示的数据对象。</p>
+<h2 id="对事物处理实现（事务的生成、提交、回滚、挂起）"><a href="#对事物处理实现（事务的生成、提交、回滚、挂起）" class="headerlink" title="对事物处理实现（事务的生成、提交、回滚、挂起）"></a>对事物处理实现（事务的生成、提交、回滚、挂起）</h2><p>Spring 委托给具体的事务处理器实现。实现了一个抽象和适配。适配的具体事务处理器：DataSource 数据源支持、Hibernate 数据源事务处理支持、JDO 数据源事务处理支持，JPA、JTA 数据源事务处理支持。这些支持都是通过设计 <code>PlatformTransactionManager</code>、<code>AbstractPlatforTransaction</code> 一系列事务处理的支持。 为常用数据源支持提供了一系列的 <code>TransactionManager</code>。</p>
+<h2 id="结合"><a href="#结合" class="headerlink" title="结合"></a>结合</h2><p><code>PlatformTransactionManager</code> 实现了 <code>TransactionInterception</code> 接口，让其与 <code>TransactionProxyFactoryBean</code> 结合起来，形成一个 Spring 声明式事务处理的设计体系。</p>
+
+      <p><img data-fancybox="gallery" src="http://photo.heiau.cn/ningboke/utools/weixin.png"  alt="weixin.png" data-caption="weixin.png" loading="lazy"></p>
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>本文作者：</strong>烦恼多一点<br>
+        <strong>本文链接：</strong><a href="http://example.com/2022/06/01/53.Spring%20-%20Spring%20%E4%BA%8B%E5%8A%A1%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;01&#x2F;53.Spring%20-%20Spring%20%E4%BA%8B%E5%8A%A1%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;01&#x2F;53.Spring%20-%20Spring%20%E4%BA%8B%E5%8A%A1%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置评论框插槽
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%92%E5%88%86%E5%A4%84%E7%90%86%E5%8D%95%E5%85%83-IOC"><span class="toc-number">1.</span> <span class="toc-text">划分处理单元 IOC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOP-%E6%8B%A6%E6%88%AA%E9%9C%80%E8%A6%81%E8%BF%9B%E8%A1%8C%E4%BA%8B%E5%8A%A1%E5%A4%84%E7%90%86%E7%9A%84%E7%B1%BB"><span class="toc-number">2.</span> <span class="toc-text">AOP 拦截需要进行事务处理的类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E4%BA%8B%E7%89%A9%E5%A4%84%E7%90%86%E5%AE%9E%E7%8E%B0%EF%BC%88%E4%BA%8B%E5%8A%A1%E7%9A%84%E7%94%9F%E6%88%90%E3%80%81%E6%8F%90%E4%BA%A4%E3%80%81%E5%9B%9E%E6%BB%9A%E3%80%81%E6%8C%82%E8%B5%B7%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">对事物处理实现（事务的生成、提交、回滚、挂起）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E5%90%88"><span class="toc-number">4.</span> <span class="toc-text">结合</span></a></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-search-space">
+	<div class="search-container">
+		<div class="search-header">
+			<div class="search-input-container">
+				<input
+					class="search-input"
+					type="text"
+					placeholder="搜索"
+					oninput="sinput();"
+				/>
+			</div>
+			<a class="search-close" onclick="sclose();">×</a>
+		</div>
+		<div class="search-body"></div>
+	</div>
+</div>
+
+    
+<script src="/lib/mdui_043tiny/mdui.js"></script>
+<script src="/lib/jquery.min.js"></script>
+<script src="/lib/justifiedGallery/jquery.justifiedGallery.min.js"></script>
+<script src="/lib/fancybox/fancybox.umd.js"></script>
+
+
+ 
+
+<script async src="/js/app.js?v=1656490337947"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+    
+    <title>说说如何设计一个良好的 API - 非鱼博客</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="java">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="版本号在 RESTful API 中，API 接口应该尽量兼容之前的版本。但是，在实际业务开发场景中，可能随着业务需求的不断迭代，现有的 API 接口无法支持旧版本的适配，此时如果强制升级服务端的 API 接口将导致客户端旧有功能出现故障。实际上，Web 端是部署在服务器，因此它可以很容易为了适配服务端的新的 API 接口进行版本升级，然而像 Android 端、IOS 端、PC 端等其他客户端是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="说说如何设计一个良好的 API">
+<meta property="og:url" content="http://example.com/2022/06/17/71.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%89%AF%E5%A5%BD%E7%9A%84%20API/index.html">
+<meta property="og:site_name" content="非鱼博客">
+<meta property="og:description" content="版本号在 RESTful API 中，API 接口应该尽量兼容之前的版本。但是，在实际业务开发场景中，可能随着业务需求的不断迭代，现有的 API 接口无法支持旧版本的适配，此时如果强制升级服务端的 API 接口将导致客户端旧有功能出现故障。实际上，Web 端是部署在服务器，因此它可以很容易为了适配服务端的新的 API 接口进行版本升级，然而像 Android 端、IOS 端、PC 端等其他客户端是">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-17T12:46:25.000Z">
+<meta property="article:modified_time" content="2022-06-29T08:11:53.979Z">
+<meta property="article:author" content="烦恼多一点">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+    
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/justifiedGallery/justifiedGallery.min.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656490337809">
+    
+    <link rel="stylesheet" href="/css/style.css?v=1656490337809">
+
+    
+        
+            <link rel="stylesheet" href="/custom.css?v=1656490337809">
+        
+    
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="mdui-drawer-body-left">
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&amp;refer=http%3A%2F%2Fup.enterdesk.com&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=auto?sec=1658037152&amp;t=8ed7596444aa8350ee3422f6c31875d4)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="烦恼多一点" class="mdui-btn mdui-btn-icon"><img src="http://photo.heiau.cn/ningboke/utools/20220612_231108_0000.png" alt="烦恼多一点"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="烦恼多一点">
+            <img src="http://photo.heiau.cn/ningboke/utools/20220612_231108_0000.png" alt="烦恼多一点" alt="烦恼多一点">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>88</div>
+        <div><span>标签</span>7</div>
+        <div><span>分类</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/donate.html" title="给我赞助">
+            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
+            <div class="mdui-list-item-content">
+                给我赞助
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="搜索"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ群'}"
+			style="
+				color: rgb(249, 174, 8);
+				background-color: rgba(249, 174, 8, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/484355498"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-bilibi li"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/tom-fn/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://www.zhihu.com/people/zi-an-78-78"
+			target="_blank"
+			mdui-tooltip="{content: '知乎'}"
+			style="
+				color: rgb(30, 136, 229);
+				background-color: rgba(30, 136, 229, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-zhihu"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://twitter.com/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: 'Twitter'}"
+			style="
+				color: rgb(59, 151, 239);
+				background-color: rgba(59, 151, 239, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-twitter"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://nexmoe.com/atom.xml"
+			target="_blank"
+			mdui-tooltip="{content: 'RSS'}"
+			style="
+				color: rgb(247, 132, 34);
+				background-color: rgba(247, 132, 34, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-rss"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 10px;">消息队列</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 17.5px;">线程</a> <a href="/tags/%E9%94%81%E6%9C%BA%E5%88%B6/" style="font-size: 12.5px;">锁机制</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 15px;">集合</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(7);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">86</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/">2013</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">最新文章</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/13/1.Java%20%E5%9F%BA%E7%A1%80%20-%20JDK8%20%E6%96%B0%E7%89%B9%E6%80%A7/">JDK8 新特性</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/13/2.Java%20%E5%9F%BA%E7%A1%80%20-%20%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/">双亲委派模型</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/13/3.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%AD%BB%E4%BF%A1%E3%80%81%E5%BB%B6%E8%BF%9F%E3%80%81%E9%87%8D%E8%AF%95%E9%98%9F%E5%88%97/">死信、延迟、重试队列</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/13/4.Zookeeper%20-%20%E5%81%87%E6%AD%BB%E8%84%91%E8%A3%82/">Zookeeper-假死闹裂</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/13/5.MySQL%20-%20%E4%BC%98%E5%8C%96%EF%BC%88%E9%87%8D%E7%82%B9%E6%8E%8C%E6%8F%A1%EF%BC%89/">MySQL-优化</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-link">
+		<ul>
+        
+            <li>
+                <a href="http://heiau.cn/" target="_blank" >
+                    <img src="http://photo.heiau.cn/ningboke/utools/%E5%B0%8F%E4%BA%BA%E5%84%BF.png" alt="小宁同学"></img>
+                    <p>小宁同学</p>
+                </a>
+            </li>
+        
+            <li>
+                <a href="http://heiau.cn/" target="_blank" >
+                    <img src="http://photo.heiau.cn/ningboke/utools/20220612_231108_0000.png" alt="非鱼博客"></img>
+                    <p>非鱼博客</p>
+                </a>
+            </li>
+        
+		</ul>
+    </div>
+</div>
+<style>
+.nexmoe-widget-wrap .nexmoe-link ul li a {
+    text-align : center;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a img {
+    max-width : 100%;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a p {
+    margin: 10px 0;
+}
+</style>
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 烦恼多一点
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href="https://beian.miit.gov.cn/">宁ICP备2021002460号</a> <br>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img src="https://api.r10086.com/img-api.php?type=动漫综合1" alt="说说如何设计一个良好的 API" loading="lazy">
+              <h1>说说如何设计一个良好的 API</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月17日</a>
+</div>
+      
+
+      <h2 id="版本号"><a href="#版本号" class="headerlink" title="版本号"></a>版本号</h2><p>在 RESTful API 中，API 接口应该尽量兼容之前的版本。但是，在实际业务开发场景中，可能随着业务需求的不断迭代，现有的 API 接口无法支持旧版本的适配，此时如果强制升级服务端的 API 接口将导致客户端旧有功能出现故障。实际上，Web 端是部署在服务器，因此它可以很容易为了适配服务端的新的 API 接口进行版本升级，然而像 Android 端、IOS 端、PC 端等其他客户端是运行在用户的机器上，因此当前产品很难做到适配新的服务端的 API 接口，从而出现功能故障，这种情况下，用户必须升级产品到最新的版本才能正常使用。</p>
+<p>为了解决这个版本不兼容问题，在设计 RESTful API 的一种实用的做法是使用版本号。一般情况下，我们会在 url 中保留版本号，并同时兼容多个版本。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">【GET】  /v1/users/&#123;user_id&#125;  <span class="comment">// 版本 v1 的查询用户列表的 API 接口</span></span><br><span class="line">【GET】  /v2/users/&#123;user_id&#125;  <span class="comment">// 版本 v2 的查询用户列表的 API 接口</span></span><br></pre></td></tr></table></figure>
+
+<p>现在，我们可以不改变版本 v1 的查询用户列表的 API 接口的情况下，新增版本 v2 的查询用户列表的 API 接口以满足新的业务需求，此时，客户端的产品的新功能将请求新的服务端的 API 接口地址。虽然服务端会同时兼容多个版本，但是同时维护太多版本对于服务端而言是个不小的负担，因为服务端要维护多套代码。这种情况下，常见的做法不是维护所有的兼容版本，而是只维护最新的几个兼容版本，例如维护最新的三个兼容版本。在一段时间后，当绝大多数用户升级到较新的版本后，废弃一些使用量较少的服务端的老版本API 接口版本，并要求使用产品的非常旧的版本的用户强制升级。</p>
+<p>注意的是，“不改变版本 v1 的查询用户列表的 API 接口”主要指的是对于客户端的调用者而言它看起来是没有改变。而实际上，如果业务变化太大，服务端的开发人员需要对旧版本的 API 接口使用适配器模式将请求适配到新的API 接口上。</p>
+<h3 id="资源路径"><a href="#资源路径" class="headerlink" title="资源路径"></a>资源路径</h3><p>RESTful API 的设计以资源为核心，每一个 URI 代表一种资源。因此，URI 不能包含动词，只能是名词。注意的是，形容词也是可以使用的，但是尽量少用。一般来说，不论资源是单个还是多个，API 的名词要以复数进行命名。此外，命名名词的时候，要使用小写、数字及下划线来区分多个单词。这样的设计是为了与 json 对象及属性的命名方案保持一致。例如，一个查询系统标签的接口可以进行如下设计。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">【GET】  /v1/tags/&#123;tag_id&#125; </span><br></pre></td></tr></table></figure>
+
+<p>同时，资源的路径应该从根到子依次如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/&#123;resources&#125;/&#123;resource_id&#125;/&#123;sub_resources&#125;/&#123;sub_resource_id&#125;/&#123;sub_resource_property&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们来看一个“添加用户的角色”的设计，其中“用户”是主资源，“角色”是子资源。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">【POST】  /v1/users/&#123;user_id&#125;/roles/&#123;role_id&#125; <span class="comment">// 添加用户的角色</span></span><br></pre></td></tr></table></figure>
+
+<p>有的时候，当一个资源变化难以使用标准的 RESTful API 来命名，可以考虑使用一些特殊的 actions 命名。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/&#123;resources&#125;/&#123;resource_id&#125;/actions/&#123;action&#125;</span><br></pre></td></tr></table></figure>
+
+<p>举个例子，“密码修改”这个接口的命名很难完全使用名词来构建路径，此时可以引入 action 命名。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">【PUT】  /v1/users/&#123;user_id&#125;/password/actions/modify <span class="comment">// 密码修改</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="请求方式"><a href="#请求方式" class="headerlink" title="请求方式"></a>请求方式</h3><p>可以通过 GET、 POST、 PUT、 PATCH、 DELETE 等方式对服务端的资源进行操作。其中：</p>
+<ul>
+<li>GET：用于查询资源</li>
+<li>POST：用于创建资源</li>
+<li>PUT：用于更新服务端的资源的全部信息</li>
+<li>PATCH：用于更新服务端的资源的部分信息</li>
+<li>DELETE：用于删除服务端的资源。</li>
+</ul>
+<p>这里，使用“用户”的案例进行回顾通过 GET、 POST、 PUT、 PATCH、 DELETE 等方式对服务端的资源进行操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">【GET】          /users                # 查询用户信息列表</span><br><span class="line">【GET】          /users/<span class="number">1001</span>           # 查看某个用户信息</span><br><span class="line">【POST】         /users                # 新建用户信息</span><br><span class="line">【PUT】          /users/<span class="number">1001</span>           # 更新用户信息(全部字段)</span><br><span class="line">【PATCH】        /users/<span class="number">1001</span>           # 更新用户信息(部分字段)</span><br><span class="line">【DELETE】       /users/<span class="number">1001</span>           # 删除用户信息</span><br></pre></td></tr></table></figure>
+
+<h3 id="查询参数"><a href="#查询参数" class="headerlink" title="查询参数"></a>查询参数</h3><p>RESTful API 接口应该提供参数，过滤返回结果。其中，offset 指定返回记录的开始位置。一般情况下，它会结合 limit 来做分页的查询，这里 limit 指定返回记录的数量。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">【GET】  /&#123;version&#125;/&#123;resources&#125;/&#123;resource_id&#125;?offset=<span class="number">0</span>&amp;limit=<span class="number">20</span></span><br></pre></td></tr></table></figure>
+
+<p>同时，orderby 可以用来排序，但仅支持单个字符的排序，如果存在多个字段排序，需要业务中扩展其他参数进行支持。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">【GET】  /&#123;version&#125;/&#123;resources&#125;/&#123;resource_id&#125;?orderby=&#123;field&#125; [asc|desc]</span><br></pre></td></tr></table></figure>
+
+<p>为了更好地选择是否支持查询总数，我们可以使用 count 字段，count 表示返回数据是否包含总条数，它的默认值为 false。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">【GET】  /&#123;version&#125;/&#123;resources&#125;/&#123;resource_id&#125;?count=[<span class="literal">true</span>|<span class="literal">false</span>]</span><br></pre></td></tr></table></figure>
+
+<p>上面介绍的 offset、 limit、 orderby 是一些公共参数。此外，业务场景中还存在许多个性化的参数。我们来看一个例子。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">【GET】  /v1/categorys/&#123;category_id&#125;/apps/&#123;app_id&#125;?enable=[<span class="number">1</span>|<span class="number">0</span>]&amp;os_type=&#123;field&#125;&amp;device_ids=&#123;field,field,…&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意的是，不要过度设计，只返回用户需要的查询参数。此外，需要考虑是否对查询参数创建数据库索引以提高查询性能。</p>
+<h3 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h3><p>使用适合的状态码很重要，而不应该全部都返回状态码 200，或者随便乱使用。这里，列举在实际开发过程中常用的一些状态码，以供参考。</p>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200</td>
+<td>请求成功</td>
+</tr>
+<tr>
+<td>201</td>
+<td>创建成功</td>
+</tr>
+<tr>
+<td>400</td>
+<td>错误的请求</td>
+</tr>
+<tr>
+<td>401</td>
+<td>未验证</td>
+</tr>
+<tr>
+<td>403</td>
+<td>被拒绝</td>
+</tr>
+<tr>
+<td>404</td>
+<td>无法找到</td>
+</tr>
+<tr>
+<td>409</td>
+<td>资源冲突</td>
+</tr>
+<tr>
+<td>500</td>
+<td>服务器内部错误</td>
+</tr>
+</tbody></table>
+<h3 id="异常响应"><a href="#异常响应" class="headerlink" title="异常响应"></a>异常响应</h3><p>当 RESTful API 接口出现非 2xx 的 HTTP 错误码响应时，采用全局的异常结构响应信息。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">HTTP/<span class="number">1.1</span> <span class="number">400</span> Bad Request</span><br><span class="line">Content-Type<span class="punctuation">:</span> application/json</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;code&quot;</span><span class="punctuation">:</span> <span class="string">&quot;INVALID_ARGUMENT&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&#123;error message&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;cause&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&#123;cause message&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;request_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;01234567-89ab-cdef-0123-456789abcdef&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;host_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&#123;server identity&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;server_time&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2014-01-01T12:00:00Z&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="请求参数"><a href="#请求参数" class="headerlink" title="请求参数"></a>请求参数</h3><p>在设计服务端的 RESTful API 的时候，我们还需要对请求参数进行限制说明。例如一个支持批量查询的接口，我们要考虑最大支持查询的数量。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">【GET】     /v1/users/batch?user_ids=<span class="number">1001</span>,<span class="number">1002</span>      <span class="comment">// 批量查询用户信息</span></span><br><span class="line">参数说明</span><br><span class="line">- user_ids: 用户ID串，最多允许 <span class="number">20</span> 个。</span><br></pre></td></tr></table></figure>
+
+<p>此外，在设计新增或修改接口时，我们还需要在文档中明确告诉调用者哪些参数是必填项，哪些是选填项，以及它们的边界值的限制。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">【POST】     /v1/users                             <span class="comment">// 创建用户信息</span></span><br><span class="line">请求内容</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;username&quot;</span>: <span class="string">&quot;lusifer&quot;</span>,                 <span class="comment">// 必填, 用户名称, max 10</span></span><br><span class="line">    <span class="string">&quot;realname&quot;</span>: <span class="string">&quot;鲁斯菲尔&quot;</span>,               <span class="comment">// 必填, 用户名称, max 10</span></span><br><span class="line">    <span class="string">&quot;password&quot;</span>: <span class="string">&quot;123456&quot;</span>,              <span class="comment">// 必填, 用户密码, max 32</span></span><br><span class="line">    <span class="string">&quot;email&quot;</span>: <span class="string">&quot;topsale@vip.qq.com&quot;</span>,     <span class="comment">// 选填, 电子邮箱, max 32</span></span><br><span class="line">    <span class="string">&quot;weixin&quot;</span>: <span class="string">&quot;Lusifer&quot;</span>,            <span class="comment">// 选填，微信账号, max 32</span></span><br><span class="line">    <span class="string">&quot;sex&quot;</span>: <span class="number">1</span>                           <span class="comment">// 必填, 用户性别[1-男 2-女 99-未知]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="响应参数"><a href="#响应参数" class="headerlink" title="响应参数"></a>响应参数</h3><p>针对不同操作，服务端向用户返回的结果应该符合以下规范。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">【GET】     /&#123;version&#125;/&#123;resources&#125;/&#123;resource_id&#125;      <span class="comment">// 返回单个资源对象</span></span><br><span class="line">【GET】     /&#123;version&#125;/&#123;resources&#125;                    <span class="comment">// 返回资源对象的列表</span></span><br><span class="line">【POST】    /&#123;version&#125;/&#123;resources&#125;                    <span class="comment">// 返回新生成的资源对象</span></span><br><span class="line">【PUT】     /&#123;version&#125;/&#123;resources&#125;/&#123;resource_id&#125;      <span class="comment">// 返回完整的资源对象</span></span><br><span class="line">【PATCH】   /&#123;version&#125;/&#123;resources&#125;/&#123;resource_id&#125;      <span class="comment">// 返回完整的资源对象</span></span><br><span class="line">【DELETE】  /&#123;version&#125;/&#123;resources&#125;/&#123;resource_id&#125;      <span class="comment">// 状态码 200，返回完整的资源对象。</span></span><br><span class="line">                                                      <span class="comment">// 状态码 204，返回一个空文档</span></span><br></pre></td></tr></table></figure>
+
+<p>如果是单条数据，则返回一个对象的 JSON 字符串。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;id&quot;</span> : <span class="string">&quot;01234567-89ab-cdef-0123-456789abcdef&quot;</span>,</span><br><span class="line">    <span class="string">&quot;name&quot;</span> : <span class="string">&quot;example&quot;</span>,</span><br><span class="line">    <span class="string">&quot;created_time&quot;</span>: <span class="number">1496676420000</span>,</span><br><span class="line">    <span class="string">&quot;updated_time&quot;</span>: <span class="number">1496676420000</span>,</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果是列表数据，则返回一个封装的结构体。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;count&quot;</span>:<span class="number">100</span>,</span><br><span class="line">    <span class="string">&quot;items&quot;</span>:[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&quot;id&quot;</span> : <span class="string">&quot;01234567-89ab-cdef-0123-456789abcdef&quot;</span>,</span><br><span class="line">            <span class="string">&quot;name&quot;</span> : <span class="string">&quot;example&quot;</span>,</span><br><span class="line">            <span class="string">&quot;created_time&quot;</span>: <span class="number">1496676420000</span>,</span><br><span class="line">            <span class="string">&quot;updated_time&quot;</span>: <span class="number">1496676420000</span>,</span><br><span class="line">            ...</span><br><span class="line">        &#125;,</span><br><span class="line">        ...</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="一个完整的案例"><a href="#一个完整的案例" class="headerlink" title="一个完整的案例"></a>一个完整的案例</h3><p>最后，我们使用一个完整的案例将前面介绍的知识整合起来。这里，使用“获取用户列表”的案例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">【GET】     /v1/users?[&amp;keyword=xxx][&amp;enable=<span class="number">1</span>][&amp;offset=<span class="number">0</span>][&amp;limit=<span class="number">20</span>] 获取用户列表</span><br><span class="line">功能说明：获取用户列表</span><br><span class="line">请求方式：GET</span><br><span class="line">参数说明</span><br><span class="line">- keyword: 模糊查找的关键字。[选填]</span><br><span class="line">- enable: 启用状态[<span class="number">1</span>-启用 <span class="number">2</span>-禁用]。[选填]</span><br><span class="line">- offset: 获取位置偏移，从 <span class="number">0</span> 开始。[选填]</span><br><span class="line">- limit: 每次获取返回的条数，缺省为 <span class="number">20</span> 条，最大不超过 <span class="number">100</span>。 [选填]</span><br><span class="line">响应内容</span><br><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;count&quot;</span>:<span class="number">100</span>,</span><br><span class="line">    <span class="string">&quot;items&quot;</span>:[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&quot;id&quot;</span> : <span class="string">&quot;01234567-89ab-cdef-0123-456789abcdef&quot;</span>,</span><br><span class="line">            <span class="string">&quot;name&quot;</span> : <span class="string">&quot;example&quot;</span>,</span><br><span class="line">            <span class="string">&quot;created_time&quot;</span>: <span class="number">1496676420000</span>,</span><br><span class="line">            <span class="string">&quot;updated_time&quot;</span>: <span class="number">1496676420000</span>,</span><br><span class="line">            ...</span><br><span class="line">        &#125;,</span><br><span class="line">        ...</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">失败响应</span><br><span class="line">HTTP/<span class="number">1.1</span> <span class="number">403</span> UC/AUTH_DENIED</span><br><span class="line">Content-Type: application/json</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;code&quot;</span>: <span class="string">&quot;INVALID_ARGUMENT&quot;</span>,</span><br><span class="line">    <span class="string">&quot;message&quot;</span>: <span class="string">&quot;&#123;error message&#125;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;cause&quot;</span>: <span class="string">&quot;&#123;cause message&#125;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;request_id&quot;</span>: <span class="string">&quot;01234567-89ab-cdef-0123-456789abcdef&quot;</span>,</span><br><span class="line">    <span class="string">&quot;host_id&quot;</span>: <span class="string">&quot;&#123;server identity&#125;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;server_time&quot;</span>: <span class="string">&quot;2014-01-01T12:00:00Z&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">错误代码</span><br><span class="line">- <span class="number">403</span> UC/AUTH_DENIED    授权受限</span><br></pre></td></tr></table></figure>
+      <p><img data-fancybox="gallery" src="http://photo.heiau.cn/ningboke/utools/weixin.png"  alt="weixin.png" data-caption="weixin.png" loading="lazy"></p>
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>本文作者：</strong>烦恼多一点<br>
+        <strong>本文链接：</strong><a href="http://example.com/2022/06/17/71.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%89%AF%E5%A5%BD%E7%9A%84%20API/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;17&#x2F;71.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%89%AF%E5%A5%BD%E7%9A%84%20API&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;17&#x2F;71.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E8%89%AF%E5%A5%BD%E7%9A%84%20API&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置评论框插槽
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E5%8F%B7"><span class="toc-number">1.</span> <span class="toc-text">版本号</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E8%B7%AF%E5%BE%84"><span class="toc-number">1.1.</span> <span class="toc-text">资源路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">请求方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%8F%82%E6%95%B0"><span class="toc-number">1.3.</span> <span class="toc-text">查询参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-number">1.4.</span> <span class="toc-text">状态码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%93%8D%E5%BA%94"><span class="toc-number">1.5.</span> <span class="toc-text">异常响应</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0"><span class="toc-number">1.6.</span> <span class="toc-text">请求参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E5%8F%82%E6%95%B0"><span class="toc-number">1.7.</span> <span class="toc-text">响应参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E5%AE%8C%E6%95%B4%E7%9A%84%E6%A1%88%E4%BE%8B"><span class="toc-number">1.8.</span> <span class="toc-text">一个完整的案例</span></a></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-search-space">
+	<div class="search-container">
+		<div class="search-header">
+			<div class="search-input-container">
+				<input
+					class="search-input"
+					type="text"
+					placeholder="搜索"
+					oninput="sinput();"
+				/>
+			</div>
+			<a class="search-close" onclick="sclose();">×</a>
+		</div>
+		<div class="search-body"></div>
+	</div>
+</div>
+
+    
+<script src="/lib/mdui_043tiny/mdui.js"></script>
+<script src="/lib/jquery.min.js"></script>
+<script src="/lib/justifiedGallery/jquery.justifiedGallery.min.js"></script>
+<script src="/lib/fancybox/fancybox.umd.js"></script>
+
+
+ 
+
+<script async src="/js/app.js?v=1656490337826"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+</body>
+
+</html>
