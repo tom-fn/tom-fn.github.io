@@ -4,23 +4,23 @@
 
 <head>
     
-    <title>自己如何实现消息队列 - 非鱼小站</title>
+    <title>如何保证消息的有序性 - 非鱼小站</title>
     <meta charset="UTF-8">
     <meta name="keywords" content="java">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
     
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <meta name="description" content="大体上的设计是由一条线程 1 执行从等待列表中获取任务插入任务队列再由线程池中的线程从任务队列中取出任务去执行. 添加一条线程 1 主要是防止在执行耗时的任务时阻塞主线程.当执行耗时任务时,添加的任务的操作快于取出任务的操作, 当任务队列长度达到最大值时,线程 1 将被阻塞,等待线程 2,3… 从任务队列取出任务执行。">
+    <meta name="description" content="通过轮询所有队列的方式来确定消息被发送到哪一个队列（负载均衡策略）。订单号相同的消息会被先后发送到同一个队列中， 在获取到路由信息以后，会根据算法来选择一个队列，同一个 OrderId 获取到的肯定是同一个队列。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自己如何实现消息队列">
-<meta property="og:url" content="http://heiau.cn/2022/07/27/113.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E8%87%AA%E5%B7%B1%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/index.html">
+<meta property="og:title" content="如何保证消息的有序性">
+<meta property="og:url" content="http://heiau.cn/2022/07/29/114.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E6%9C%89%E5%BA%8F%E6%80%A7/index.html">
 <meta property="og:site_name" content="非鱼小站">
-<meta property="og:description" content="大体上的设计是由一条线程 1 执行从等待列表中获取任务插入任务队列再由线程池中的线程从任务队列中取出任务去执行. 添加一条线程 1 主要是防止在执行耗时的任务时阻塞主线程.当执行耗时任务时,添加的任务的操作快于取出任务的操作, 当任务队列长度达到最大值时,线程 1 将被阻塞,等待线程 2,3… 从任务队列取出任务执行。">
+<meta property="og:description" content="通过轮询所有队列的方式来确定消息被发送到哪一个队列（负载均衡策略）。订单号相同的消息会被先后发送到同一个队列中， 在获取到路由信息以后，会根据算法来选择一个队列，同一个 OrderId 获取到的肯定是同一个队列。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-07-27T12:46:25.000Z">
-<meta property="article:modified_time" content="2022-09-22T08:53:45.779Z">
+<meta property="article:published_time" content="2022-07-29T12:46:25.000Z">
+<meta property="article:modified_time" content="2022-09-22T09:29:00.796Z">
 <meta property="article:author" content="烦恼多一点">
-<meta property="article:tag" content="数据存储">
+<meta property="article:tag" content="消息队列">
 <meta name="twitter:card" content="summary">
     
 <link rel="stylesheet" href="/lib/fancybox/fancybox.css">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1663836916549">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1663838952238">
     
-    <link rel="stylesheet" href="/css/style.css?v=1663836916549">
+    <link rel="stylesheet" href="/css/style.css?v=1663838952238">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1663836916549">
+            <link rel="stylesheet" href="/custom.css?v=1663838952238">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -242,19 +242,19 @@
       <ul>
         
           <li>
-            <a href="/2022/07/27/113.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E8%87%AA%E5%B7%B1%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">自己如何实现消息队列</a>
+            <a href="/2022/07/29/114.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E6%9C%89%E5%BA%8F%E6%80%A7/">如何保证消息的有序性</a>
           </li>
         
           <li>
-            <a href="/2022/07/27/114.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E6%9C%89%E5%BA%8F%E6%80%A7/">如何保证消息的有序性</a>
+            <a href="/2022/07/28/113.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E8%87%AA%E5%B7%B1%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">自己如何实现消息队列</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/27/112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/">消息的堆积解决思路</a>
           </li>
         
           <li>
             <a href="/2022/07/26/111.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/">消息的幂等性解决思路</a>
-          </li>
-        
-          <li>
-            <a href="/2022/07/26/112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/">消息的堆积解决思路</a>
           </li>
         
           <li>
@@ -323,19 +323,20 @@
   <article>
       
           <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
-              <img src="https://img.paulzzh.tech/touhou/random?27" alt="自己如何实现消息队列" loading="lazy">
-              <h1>自己如何实现消息队列</h1>
+              <img src="https://img.paulzzh.tech/touhou/random?29" alt="如何保证消息的有序性" loading="lazy">
+              <h1>如何保证消息的有序性</h1>
           </div>
       
       
       <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
-    <a><i class="nexmoefont icon-calendar-fill"></i>2022年07月27日</a>
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年07月29日</a>
 </div>
       
 
-      <p>大体上的设计是由一条线程 1 执行从等待列表中获取任务插入任务队列再由线程池中的线程从任务队列中取出任务去执行.</p>
-<p>添加一条线程 1 主要是防止在执行耗时的任务时阻塞主线程.当执行耗时任务时,添加的任务的操作快于取出任务的操作,</p>
-<p>当任务队列长度达到最大值时,线程 1 将被阻塞,等待线程 2,3… 从任务队列取出任务执行。</p>
+      <ol>
+<li>通过轮询所有队列的方式来确定消息被发送到哪一个队列（负载均衡策略）。订单号相同的消息会被先后发送到同一个队列中，</li>
+<li>在获取到路由信息以后，会根据算法来选择一个队列，同一个 OrderId 获取到的肯定是同一个队列。</li>
+</ol>
 
       <p><img data-fancybox="gallery" src="http://photo.heiau.cn/ningboke/utools/weixin.png"  alt="weixin.png" data-caption="weixin.png" loading="lazy"></p>
   </article>
@@ -344,7 +345,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://heiau.cn/2022/07/27/113.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E8%87%AA%E5%B7%B1%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;07&#x2F;27&#x2F;113.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E8%87%AA%E5%B7%B1%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;07&#x2F;27&#x2F;113.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E8%87%AA%E5%B7%B1%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/07/29/114.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E6%9C%89%E5%BA%8F%E6%80%A7/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;07&#x2F;29&#x2F;114.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E6%9C%89%E5%BA%8F%E6%80%A7&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;07&#x2F;29&#x2F;114.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E6%9C%89%E5%BA%8F%E6%80%A7&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -356,7 +357,7 @@
   <div class="nexmoe-post-meta nexmoe-rainbow">
     
     
-        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" rel="tag">数据存储</a>
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag">消息队列</a>
     
 </div>
 
@@ -409,7 +410,7 @@
 
  
 
-<script async src="/js/app.js?v=1663836916554"></script>
+<script async src="/js/app.js?v=1663838952242"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 

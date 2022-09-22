@@ -13,12 +13,12 @@
     <meta name="description" content="如果还没开始投入使用 Kafka，那应该在设计分区数的时候，尽量设置的多点（当然也不要太大，太大影响延迟，具体可以参考我前面提到的文章），从而提升生产和消费的并行度，避免消费太慢导致消费堆积。 增大批次瓶颈在消费吞吐量的时候，增加批次也可以改善性能 增加线程数如果一些消费者组中的消费者线程还是有 1 个消费者线程消费多个分区的情况，建议增加消费者线程。尽量 1 个消费者线程对应 1 个分区，从而发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="消息的堆积解决思路">
-<meta property="og:url" content="http://heiau.cn/2022/07/26/112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/index.html">
+<meta property="og:url" content="http://heiau.cn/2022/07/27/112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/index.html">
 <meta property="og:site_name" content="非鱼小站">
 <meta property="og:description" content="如果还没开始投入使用 Kafka，那应该在设计分区数的时候，尽量设置的多点（当然也不要太大，太大影响延迟，具体可以参考我前面提到的文章），从而提升生产和消费的并行度，避免消费太慢导致消费堆积。 增大批次瓶颈在消费吞吐量的时候，增加批次也可以改善性能 增加线程数如果一些消费者组中的消费者线程还是有 1 个消费者线程消费多个分区的情况，建议增加消费者线程。尽量 1 个消费者线程对应 1 个分区，从而发">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-07-26T12:46:25.000Z">
-<meta property="article:modified_time" content="2022-09-22T08:53:45.779Z">
+<meta property="article:published_time" content="2022-07-27T12:46:25.000Z">
+<meta property="article:modified_time" content="2022-09-22T09:29:00.796Z">
 <meta property="article:author" content="烦恼多一点">
 <meta property="article:tag" content="消息队列">
 <meta name="twitter:card" content="summary">
@@ -28,13 +28,13 @@
 <link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
 
 
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1663836916558">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1663838952246">
     
-    <link rel="stylesheet" href="/css/style.css?v=1663836916558">
+    <link rel="stylesheet" href="/css/style.css?v=1663838952246">
 
     
         
-            <link rel="stylesheet" href="/custom.css?v=1663836916558">
+            <link rel="stylesheet" href="/custom.css?v=1663838952246">
         
     
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -242,19 +242,19 @@
       <ul>
         
           <li>
-            <a href="/2022/07/27/113.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E8%87%AA%E5%B7%B1%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">自己如何实现消息队列</a>
+            <a href="/2022/07/29/114.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E6%9C%89%E5%BA%8F%E6%80%A7/">如何保证消息的有序性</a>
           </li>
         
           <li>
-            <a href="/2022/07/27/114.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E6%9C%89%E5%BA%8F%E6%80%A7/">如何保证消息的有序性</a>
+            <a href="/2022/07/28/113.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E8%87%AA%E5%B7%B1%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">自己如何实现消息队列</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/27/112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/">消息的堆积解决思路</a>
           </li>
         
           <li>
             <a href="/2022/07/26/111.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/">消息的幂等性解决思路</a>
-          </li>
-        
-          <li>
-            <a href="/2022/07/26/112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/">消息的堆积解决思路</a>
           </li>
         
           <li>
@@ -323,13 +323,13 @@
   <article>
       
           <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
-              <img src="https://img.paulzzh.tech/touhou/random?26" alt="消息的堆积解决思路" loading="lazy">
+              <img src="https://img.paulzzh.tech/touhou/random?27" alt="消息的堆积解决思路" loading="lazy">
               <h1>消息的堆积解决思路</h1>
           </div>
       
       
       <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
-    <a><i class="nexmoefont icon-calendar-fill"></i>2022年07月26日</a>
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年07月27日</a>
 </div>
       
 
@@ -344,7 +344,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://heiau.cn/2022/07/26/112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;07&#x2F;26&#x2F;112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;07&#x2F;26&#x2F;112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF&#x2F;</a><br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/07/27/112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;07&#x2F;27&#x2F;112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;07&#x2F;27&#x2F;112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -416,7 +416,7 @@
 
  
 
-<script async src="/js/app.js?v=1663836916560"></script>
+<script async src="/js/app.js?v=1663838952253"></script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
 
