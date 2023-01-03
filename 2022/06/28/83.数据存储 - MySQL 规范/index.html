@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+    
+    <title>MySQL规范 - 非鱼小站</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="java">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="基础规范 表存储引擎必须使用InnoDB 表字符集默认使用utf8，必要时使用·utf8bm4 通用无乱码分险，汉字3字节，英文1字节 utf8mb4是utf8的超集，有存储4字节例如表情符号时，使用它   禁止使用存储过程，视图，触发器，Event 对数据库性能影响较大，互联网业务，能让站点层和服务层干的事情，不要交到数据库层 调试，排错，迁移都比较困难，扩展性较差   禁止在数据库中存储发文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL规范">
+<meta property="og:url" content="http://heiau.cn/2022/06/28/83.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E8%A7%84%E8%8C%83/index.html">
+<meta property="og:site_name" content="非鱼小站">
+<meta property="og:description" content="基础规范 表存储引擎必须使用InnoDB 表字符集默认使用utf8，必要时使用·utf8bm4 通用无乱码分险，汉字3字节，英文1字节 utf8mb4是utf8的超集，有存储4字节例如表情符号时，使用它   禁止使用存储过程，视图，触发器，Event 对数据库性能影响较大，互联网业务，能让站点层和服务层干的事情，不要交到数据库层 调试，排错，迁移都比较困难，扩展性较差   禁止在数据库中存储发文件">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-28T12:46:25.000Z">
+<meta property="article:modified_time" content="2022-08-18T14:48:56.985Z">
+<meta property="article:author" content="烦恼多一点">
+<meta property="article:tag" content="数据存储">
+<meta name="twitter:card" content="summary">
+    
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/justifiedGallery/justifiedGallery.min.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1672711099234">
+    
+    <link rel="stylesheet" href="/css/style.css?v=1672711099234">
+
+    
+        
+            <link rel="stylesheet" href="/custom.css?v=1672711099234">
+        
+    
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="mdui-drawer-body-left">
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&amp;refer=http%3A%2F%2Fup.enterdesk.com&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=auto?sec=1658037152&amp;t=8ed7596444aa8350ee3422f6c31875d4)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="烦恼多一点" class="mdui-btn mdui-btn-icon"><img src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" alt="烦恼多一点"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="烦恼多一点">
+            <img src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" alt="烦恼多一点" alt="烦恼多一点">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>118</div>
+        <div><span>标签</span>12</div>
+        <div><span>分类</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/donate.html" title="给我赞助">
+            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
+            <div class="mdui-list-item-content">
+                给我赞助
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="搜索"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/484355498"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/tom-fn/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://www.zhihu.com/people/zi-an-78-78"
+			target="_blank"
+			mdui-tooltip="{content: '知乎'}"
+			style="
+				color: rgb(30, 136, 229);
+				background-color: rgba(30, 136, 229, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-zhihu"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://twitter.com/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: 'Twitter'}"
+			style="
+				color: rgb(59, 151, 239);
+				background-color: rgba(59, 151, 239, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-twitter"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://nexmoe.com/atom.xml"
+			target="_blank"
+			mdui-tooltip="{content: 'RSS'}"
+			style="
+				color: rgb(247, 132, 34);
+				background-color: rgba(247, 132, 34, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-rss"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/java/" style="font-size: 17.78px;">java</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/spring/" style="font-size: 16.67px;">spring</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 11.11px;">分布式</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 18.89px;">微服务</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" style="font-size: 20px;">数据存储</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 12.22px;">消息队列</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 15.56px;">线程</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 13.33px;">缓存</a> <a href="/tags/%E9%94%81%E6%9C%BA%E5%88%B6/" style="font-size: 13.33px;">锁机制</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 14.44px;">集合</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(12);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">118</span></li></ul>
+    </div>
+  </div>
+
+
+ 
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">最新文章</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/29/114.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E6%9C%89%E5%BA%8F%E6%80%A7/">如何保证消息的有序性</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/28/113.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E8%87%AA%E5%B7%B1%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">自己如何实现消息队列</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/27/112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/">消息的堆积解决思路</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/26/111.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/">消息的幂等性解决思路</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/25/110.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E9%87%8D%E5%8F%91%E8%A1%A5%E5%81%BF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/">消息的重发补偿解决思路</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-link">
+		<ul>
+        
+            <li>
+                <a href="http://heiau.cn/" target="_blank" >
+                    <img src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" alt="非鱼小站"></img>
+                    <p>非鱼小站</p>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https://didi.seowhy.com" target="_blank" >
+                    <img src="https://image.16pic.com/00/89/31/16pic_8931561_s.jpg?imageView2/0/format/png" alt="搜外友链"></img>
+                    <p>搜外友链</p>
+                </a>
+            </li>
+        
+		</ul>
+    </div>
+</div>
+<style>
+.nexmoe-widget-wrap .nexmoe-link ul li a {
+    text-align : center;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a img {
+    max-width : 100%;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a p {
+    margin: 10px 0;
+}
+</style>
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2023 烦恼多一点
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href="https://beian.miit.gov.cn/">宁ICP备2021002460号</a> <br>
+        <!-- 访问统计 -->
+        <div style="font-size: 13px">
+            <link rel="stylesheet" href="https://widget.heweather.net/standard/static/css/he-standard.css?v=1.4.0"><script src="https://widget.heweather.net/standard/static/js/he-standard.js?v=1.4.0"></script><script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            本站总访问量  <a id="busuanzi_value_site_pv"></a> 次<br>
+            本站访客数<a id="busuanzi_value_site_uv"></a>人次
+    </div>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img src="https://api.mtyqx.cn/tapi/random.php" alt="MySQL规范" loading="lazy">
+              <h1>MySQL规范</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月28日</a>
+</div>
+      
+
+      <h2 id="基础规范"><a href="#基础规范" class="headerlink" title="基础规范"></a>基础规范</h2><ul>
+<li>表存储引擎必须使用<code>InnoDB</code></li>
+<li>表字符集默认使用<code>utf8</code>，必要时使用·<code>utf8bm4</code><ul>
+<li>通用无乱码分险，汉字3字节，英文1字节</li>
+<li><code>utf8mb4</code>是<code>utf8</code>的超集，有存储4字节例如表情符号时，使用它</li>
+</ul>
+</li>
+<li>禁止使用存储过程，视图，触发器，Event<ul>
+<li>对数据库性能影响较大，互联网业务，能让站点层和服务层干的事情，不要交到数据库层</li>
+<li>调试，排错，迁移都比较困难，扩展性较差</li>
+</ul>
+</li>
+<li>禁止在数据库中存储发文件，例如图片，可以将大文件存储在对象存储系统，数据库中存储路径</li>
+<li>禁止在线上环境做数据库压力测试</li>
+<li>测试，开发，线上数据库环境必须隔离</li>
+</ul>
+<h2 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h2><ul>
+<li><p>库名，表名，列名必须使用小写，采用下划线分隔</p>
+<ul>
+<li>abc,Abc,ABC都是给自己埋坑</li>
+</ul>
+</li>
+<li><p>库名，表名，列名必须见名知意，长度不要超过32字符</p>
+<ul>
+<li>tmp,wushan谁TM知道这些库是干嘛的</li>
+</ul>
+</li>
+<li><p>库备份必须以bak为前缀，以日期为后缀</p>
+</li>
+<li><p>从库必须以<code>-s</code>为后缀</p>
+</li>
+<li><p>备库必须以<code>-ss</code>为后缀</p>
+</li>
+</ul>
+<h2 id="表设计规范"><a href="#表设计规范" class="headerlink" title="表设计规范"></a>表设计规范</h2><ul>
+<li>单实例表个数必须控制在 <code>2000</code> 个以内</li>
+<li>单表分表个数必须控制在 <code>1024</code> 个以内</li>
+<li>表必须有主键，推荐使用 <code>UNSIGNED</code>整数为主键<ul>
+<li>删除无主键的表，如果是 <code>row</code> 模式的主从架构，从库会挂住</li>
+</ul>
+</li>
+<li>禁止使用外键，如果要保证完整性，应由应用程式实现<ul>
+<li>外键使得表之间相互耦合，影响 <code>update/delete</code> 等 SQL 性能，有可能造成死锁，高并发情况下容易成为数据库瓶颈</li>
+</ul>
+</li>
+<li>建议将大字段，访问频度低的字段拆分到单独的表中存储，分离冷热数据（具体参考：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&mid=2651959773&idx=1&sn=7e4ad0dcd050f6662dfaf39d9de36f2c&chksm=bd2d04018a5a8d17b92098b4840aac23982e32d179cdd957e4c55011f6a08f6bd31f9ba5cfee&scene=21#wechat_redirect">《如何实施数据库垂直拆分》</a>）</li>
+</ul>
+<h2 id="列设计规范"><a href="#列设计规范" class="headerlink" title="列设计规范"></a>列设计规范</h2><ul>
+<li><p>根据业务区分使用 <code>tinyint/int/bigint</code>，分别会占用 <code>1/4/8</code> 字节</p>
+</li>
+<li><p>根据业务区分使用 <code>char/varchar</code></p>
+<ul>
+<li>字段长度固定，或者长度近似的业务场景，适合使用 <code>char</code>，能够减少碎片，查询性能高</li>
+<li>字段长度相差较大，或者更新较少的业务场景，适合使用 <code>varchar</code>，能够减少空间</li>
+</ul>
+</li>
+<li><p>根据业务区分使用 <code>datetime/timestamp</code></p>
+<ul>
+<li>前者占用 5 个字节，后者占用 4 个字节，存储年使用 <code>YEAR</code>，存储日期使用 <code>DATE</code>，存储时间使用 <code>datetime</code></li>
+</ul>
+</li>
+<li><p>必须把字段定义为 <code>NOT NULL</code></p>
+<p> 并设默认值</p>
+<ul>
+<li>NULL 的列使用索引，索引统计，值都更加复杂，MySQL 更难优化</li>
+<li>NULL 需要更多的存储空间</li>
+<li>NULL 只能采用 <code>IS NULL</code> 或者 <code>IS NOT NULL</code> ，而在 <code>=/!=/in/not in</code> 时有大坑</li>
+</ul>
+</li>
+<li><p>使用 <code>INT UNSIGNED</code> 存储 <code>IPv4</code> ，不要用 <code>char(15)</code></p>
+</li>
+<li><p>使用 <code>varchar(20)</code>存储手机号，不要使用整数</p>
+<ul>
+<li>牵扯到国家代号，可能出现 <code>+/-/()</code> 等字符，例如 <code>+86</code></li>
+<li>手机号不会用来做数学运算</li>
+<li><code>varchar</code> 可以模糊查询，例如 <code>like‘138%’</code></li>
+</ul>
+</li>
+<li><p>使用 <code>TINYINT</code>来代替 <code>ENUM</code></p>
+<ul>
+<li><code>ENUM</code> 增加新值要进行 <code>DDL</code> 操作</li>
+</ul>
+</li>
+</ul>
+<h2 id="索引规范"><a href="#索引规范" class="headerlink" title="索引规范"></a>索引规范</h2><ul>
+<li>唯一索引使用 <code>uniq_[字段名]</code> 来命名</li>
+<li>非唯一索引使用 <code>idx_[字段名]</code> 来命名</li>
+<li>单张表索引数量建议控制在 5 个以内<ul>
+<li>互联网高并发业务，太多索引会影响写性能</li>
+<li>生成执行计划时，如果索引太多，会降低性能，并可能导致 MySQL 选择不到最优索引</li>
+<li>异常复杂的查询需求，可以选择 <code>ES</code> 等更为适合的方式存储</li>
+</ul>
+</li>
+<li>组合索引字段数不建议超过 5 个<ul>
+<li>如果 5 个字段还不能极大缩小 row 范围，八成是设计有问题</li>
+</ul>
+</li>
+<li>不建议在频繁更新的字段上建立索引</li>
+<li>非必要不要进行 <code>JOIN</code> 查询，如果要进行 <code>JOIN</code>查询，被 <code>JOIN</code>的字段必须类型相同，并建立索引<ul>
+<li>踩过因为 <code>JOIN</code> 字段类型不一致，而导致全表扫描的坑么？</li>
+</ul>
+</li>
+<li>理解组合索引最左前缀原则，避免重复建设索引，如果建立了(a,b,c)，相当于建立了(a), (a,b), (a,b,c)</li>
+</ul>
+<h2 id="SQL-规范"><a href="#SQL-规范" class="headerlink" title="SQL 规范"></a>SQL 规范</h2><ul>
+<li><p>禁止使用 <code>select *</code>，只获取必要字段</p>
+<ul>
+<li><code>select *</code> 会增加 <code>cpu/io/内存/带宽</code> 的消耗</li>
+<li>指定字段能有效利用索引覆盖</li>
+<li>指定字段查询，在表结构变更时，能保证对应用程序无影响</li>
+</ul>
+</li>
+<li><p><code>insert</code>必须指定字段，禁止使用 <code>insert into T values()</code></p>
+<ul>
+<li>指定字段插入，在表结构变更时，能保证对应用程序无影响</li>
+</ul>
+</li>
+<li><p>隐式类型转换会使索引失效，导致全表扫描</p>
+</li>
+<li><p>禁止在 <code>where</code></p>
+<p> 条件列使用函数或者表达式</p>
+<ul>
+<li>导致不能命中索引，全表扫描</li>
+</ul>
+</li>
+<li><p>禁止负向查询以及 <code>%</code></p>
+<p> 开头的模糊查询</p>
+<ul>
+<li>导致不能命中索引，全表扫描</li>
+</ul>
+</li>
+<li><p>禁止大表 <code>JOIN</code> 和子查询</p>
+</li>
+<li><p>同一个字段上的 <code>OR</code> 必须改写问 <code>IN</code>，<code>IN</code> 的值必须少于 50 个</p>
+</li>
+<li><p>应用程序必须捕获 SQL 异常</p>
+<ul>
+<li>方便定位线上问题</li>
+</ul>
+</li>
+</ul>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>本规范适用于并发量大，数据量大的典型互联网业务，可直接带走参考，不谢。</p>
+
+      <p><img data-fancybox="gallery" src="https://pic.imgdb.cn/item/63b3895dbe43e0d30e4047ec.jpg"  alt="weixin.png" data-caption="weixin.png" loading="lazy"></p>
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>本文作者：</strong>烦恼多一点<br>
+        <strong>本文链接：</strong><a href="http://heiau.cn/2022/06/28/83.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E8%A7%84%E8%8C%83/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;28&#x2F;83.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E8%A7%84%E8%8C%83&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;28&#x2F;83.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E8%A7%84%E8%8C%83&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" rel="tag">数据存储</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置评论框插槽
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%A7%84%E8%8C%83"><span class="toc-number">1.</span> <span class="toc-text">基础规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="toc-number">2.</span> <span class="toc-text">命名规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83"><span class="toc-number">3.</span> <span class="toc-text">表设计规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%97%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83"><span class="toc-number">4.</span> <span class="toc-text">列设计规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E8%A7%84%E8%8C%83"><span class="toc-number">5.</span> <span class="toc-text">索引规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-%E8%A7%84%E8%8C%83"><span class="toc-number">6.</span> <span class="toc-text">SQL 规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">7.</span> <span class="toc-text">说明</span></a></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-search-space">
+	<div class="search-container">
+		<div class="search-header">
+			<div class="search-input-container">
+				<input
+					class="search-input"
+					type="text"
+					placeholder="搜索"
+					oninput="sinput();"
+				/>
+			</div>
+			<a class="search-close" onclick="sclose();">×</a>
+		</div>
+		<div class="search-body"></div>
+	</div>
+</div>
+
+    
+<script src="/lib/mdui_043tiny/mdui.js"></script>
+<script src="/lib/jquery.min.js"></script>
+<script src="/lib/justifiedGallery/jquery.justifiedGallery.min.js"></script>
+<script src="/lib/fancybox/fancybox.umd.js"></script>
+
+
+ 
+
+<script async src="/js/app.js?v=1672711099237"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+</body>
+
+</html>
