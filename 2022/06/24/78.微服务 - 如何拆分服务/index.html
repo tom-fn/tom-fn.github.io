@@ -1,345 +1,151 @@
-<!DOCTYPE html>
-
-<html lang="zh-CN">
-
-<head>
-    
-    <title>如何拆分服务 - 非鱼小站</title>
-    <meta charset="UTF-8">
-    <meta name="keywords" content="java">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-    
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <meta name="description" content="如今，市场环境纷繁复杂，瞬息万变，现代企业为了更好地生存，需要有极强的适应能力。快速而轻松地迎接改变，成为了一个优质企业的特征之一，同时企业还要求技术团队构建更科学的架构，搭建成本更低的平台，这就使得这些团队越来越倾向于使用微服务架构来应对以上要求。 微服务的做法有利于软件组件和数据的分散化，将一个整体分解成更小、更容易改变的部分，分散仅帮助团队加快工程进度，而不会牺牲系统的安全性。要想让这种架构">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>如何拆分服务 | 非鱼小站</title><meta name="author" content="烦恼多一点"><meta name="copyright" content="烦恼多一点"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="如今，市场环境纷繁复杂，瞬息万变，现代企业为了更好地生存，需要有极强的适应能力。快速而轻松地迎接改变，成为了一个优质企业的特征之一，同时企业还要求技术团队构建更科学的架构，搭建成本更低的平台，这就使得这些团队越来越倾向于使用微服务架构来应对以上要求。 微服务的做法有利于软件组件和数据的分散化，将一个整体分解成更小、更容易改变的部分，分散仅帮助团队加快工程进度，而不会牺牲系统的安全性。要想让这种架构">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何拆分服务">
 <meta property="og:url" content="http://heiau.cn/2022/06/24/78.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E6%8B%86%E5%88%86%E6%9C%8D%E5%8A%A1/index.html">
 <meta property="og:site_name" content="非鱼小站">
 <meta property="og:description" content="如今，市场环境纷繁复杂，瞬息万变，现代企业为了更好地生存，需要有极强的适应能力。快速而轻松地迎接改变，成为了一个优质企业的特征之一，同时企业还要求技术团队构建更科学的架构，搭建成本更低的平台，这就使得这些团队越来越倾向于使用微服务架构来应对以上要求。 微服务的做法有利于软件组件和数据的分散化，将一个整体分解成更小、更容易改变的部分，分散仅帮助团队加快工程进度，而不会牺牲系统的安全性。要想让这种架构">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7986413-4b5db181b35c9d8d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/801/format/webp">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7986413-38632942889fe107.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/524/format/webp">
+<meta property="og:image" content="https://api.r10086.com/img-api.php?type=动漫综合8">
 <meta property="article:published_time" content="2022-06-24T12:46:25.000Z">
 <meta property="article:modified_time" content="2022-06-30T01:50:07.931Z">
 <meta property="article:author" content="烦恼多一点">
 <meta property="article:tag" content="微服务">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7986413-4b5db181b35c9d8d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/801/format/webp">
-    
-<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
-<link rel="stylesheet" href="/lib/justifiedGallery/justifiedGallery.min.css">
-<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+<meta name="twitter:image" content="https://api.r10086.com/img-api.php?type=动漫综合8"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://heiau.cn/2022/06/24/78.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E6%8B%86%E5%88%86%E6%9C%8D%E5%8A%A1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '如何拆分服务',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-06-30 09:50:07'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1672725748886">
-    
-    <link rel="stylesheet" href="/css/style.css?v=1672725748886">
-
-    
-        
-            <link rel="stylesheet" href="/custom.css?v=1672725748886">
-        
-    
-<meta name="generator" content="Hexo 6.2.0"></head>
-
-<body class="mdui-drawer-body-left">
-    <div id="nexmoe-background">
-        <div class="nexmoe-bg" style="background-image: url(https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2Fd1%2F27%2F08%2Fd12708c40b84cb8a08c08dfd1f6e11ba.jpg&amp;refer=http%3A%2F%2Fup.enterdesk.com&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=auto?sec=1658037152&amp;t=8ed7596444aa8350ee3422f6c31875d4)"></div>
-        <div class="mdui-appbar mdui-shadow-0">
-            <div class="mdui-toolbar">
-                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
-                <div class="mdui-toolbar-spacer"></div>
-                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
-                <a href="/" title="烦恼多一点" class="mdui-btn mdui-btn-icon"><img src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" alt="烦恼多一点"></a>
-            </div>
-        </div>
-    </div>
-    <div id="nexmoe-header">
-        <div class="nexmoe-drawer mdui-drawer" id="drawer">
-    <div class="nexmoe-avatar mdui-ripple">
-        <a href="/" title="烦恼多一点">
-            <img src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" alt="烦恼多一点" alt="烦恼多一点">
-        </a>
-    </div>
-    <div class="nexmoe-count">
-        <div><span>文章</span>118</div>
-        <div><span>标签</span>12</div>
-        <div><span>分类</span>0</div>
-    </div>
-    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
-            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
-            <div class="mdui-list-item-content">
-                回到首页
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
-            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
-            <div class="mdui-list-item-content">
-                文章归档
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
-            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
-            <div class="mdui-list-item-content">
-                我的朋友
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/donate.html" title="给我赞助">
-            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
-            <div class="mdui-list-item-content">
-                给我赞助
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于博主">
-            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
-            <div class="mdui-list-item-content">
-                关于博主
-            </div>
-        </a>
-        
-    </div>
-    <aside id="nexmoe-sidebar">
-    
-        
-        <div class="nexmoe-widget-wrap">
-    <div class="nexmoe-widget nexmoe-search">
-         
-            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
-                <label><input id="search_value" name="q" type="search" placeholder="搜索"></label>
-            </form>
-         
-    </div>
-</div>
-
-
-
-
-    
-        
-        <div class="nexmoe-widget-wrap">
-	<div class="nexmoe-widget nexmoe-social">
-		<a
-			class="mdui-ripple"
-			href="https://space.bilibili.com/484355498"
-			target="_blank"
-			mdui-tooltip="{content: '哔哩哔哩'}"
-			style="
-				color: rgb(231, 106, 141);
-				background-color: rgba(231, 106, 141, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-bilibili"
-			></i> </a
-		><a
-			class="mdui-ripple"
-			href="https://github.com/tom-fn/"
-			target="_blank"
-			mdui-tooltip="{content: 'GitHub'}"
-			style="
-				color: rgb(25, 23, 23);
-				background-color: rgba(25, 23, 23, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-github"
-			></i> </a
-		><a
-			class="mdui-ripple"
-			href="https://www.zhihu.com/people/zi-an-78-78"
-			target="_blank"
-			mdui-tooltip="{content: '知乎'}"
-			style="
-				color: rgb(30, 136, 229);
-				background-color: rgba(30, 136, 229, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-zhihu"
-			></i> </a
-		><a
-			class="mdui-ripple"
-			href="https://twitter.com/nexmoe"
-			target="_blank"
-			mdui-tooltip="{content: 'Twitter'}"
-			style="
-				color: rgb(59, 151, 239);
-				background-color: rgba(59, 151, 239, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-twitter"
-			></i> </a
-		><a
-			class="mdui-ripple"
-			href="https://nexmoe.com/atom.xml"
-			target="_blank"
-			mdui-tooltip="{content: 'RSS'}"
-			style="
-				color: rgb(247, 132, 34);
-				background-color: rgba(247, 132, 34, .1);
-			"
-		>
-			<i
-				class="nexmoefont icon-rss"
-			></i> </a
-		>
-	</div>
-</div>
-
-    
-        
-        
-
-    
-        
-        
-  <div class="nexmoe-widget-wrap">
-    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
-      <a href="/tags/Zookeeper/" style="font-size: 10px;">Zookeeper</a> <a href="/tags/java/" style="font-size: 17.78px;">java</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/spring/" style="font-size: 16.67px;">spring</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 11.11px;">分布式</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 18.89px;">微服务</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/" style="font-size: 20px;">数据存储</a> <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" style="font-size: 12.22px;">消息队列</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 15.56px;">线程</a> <a href="/tags/%E7%BC%93%E5%AD%98/" style="font-size: 13.33px;">缓存</a> <a href="/tags/%E9%94%81%E6%9C%BA%E5%88%B6/" style="font-size: 13.33px;">锁机制</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 14.44px;">集合</a>
-    </div>
-    
-      <script>
-        var maxTagcloud = parseInt(17);
-        var tags_length = parseInt(12);
-        var tags_arr = [];
-        for(var i = 0; i < tags_length; i++){
-          tags_arr.push(i);
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
         }
-        tags_arr.sort(function (l, r) {
-          return Math.random() > 0.5 ? -1 : 1;
-        });
-        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
-        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
-          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
         }
-      </script>
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-  </div>
-
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-        
-        
-        
-  <div class="nexmoe-widget-wrap">
-    <h3 class="nexmoe-widget-title">文章归档</h3>
-    <div class="nexmoe-widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">118</span></li></ul>
-    </div>
-  </div>
-
-
- 
-    
-        
-        
-  <div class="nexmoe-widget-wrap">
-    <h3 class="nexmoe-widget-title">最新文章</h3>
-    <div class="nexmoe-widget">
-      <ul>
-        
-          <li>
-            <a href="/2022/07/29/114.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E6%9C%89%E5%BA%8F%E6%80%A7/">如何保证消息的有序性</a>
-          </li>
-        
-          <li>
-            <a href="/2022/07/28/113.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E8%87%AA%E5%B7%B1%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">自己如何实现消息队列</a>
-          </li>
-        
-          <li>
-            <a href="/2022/07/27/112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/">消息的堆积解决思路</a>
-          </li>
-        
-          <li>
-            <a href="/2022/07/26/111.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/">消息的幂等性解决思路</a>
-          </li>
-        
-          <li>
-            <a href="/2022/07/25/110.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E9%87%8D%E5%8F%91%E8%A1%A5%E5%81%BF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/">消息的重发补偿解决思路</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-    
-        
-        <div class="nexmoe-widget-wrap">
-    <div class="nexmoe-widget nexmoe-link">
-		<ul>
-        
-            <li>
-                <a href="http://heiau.cn/" target="_blank" >
-                    <img src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" alt="非鱼小站"></img>
-                    <p>非鱼小站</p>
-                </a>
-            </li>
-        
-            <li>
-                <a href="https://didi.seowhy.com" target="_blank" >
-                    <img src="https://image.16pic.com/00/89/31/16pic_8931561_s.jpg?imageView2/0/format/png" alt="搜外友链"></img>
-                    <p>搜外友链</p>
-                </a>
-            </li>
-        
-		</ul>
-    </div>
-</div>
-<style>
-.nexmoe-widget-wrap .nexmoe-link ul li a {
-    text-align : center;
-}
-.nexmoe-widget-wrap .nexmoe-link ul li a img {
-    max-width : 100%;
-}
-.nexmoe-widget-wrap .nexmoe-link ul li a p {
-    margin: 10px 0;
-}
-</style>
-
-    
-</aside>
-    <div class="nexmoe-copyright">
-        &copy; 2023 烦恼多一点
-        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
-        <br><a target="_blank" href="https://beian.miit.gov.cn/">宁ICP备2021002460号</a> <br>
-        <!-- 访问统计 -->
-        <div style="font-size: 13px">
-            <link rel="stylesheet" href="https://widget.heweather.net/standard/static/css/he-standard.css?v=1.4.0"><script src="https://widget.heweather.net/standard/static/js/he-standard.js?v=1.4.0"></script><script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-            本站总访问量  <a id="busuanzi_value_site_pv"></a> 次<br>
-            本站访客数<a id="busuanzi_value_site_uv"></a>人次
-    </div>
-    </div>
-</div><!-- .nexmoe-drawer -->
-    </div>
-    <div id="nexmoe-content">
-        <div class="nexmoe-primary">
-            <div class="nexmoe-post">
-
-  <article>
-      
-          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
-              <img src="https://api.r10086.com/img-api.php?type=动漫综合8" alt="如何拆分服务" loading="lazy">
-              <h1>如何拆分服务</h1>
-          </div>
-      
-      
-      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
-    <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月24日</a>
-</div>
-      
-
-      <p>如今，市场环境纷繁复杂，瞬息万变，现代企业为了更好地生存，需要有极强的适应能力。<strong>快速而轻松地迎接改变，成为了一个优质企业的特征之一</strong>，同时企业还要求技术团队构建更科学的架构，搭建成本更低的平台，这就使得这些团队越来越倾向于使用微服务架构来应对以上要求。</p>
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">118</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://api.r10086.com/img-api.php?type=动漫综合8')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">非鱼小站</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">如何拆分服务</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-24T12:46:25.000Z" title="发表于 2022-06-24 20:46:25">2022-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-06-30T01:50:07.931Z" title="更新于 2022-06-30 09:50:07">2022-06-30</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="如何拆分服务"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>如今，市场环境纷繁复杂，瞬息万变，现代企业为了更好地生存，需要有极强的适应能力。<strong>快速而轻松地迎接改变，成为了一个优质企业的特征之一</strong>，同时企业还要求技术团队构建更科学的架构，搭建成本更低的平台，这就使得这些团队越来越倾向于使用微服务架构来应对以上要求。</p>
 <p>微服务的做法有利于软件组件和数据的分散化，将一个整体分解成更小、更容易改变的部分，<strong>分散仅帮助团队加快工程进度，而不会牺牲系统的安全性</strong>。要想让这种架构工作得很好，需要改变工作方式。</p>
 <p>微服务架构的设计，其实是为了使团队能够在执行工作的人之间分配决策权力，向更多成员直接推行决策权，允许他们以更自由的方式生产。微服务架构使用正确的话，将产生更好和更快的变化。但是如果你的架构错误，那么一系列坏的决定可能会降低转化率，甚至会损害你的业务。</p>
-<p><img data-fancybox="gallery" src="https://upload-images.jianshu.io/upload_images/7986413-4b5db181b35c9d8d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/801/format/webp" alt="img" data-caption="img" loading="lazy"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7986413-4b5db181b35c9d8d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/801/format/webp" alt="img"></p>
 <p>我们讲决策权分配，即是说微服务架构的拆分实际上就是在寻求正确的权力下放战略。这是一个进化过程，需要不断地进行分析和调整。而如何正确的拆分微服务架构，我认为可以重点从以下三个方面考虑：</p>
 <h2 id="1-我们应该做哪些决定？"><a href="#1-我们应该做哪些决定？" class="headerlink" title="1. 我们应该做哪些决定？"></a>1. 我们应该做哪些决定？</h2><p>设计微服务系统不仅仅是改变组件大小，架构中涉及创建和更改服务的所有领域都有一定的作用。在这里总结了以下九个方面，作为拆分微服务架构时所做决定的参考：</p>
 <ul>
@@ -356,7 +162,7 @@
 <h2 id="2-涉及到哪些人？"><a href="#2-涉及到哪些人？" class="headerlink" title="2. 涉及到哪些人？"></a>2. 涉及到哪些人？</h2><p>不得不承认，一个员工做出的一些决定对他们的公司来说可能是非常有影响力的。一个很典型的现象是，公司试图对内部的决策者增加控制，以便将风险降至最低，从而导致决策权集中化。例如，在过去的几年中，苹果以拥有一个高度集中的设计团队而闻名，少数的人做出产品设计的大部分决策。</p>
 <p>集中发生是因为正确的人需要做出最重要的决定。通常，<strong>“正确的人”是具有天赋，专业知识和经验的组合</strong>，使我们能够相信他们做出最好的决定，我们可以称这些人为我们的“明星决策者”。但实际上，公司的“明星决策者”数量有限，大多数团队只有几颗“明星”。</p>
 <p>微服务改变了这种少数人行使决策权的现象，同时更容易应对错误的决策。如果一个团队在微服务工作时作出错误的决定，其错误的波及范围会很小，容错率变高。当系统的更改变得便宜和容易时，团队可以快速改进先前的决策，使他们能够更快地获得最佳决策。</p>
-<p><img data-fancybox="gallery" src="https://upload-images.jianshu.io/upload_images/7986413-38632942889fe107.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/524/format/webp" alt="img" data-caption="img" loading="lazy"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/7986413-38632942889fe107.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/524/format/webp" alt="img"></p>
 <h2 id="3-谁拥有哪一部分？"><a href="#3-谁拥有哪一部分？" class="headerlink" title="3. 谁拥有哪一部分？"></a>3. 谁拥有哪一部分？</h2><p>决策基于选择，而选择又基于领域知识。决策不应该立即执行，它需要一个过程，需要高度专业的技能或知识来实现。</p>
 <p>管理专家亨利•明茨伯格（Henry Mintzberg）为我们提供了一个很好的模式，其中概述了决策过程的步骤：</p>
 <ul>
@@ -369,97 +175,4 @@
 <p>所有这一切的关键，是在采用决策分权化时，不需要绝对。每个步骤都可以独立集中或分散化，在平衡效率和安全性时，可以获得更大的灵活性。如今，集中选择与非集中选择相结合，也是现在很多大公司常见的模式。</p>
 <p>当人们谈论微服务架构时，权力下放过程的选择、授权和执行部分相互协作、快速、规模化地移动，这些都降低了变化来临时对整体系统产生的负面影响。它是提高变革速度的有效途径，但不要忘记，你的成员特点、团队协调，以及所有的系统、工具和工作环境同样重要。</p>
 <p>你必须了解如何做出决策，如何改进流程，这才是迎接变化的好方法。</p>
-
-      <p><img data-fancybox="gallery" src="https://pic.imgdb.cn/item/63b3895dbe43e0d30e4047ec.jpg"  alt="weixin.png" data-caption="weixin.png" loading="lazy"></p>
-  </article>
-
-  
-      
-    <div class="nexmoe-post-copyright">
-        <strong>本文作者：</strong>烦恼多一点<br>
-        <strong>本文链接：</strong><a href="http://heiau.cn/2022/06/24/78.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E6%8B%86%E5%88%86%E6%9C%8D%E5%8A%A1/" title="http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;24&#x2F;78.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E6%8B%86%E5%88%86%E6%9C%8D%E5%8A%A1&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;heiau.cn&#x2F;2022&#x2F;06&#x2F;24&#x2F;78.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E6%8B%86%E5%88%86%E6%9C%8D%E5%8A%A1&#x2F;</a><br>
-        
-            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
-        
-    </div>
-
-
-  
-  
-  <div class="nexmoe-post-meta nexmoe-rainbow">
-    
-    
-        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag">微服务</a>
-    
-</div>
-
-  
-      <div class="nexmoe-post-footer">
-          请在你的配置文件中设置评论框插槽
-      </div>
-  
-</div>
-            <div class="nexmoe-post-right">
-              <div class="nexmoe-fixed">
-                  <div class="nexmoe-tool"> 
-                    
-                      
-                        
-                          
-                          
-                              <button class="mdui-fab catalog" style="overflow:unset;">
-                                  <i class="nexmoefont icon-i-catalog"></i>
-                                  <div class="nexmoe-toc">
-                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%88%91%E4%BB%AC%E5%BA%94%E8%AF%A5%E5%81%9A%E5%93%AA%E4%BA%9B%E5%86%B3%E5%AE%9A%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">1. 我们应该做哪些决定？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B6%89%E5%8F%8A%E5%88%B0%E5%93%AA%E4%BA%9B%E4%BA%BA%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">2. 涉及到哪些人？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%B0%81%E6%8B%A5%E6%9C%89%E5%93%AA%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">3. 谁拥有哪一部分？</span></a></li></ol>
-                                  </div>
-                              </button>
-                          
-                          
-                      
-                    
-                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
-                  </div>
-              </div>
-            </div>
-        </div>
-    </div>
-    <div id="nexmoe-search-space">
-	<div class="search-container">
-		<div class="search-header">
-			<div class="search-input-container">
-				<input
-					class="search-input"
-					type="text"
-					placeholder="搜索"
-					oninput="sinput();"
-				/>
-			</div>
-			<a class="search-close" onclick="sclose();">×</a>
-		</div>
-		<div class="search-body"></div>
-	</div>
-</div>
-
-    
-<script src="/lib/mdui_043tiny/mdui.js"></script>
-<script src="/lib/jquery.min.js"></script>
-<script src="/lib/justifiedGallery/jquery.justifiedGallery.min.js"></script>
-<script src="/lib/fancybox/fancybox.umd.js"></script>
-
-
- 
-
-<script async src="/js/app.js?v=1672725748888"></script>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
-
-<script>
-	$(".justified-gallery").justifiedGallery({
-		rowHeight: 160,
-		margins: 10,
-	});
-</script>
-
-</body>
-
-</html>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://heiau.cn">烦恼多一点</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://heiau.cn/2022/06/24/78.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E6%8B%86%E5%88%86%E6%9C%8D%E5%8A%A1/">http://heiau.cn/2022/06/24/78.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E6%8B%86%E5%88%86%E6%9C%8D%E5%8A%A1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://heiau.cn" target="_blank">非鱼小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a></div><div class="post_share"><div class="social-share" data-image="https://api.r10086.com/img-api.php?type=动漫综合8" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/06/25/80.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8%E5%BC%82%E5%B8%B8/"><img class="prev-cover" src="https://api.r10086.com/img-api.php?type=动漫综合10" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">如何应对微服务的链式调用异常</div></div></a></div><div class="next-post pull-right"><a href="/2022/06/23/77.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B8%8E%20SOA%20%E7%9A%84%E5%8C%BA%E5%88%AB/"><img class="next-cover" src="https://api.r10086.com/img-api.php?type=动漫综合7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">微服务与 SOA 的区别</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/06/11/64.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E6%98%AF%E5%A6%82%E4%BD%95%E5%81%9A%E7%9A%84/" title="前后端分离是如何做的"><img class="cover" src="https://api.r10086.com/img-api.php?type=动漫综合4" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-11</div><div class="title">前后端分离是如何做的</div></div></a></div><div><a href="/2022/06/12/65.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F/" title="如何解决跨域"><img class="cover" src="https://api.r10086.com/img-api.php?type=动漫综合5" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-12</div><div class="title">如何解决跨域</div></div></a></div><div><a href="/2022/06/12/66.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%93%AA%E4%BA%9B%E6%A1%86%E6%9E%B6/" title="微服务哪些框架"><img class="cover" src="https://api.r10086.com/img-api.php?type=动漫综合6" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-12</div><div class="title">微服务哪些框架</div></div></a></div><div><a href="/2022/06/13/67.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E4%BD%A0%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3%20RPC%20%E6%A1%86%E6%9E%B6/" title="你怎么理解 RPC 框架"><img class="cover" src="https://api.r10086.com/img-api.php?type=动漫综合7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-13</div><div class="title">你怎么理解 RPC 框架</div></div></a></div><div><a href="/2022/06/14/68.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20RPC%20%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" title="说说 RPC 的实现原理"><img class="cover" src="https://api.r10086.com/img-api.php?type=动漫综合8" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-14</div><div class="title">说说 RPC 的实现原理</div></div></a></div><div><a href="/2022/06/15/69.%E5%BE%AE%E6%9C%8D%E5%8A%A1%20-%20%E8%AF%B4%E8%AF%B4%20Dubbo%20%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" title="说说 Dubbo 的实现原理"><img class="cover" src="https://api.r10086.com/img-api.php?type=动漫综合9" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-15</div><div class="title">说说 Dubbo 的实现原理</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">烦恼多一点</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">118</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%88%91%E4%BB%AC%E5%BA%94%E8%AF%A5%E5%81%9A%E5%93%AA%E4%BA%9B%E5%86%B3%E5%AE%9A%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">1. 我们应该做哪些决定？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B6%89%E5%8F%8A%E5%88%B0%E5%93%AA%E4%BA%9B%E4%BA%BA%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">2. 涉及到哪些人？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%B0%81%E6%8B%A5%E6%9C%89%E5%93%AA%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">3. 谁拥有哪一部分？</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/07/29/114.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E6%9C%89%E5%BA%8F%E6%80%A7/" title="如何保证消息的有序性"><img src="https://img.paulzzh.tech/touhou/random?29" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何保证消息的有序性"/></a><div class="content"><a class="title" href="/2022/07/29/114.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E6%9C%89%E5%BA%8F%E6%80%A7/" title="如何保证消息的有序性">如何保证消息的有序性</a><time datetime="2022-07-29T12:46:25.000Z" title="发表于 2022-07-29 20:46:25">2022-07-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/28/113.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E8%87%AA%E5%B7%B1%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" title="自己如何实现消息队列"><img src="https://img.paulzzh.tech/touhou/random?28" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="自己如何实现消息队列"/></a><div class="content"><a class="title" href="/2022/07/28/113.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E8%87%AA%E5%B7%B1%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" title="自己如何实现消息队列">自己如何实现消息队列</a><time datetime="2022-07-28T12:46:25.000Z" title="发表于 2022-07-28 20:46:25">2022-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/27/112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" title="消息的堆积解决思路"><img src="https://img.paulzzh.tech/touhou/random?27" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="消息的堆积解决思路"/></a><div class="content"><a class="title" href="/2022/07/27/112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" title="消息的堆积解决思路">消息的堆积解决思路</a><time datetime="2022-07-27T12:46:25.000Z" title="发表于 2022-07-27 20:46:25">2022-07-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/26/111.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" title="消息的幂等性解决思路"><img src="https://img.paulzzh.tech/touhou/random?26" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="消息的幂等性解决思路"/></a><div class="content"><a class="title" href="/2022/07/26/111.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" title="消息的幂等性解决思路">消息的幂等性解决思路</a><time datetime="2022-07-26T12:46:25.000Z" title="发表于 2022-07-26 20:46:25">2022-07-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/25/110.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E9%87%8D%E5%8F%91%E8%A1%A5%E5%81%BF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" title="消息的重发补偿解决思路"><img src="https://img.paulzzh.tech/touhou/random?25" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="消息的重发补偿解决思路"/></a><div class="content"><a class="title" href="/2022/07/25/110.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E9%87%8D%E5%8F%91%E8%A1%A5%E5%81%BF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" title="消息的重发补偿解决思路">消息的重发补偿解决思路</a><time datetime="2022-07-25T12:46:25.000Z" title="发表于 2022-07-25 20:46:25">2022-07-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 烦恼多一点</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
