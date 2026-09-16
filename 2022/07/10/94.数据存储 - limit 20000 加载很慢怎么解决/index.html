@@ -1,0 +1,345 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>limit 20000 加载很慢怎么解决 | 非鱼小站</title><meta name="author" content="烦恼多一点"><meta name="copyright" content="烦恼多一点"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="MySQL 的性能低是因为数据库要去扫描 N + M 条记录，然后又要放弃之前 N 条记录，开销很大 解决思路：  前端加缓存，或者其他方式，减少落到库的查询操作，例如某些系统中数据在搜索引擎中有备份的，可以用 es 等进行搜索 使用延迟关联，即先通用 limit 得到需要数据的索引字段，然后再通过原表和索引字段关联获得需要数据  select a.* from a,(select id from">
+<meta property="og:type" content="article">
+<meta property="og:title" content="limit 20000 加载很慢怎么解决">
+<meta property="og:url" content="http://heiau.cn/2022/07/10/94.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20limit%2020000%20%E5%8A%A0%E8%BD%BD%E5%BE%88%E6%85%A2%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3/index.html">
+<meta property="og:site_name" content="非鱼小站">
+<meta property="og:description" content="MySQL 的性能低是因为数据库要去扫描 N + M 条记录，然后又要放弃之前 N 条记录，开销很大 解决思路：  前端加缓存，或者其他方式，减少落到库的查询操作，例如某些系统中数据在搜索引擎中有备份的，可以用 es 等进行搜索 使用延迟关联，即先通用 limit 得到需要数据的索引字段，然后再通过原表和索引字段关联获得需要数据  select a.* from a,(select id from">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkcs4066j31hc0u0wrj.jpg">
+<meta property="article:published_time" content="2022-07-10T12:46:25.000Z">
+<meta property="article:modified_time" content="2026-09-16T09:55:52.212Z">
+<meta property="article:author" content="烦恼多一点">
+<meta property="article:tag" content="数据存储">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkcs4066j31hc0u0wrj.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "limit 20000 加载很慢怎么解决",
+  "url": "http://heiau.cn/2022/07/10/94.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20limit%2020000%20%E5%8A%A0%E8%BD%BD%E5%BE%88%E6%85%A2%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3/",
+  "image": "https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkcs4066j31hc0u0wrj.jpg",
+  "datePublished": "2022-07-10T12:46:25.000Z",
+  "dateModified": "2026-09-16T09:55:52.212Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "烦恼多一点",
+      "url": "http://heiau.cn"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://heiau.cn/2022/07/10/94.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20limit%2020000%20%E5%8A%A0%E8%BD%BD%E5%BE%88%E6%85%A2%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'limit 20000 加载很慢怎么解决',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">118</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkcs4066j31hc0u0wrj.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">非鱼小站</span></a><a class="nav-page-title" href="/"><span class="site-name">limit 20000 加载很慢怎么解决</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">limit 20000 加载很慢怎么解决</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-07-10T12:46:25.000Z" title="发表于 2022-07-10 20:46:25">2022-07-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-16T09:55:52.212Z" title="更新于 2026-09-16 17:55:52">2026-09-16</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>MySQL 的性能低是因为数据库要去扫描 <code>N + M</code> 条记录，然后又要放弃之前 <code>N</code> 条记录，开销很大</p>
+<p>解决思路：</p>
+<ul>
+<li>前端加缓存，或者其他方式，减少落到库的查询操作，例如某些系统中数据在搜索引擎中有备份的，可以用 es 等进行搜索</li>
+<li>使用延迟关联，即先通用 limit 得到需要数据的索引字段，然后再通过原表和索引字段关联获得需要数据</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> a.* <span class="keyword">from</span> a,(<span class="keyword">select</span> id <span class="keyword">from</span> table_1 <span class="keyword">where</span> is_deleted=<span class="string">&#x27;N&#x27;</span> limit <span class="number">100000</span>,<span class="number">20</span>) b <span class="keyword">where</span> a.id = b.id</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>从业务上实现，不分页如此多，例如只能分页前 100 页，后面的不允许再查了</li>
+<li>不使用 limit N,M, 而是使用 limit N，即将 offset 转化为 where 条件。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://heiau.cn">烦恼多一点</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://heiau.cn/2022/07/10/94.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20limit%2020000%20%E5%8A%A0%E8%BD%BD%E5%BE%88%E6%85%A2%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3/">http://heiau.cn/2022/07/10/94.数据存储 - limit 20000 加载很慢怎么解决/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://heiau.cn" target="_blank">非鱼小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/">数据存储</a></div><div class="post-share"><div class="social-share" data-image="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkcs4066j31hc0u0wrj.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2022/07/11/95.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%BB%E9%94%AE%E6%96%B9%E6%A1%88/" title="选择合适的分布式主键方案"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxlhqlmykj31kw0w07su.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">选择合适的分布式主键方案</div></div><div class="info-2"><div class="info-item-1">数据库自增长序列或字段 UUID 使用 UUID to Int64 的方法 Redis 生成 ID Twitter 的 snowflake 算法 利用 zookeeper 生成唯一 ID MongoDB 的 ObjectId </div></div></div></a><a class="pagination-related" href="/2022/07/09/93.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95%E4%B8%8E%E9%9D%9E%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95%E7%9A%84%E5%8C%BA%E5%88%AB/" title="聚集索引与非聚集索引的区别"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxk6jltvsj31hc0u0kbm.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">聚集索引与非聚集索引的区别</div></div><div class="info-2"><div class="info-item-1"> 聚集索引一个表只能有一个，而非聚集索引一个表可以存在多个 聚集索引存储记录是物理上连续存在，而非聚集索引是逻辑上的连续，物理存储并不连续 聚集索引：物理存储按照索引排序；聚集索引是一种索引组织形式，索引的键值逻辑顺序决定了表数据行的物理存储顺序 非聚集索引：物理存储不按照索引排序；非聚集索引则就是普通索引了，仅仅只是对数据列创建相应的索引，不影响整个表的物理存储顺序. 索引是通过二叉树的数据结构来描述的，我们可以这么理解聚簇索引：索引的叶节点就是数据节点。而非聚簇索引的叶节点仍然是索引节点，只不过有一个指针指向对应的数据块。  </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2022/07/13/98.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20%E8%81%8A%E8%81%8A%20MongoDB%20%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" title="聊聊 MongoDB 使用场景"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/108386368_p3.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-13</div><div class="info-item-2">聊聊 MongoDB 使用场景</div></div><div class="info-2"><div class="info-item-1">高伸缩性的场景MongoDB 非常适合高伸缩性的场景，它是可扩展性的表结构。基于这点，可以将预期范围内，表结构可能会不断扩展的 MySQL 表结构，通过 MongoDB 来存储，这就可以保证表结构的扩展性。 日志系统的场景日志系统数据量特别大，如果用 MongoDB 数据库存储这些数据，利用分片集群支持海量数据，同时使用聚集分析和 MapReduce 的能力，是个很好的选择。 分布式文件存储MongoDB 还适合存储大尺寸的数据，之前介绍的 GridFS 存储方案，就是基于 MongoDB 的分布式文件存储系统。 </div></div></div></a><a class="pagination-related" href="/2022/06/28/83.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E8%A7%84%E8%8C%83/" title="MySQL规范"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/108655295_p0.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-28</div><div class="info-item-2">MySQL规范</div></div><div class="info-2"><div class="info-item-1">基础规范 表存储引擎必须使用InnoDB 表字符集默认使用utf8，必要时使用·utf8bm4 通用无乱码分险，汉字3字节，英文1字节 utf8mb4是utf8的超集，有存储4字节例如表情符号时，使用它   禁止使用存储过程，视图，触发器，Event 对数据库性能影响较大，互联网业务，能让站点层和服务层干的事情，不要交到数据库层 调试，排错，迁移都比较困难，扩展性较差   禁止在数据库中存储发文件，例如图片，可以将大文件存储在对象存储系统，数据库中存储路径 禁止在线上环境做数据库压力测试 测试，开发，线上数据库环境必须隔离  命名规范 库名，表名，列名必须使用小写，采用下划线分隔  abc,Abc,ABC都是给自己埋坑   库名，表名，列名必须见名知意，长度不要超过32字符  tmp,wushan谁TM知道这些库是干嘛的   库备份必须以bak为前缀，以日期为后缀  从库必须以-s为后缀  备库必须以-ss为后缀   表设计规范 单实例表个数必须控制在 2000 个以内 单表分表个数必须控制在 1024 个以内 表必须有主键，推荐使用 UNSIGNED整数为主键 删除无主键的表，...</div></div></div></a><a class="pagination-related" href="/2022/07/12/97.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20ObjectId%20%E8%A7%84%E5%88%99/" title="ObjectId 规则"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/108386368_p0.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-12</div><div class="info-item-2">ObjectId 规则</div></div><div class="info-2"><div class="info-item-1">   时间戳 机器码 PID 计数器    0,1,2,3 4,5,6 7,8 9,10,11    前四位是时间戳，可以提供秒级别的唯一性。 接下来三位是所在主机的唯一标识符，通常是机器主机名的散列值。 接下来两位是产生 ObjectId 的 PID，确保同一台机器上并发产生的 ObjectId 是唯一的。 前九位保证了同一秒钟不同机器的不同进程产生的 ObjectId 时唯一的。 最后三位是自增计数器，确保相同进程同一秒钟产生的 ObjectId 是唯一的。  </div></div></div></a><a class="pagination-related" href="/2022/07/09/93.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95%E4%B8%8E%E9%9D%9E%E8%81%9A%E9%9B%86%E7%B4%A2%E5%BC%95%E7%9A%84%E5%8C%BA%E5%88%AB/" title="聚集索引与非聚集索引的区别"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxk6jltvsj31hc0u0kbm.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-09</div><div class="info-item-2">聚集索引与非聚集索引的区别</div></div><div class="info-2"><div class="info-item-1"> 聚集索引一个表只能有一个，而非聚集索引一个表可以存在多个 聚集索引存储记录是物理上连续存在，而非聚集索引是逻辑上的连续，物理存储并不连续 聚集索引：物理存储按照索引排序；聚集索引是一种索引组织形式，索引的键值逻辑顺序决定了表数据行的物理存储顺序 非聚集索引：物理存储不按照索引排序；非聚集索引则就是普通索引了，仅仅只是对数据列创建相应的索引，不影响整个表的物理存储顺序. 索引是通过二叉树的数据结构来描述的，我们可以这么理解聚簇索引：索引的叶节点就是数据节点。而非聚簇索引的叶节点仍然是索引节点，只不过有一个指针指向对应的数据块。  </div></div></div></a><a class="pagination-related" href="/2022/07/05/89.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20MySQL%20%E9%81%87%E5%88%B0%E7%9A%84%E6%AD%BB%E9%94%81%E9%97%AE%E9%A2%98/" title="MySQL 遇到的死锁问题"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxlo91kiwj31hc0u0k9u.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-05</div><div class="info-item-2">MySQL 遇到的死锁问题</div></div><div class="info-2"><div class="info-item-1">产生死锁的四个必要条件：  互斥条件：一个资源每次只能被一个进程使用。 请求与保持条件：一个进程因请求资源而阻塞时，对已获得的资源保持不放。 不剥夺条件：进程已获得的资源，在末使用完之前，不能强行剥夺。 循环等待条件：若干进程之间形成一种头尾相接的循环等待资源关系。  这四个条件是死锁的必要条件，只要系统发生死锁，这些条件必然成立，而只要上述条件之一不满足，就不会发生死锁。 下列方法有助于最大限度地降低死锁：  按同一顺序访问对象。 避免事务中的用户交互。 保持事务简短并在一个批处理中。 使用低隔离级别。 使用绑定连接。  </div></div></div></a><a class="pagination-related" href="/2022/07/23/108.%E7%BC%93%E5%AD%98%20-%20%E4%BD%BF%E7%94%A8%E7%BC%93%E5%AD%98%E7%9A%84%E5%90%88%E7%90%86%E6%80%A7%E9%97%AE%E9%A2%98/" title="使用缓存的合理性问题"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0060lm7Tly1fpx1skrabaj31hc0u01kx.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-23</div><div class="info-item-2">使用缓存的合理性问题</div></div><div class="info-2"><div class="info-item-1"> 热点数据，缓存才有价值 频繁修改的数据，看情况考虑使用缓存 数据不一致性 缓存更新机制 缓存可用性 缓存服务降级 缓存预热 缓存穿透  </div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Waline</span><span id="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">烦恼多一点</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">118</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/09/16/hello-world/" title="Hello World"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvk86bxmej21hc0u0nbx.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2026/09/16/hello-world/" title="Hello World">Hello World</a><time datetime="2026-09-16T03:17:19.668Z" title="发表于 2026-09-16 11:17:19">2026-09-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/29/114.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E6%9C%89%E5%BA%8F%E6%80%A7/" title="如何保证消息的有序性"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/005FzdTdgy1gegf7mn8b5j31hc0u0dkw.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何保证消息的有序性"/></a><div class="content"><a class="title" href="/2022/07/29/114.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%B6%88%E6%81%AF%E7%9A%84%E6%9C%89%E5%BA%8F%E6%80%A7/" title="如何保证消息的有序性">如何保证消息的有序性</a><time datetime="2022-07-29T12:46:25.000Z" title="发表于 2022-07-29 20:46:25">2022-07-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/28/113.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E8%87%AA%E5%B7%B1%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" title="自己如何实现消息队列"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afely1fnt9gpemwnj21hc0u07ke.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="自己如何实现消息队列"/></a><div class="content"><a class="title" href="/2022/07/28/113.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E8%87%AA%E5%B7%B1%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" title="自己如何实现消息队列">自己如何实现消息队列</a><time datetime="2022-07-28T12:46:25.000Z" title="发表于 2022-07-28 20:46:25">2022-07-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/27/112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" title="消息的堆积解决思路"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/107252470_p0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="消息的堆积解决思路"/></a><div class="content"><a class="title" href="/2022/07/27/112.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%A0%86%E7%A7%AF%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" title="消息的堆积解决思路">消息的堆积解决思路</a><time datetime="2022-07-27T12:46:25.000Z" title="发表于 2022-07-27 20:46:25">2022-07-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/26/111.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" title="消息的幂等性解决思路"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/107629376_p0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="消息的幂等性解决思路"/></a><div class="content"><a class="title" href="/2022/07/26/111.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%20-%20%E6%B6%88%E6%81%AF%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF/" title="消息的幂等性解决思路">消息的幂等性解决思路</a><time datetime="2022-07-26T12:46:25.000Z" title="发表于 2022-07-26 20:46:25">2022-07-26</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2020 - 2026 By 烦恼多一点</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  let initFn = window.walineFn || null
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const destroyWaline = ele => ele.destroy()
+
+  const initWaline = (Fn, el = document, path = window.location.pathname) => {
+    const waline = Fn({
+      el: el.querySelector('#waline-wrap'),
+      serverURL: 'waline.heiau.cn',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      comment: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyWaline = () => {
+        destroyWaline(waline)
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const loadWaline = (el, path) => {
+    if (initFn) initWaline(initFn, el, path)
+    else {
+      btf.getCSS('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.css')
+        .then(() => import('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.js'))
+        .then(({ init }) => {
+          initFn = init || Waline.init
+          initWaline(initFn, el, path)
+          window.walineFn = initFn
+        })
+    }
+  }
+
+  if (isShuoshuo) {
+    'Waline' === 'Waline'
+      ? window.shuoshuoComment = { loadComment: loadWaline } 
+      : window.loadOtherComment = loadWaline
+    return
+  }
+
+  if ('Waline' === 'Waline' || !false) {
+    if (false) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const disqusReset = conf => {
+    window.DISQUS && window.DISQUS.reset({
+      reload: true,
+      config: conf
+    })
+  }
+
+  const loadDisqus = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyDisqus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    window.disqus_identifier = isShuoshuo ? path : '/2022/07/10/94.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20limit%2020000%20%E5%8A%A0%E8%BD%BD%E5%BE%88%E6%85%A2%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3/'
+    window.disqus_url = isShuoshuo ? location.origin + path : 'http://heiau.cn/2022/07/10/94.%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%20-%20limit%2020000%20%E5%8A%A0%E8%BD%BD%E5%BE%88%E6%85%A2%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3/'
+
+    const disqus_config = function () {
+      this.page.url = disqus_url
+      this.page.identifier = disqus_identifier
+      this.page.title = 'limit 20000 加载很慢怎么解决'
+    }
+
+    if (window.DISQUS) disqusReset(disqus_config)
+    else {
+      const script = document.createElement('script')
+      script.src = 'https://.disqus.com/embed.js'
+      script.setAttribute('data-timestamp', +new Date())
+      document.head.appendChild(script)
+    }
+
+    btf.addGlobalFn('themeChange', () => disqusReset(disqus_config), 'disqus')
+  }
+
+  const getCount = async() => {
+    try {
+      const eleGroup = document.querySelector('#post-meta .disqus-comment-count')
+      if (!eleGroup) return
+      const cleanedLinks = eleGroup.href.replace(/#post-comment$/, '')
+
+      const res = await fetch(`https://disqus.com/api/3.0/threads/set.json?forum=&api_key=&thread:link=${cleanedLinks}`,{
+        method: 'GET'
+      })
+      const result = await res.json()
+
+      const count = result.response.length ? result.response[0].posts : 0
+      eleGroup.textContent = count
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Waline' === 'Disqus'
+      ? window.shuoshuoComment = { loadComment: loadDisqus }
+      : window.loadOtherComment = loadDisqus
+    return
+  }
+
+  if ('Waline' === 'Disqus' || !false) {
+    if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+    else {
+      loadDisqus()
+      
+    }
+  } else {
+    window.loadOtherComment = loadDisqus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
