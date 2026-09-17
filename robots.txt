@@ -12,6 +12,5 @@ Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/
 
-# 记得替换成你的域名
-Sitemap: http://heiau.cn/sitemap.xml
-Sitemap: http://heiau.cn/baidusitemap.xml主动推送
+Sitemap: https://heiau.cn/sitemap.xml
+Sitemap: https://heiau.cn/baidusitemap.xml
