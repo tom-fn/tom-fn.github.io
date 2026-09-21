@@ -1,0 +1,365 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>智能体是如何从奖励中学会决策的 | 非鱼小站</title><meta name="author" content="烦恼多一点"><meta name="copyright" content="烦恼多一点"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="强化学习和监督学习最大的不同在于：没有人事先告诉智能体”正确答案”，它只能靠自己在环境里试错，根据奖励信号慢慢摸索出最优策略。这套”从奖励中学会决策”的机制，是游戏 AI、机器人控制乃至大模型对齐（RLHF）的共同底座。 决策框架：马尔可夫决策过程强化学习的问题通常被建模为马尔可夫决策过程（MDP）：  状态 S：环境当前的局面，如棋盘布局、机器人关节角度 动作 A：智能体在当前状态下能做的选择">
+<meta property="og:type" content="article">
+<meta property="og:title" content="智能体是如何从奖励中学会决策的">
+<meta property="og:url" content="https://heiau.cn/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/index.html">
+<meta property="og:site_name" content="非鱼小站">
+<meta property="og:description" content="强化学习和监督学习最大的不同在于：没有人事先告诉智能体”正确答案”，它只能靠自己在环境里试错，根据奖励信号慢慢摸索出最优策略。这套”从奖励中学会决策”的机制，是游戏 AI、机器人控制乃至大模型对齐（RLHF）的共同底座。 决策框架：马尔可夫决策过程强化学习的问题通常被建模为马尔可夫决策过程（MDP）：  状态 S：环境当前的局面，如棋盘布局、机器人关节角度 动作 A：智能体在当前状态下能做的选择">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://uapis.cn/assets/acg/pc/005FzdTdgy1geet8e6s3lj31hc0u0hav.jpg">
+<meta property="article:published_time" content="2026-09-21T07:10:00.000Z">
+<meta property="article:modified_time" content="2026-09-21T02:58:10.109Z">
+<meta property="article:author" content="烦恼多一点">
+<meta property="article:tag" content="强化学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://uapis.cn/assets/acg/pc/005FzdTdgy1geet8e6s3lj31hc0u0hav.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "智能体是如何从奖励中学会决策的",
+  "url": "https://heiau.cn/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/",
+  "image": "https://uapis.cn/assets/acg/pc/005FzdTdgy1geet8e6s3lj31hc0u0hav.jpg",
+  "datePublished": "2026-09-21T07:10:00.000Z",
+  "dateModified": "2026-09-21T02:58:10.109Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "烦恼多一点",
+      "url": "https://heiau.cn"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://heiau.cn/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="baidu-site-verification" content="code-K5vEtQUAsk"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'ca-pub-9517030792573000',
+  enable_page_level_ads: 'true'
+});</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '智能体是如何从奖励中学会决策的',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">128</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/privacy/"><i class="fa-fw fas fa-user-shield"></i><span> 隐私政策</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://uapis.cn/assets/acg/pc/005FzdTdgy1geet8e6s3lj31hc0u0hav.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">非鱼小站</span></a><a class="nav-page-title" href="/"><span class="site-name">智能体是如何从奖励中学会决策的</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/privacy/"><i class="fa-fw fas fa-user-shield"></i><span> 隐私政策</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">智能体是如何从奖励中学会决策的</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-21T07:10:00.000Z" title="发表于 2026-09-21 15:10:00">2026-09-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-21T02:58:10.109Z" title="更新于 2026-09-21 10:58:10">2026-09-21</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>强化学习和监督学习最大的不同在于：没有人事先告诉智能体”正确答案”，它只能靠自己在环境里试错，根据奖励信号慢慢摸索出最优策略。这套”从奖励中学会决策”的机制，是游戏 AI、机器人控制乃至大模型对齐（RLHF）的共同底座。</p>
+<h2 id="决策框架：马尔可夫决策过程"><a href="#决策框架：马尔可夫决策过程" class="headerlink" title="决策框架：马尔可夫决策过程"></a>决策框架：马尔可夫决策过程</h2><p>强化学习的问题通常被建模为马尔可夫决策过程（MDP）：</p>
+<ul>
+<li>状态 S：环境当前的局面，如棋盘布局、机器人关节角度</li>
+<li>动作 A：智能体在当前状态下能做的选择</li>
+<li>奖励 R：执行动作后环境给出的即时反馈</li>
+<li>策略 π：从状态到动作的映射，也就是智能体最终要学的东西</li>
+</ul>
+<p>“马尔可夫”假设下一步只与当前状态有关，与历史无关。目标不是眼前奖励最大，而是<strong>长期累计奖励最大</strong>——这就带来了取舍：有时要牺牲短期利益（弃子抢攻）。</p>
+<h2 id="价值函数与-Q-learning"><a href="#价值函数与-Q-learning" class="headerlink" title="价值函数与 Q-learning"></a>价值函数与 Q-learning</h2><p>怎么衡量”长期利益”？引入价值函数：</p>
+<ul>
+<li>状态价值 V(s)：从状态 s 出发，按当前策略走到底能拿多少累计奖励</li>
+<li>动作价值 Q(s, a)：在状态 s 执行动作 a 之后再按策略走的累计奖励</li>
+</ul>
+<p>Q-learning 的思想很朴素：维护一张 Q 表（或用一个网络近似 Q 函数），每次交互后用”实际拿到的奖励 + 对未来的估计”去修正 Q 值，迭代收敛后，每个状态选 Q 值最大的动作即可。深度 Q 网络（DQN）用神经网络代替 Q 表，让这套方法能处理 Atari 游戏这类高维状态。</p>
+<h2 id="策略梯度：直接学策略"><a href="#策略梯度：直接学策略" class="headerlink" title="策略梯度：直接学策略"></a>策略梯度：直接学策略</h2><p>Q-learning 学的是”价值”，再间接导出策略；策略梯度方法直接对策略参数求导：</p>
+<ul>
+<li>采样一批完整轨迹（状态-动作-奖励序列）</li>
+<li>好动作（累计奖励高）增加其出现概率，坏动作降低概率</li>
+<li>沿梯度方向更新策略网络</li>
+</ul>
+<p>Actor-Critic 架构把两者结合：Actor 出动作，Critic 估价值做指导，训练更稳定，是 PPO 等现代算法的基础。</p>
+<h2 id="探索与利用的矛盾"><a href="#探索与利用的矛盾" class="headerlink" title="探索与利用的矛盾"></a>探索与利用的矛盾</h2><p>智能体面临一个永恒权衡：</p>
+<ul>
+<li>利用（Exploit）：选当前认为最好的动作，稳拿已知奖励</li>
+<li>探索（Explore）：尝试没试过的动作，可能发现更好的策略</li>
+</ul>
+<p>只利用会陷入局部最优，只探索则效率低下。ε-greedy（以小概率随机行动）等机制就是为平衡二者而生。</p>
+<h2 id="从-AlphaGo-到-RLHF"><a href="#从-AlphaGo-到-RLHF" class="headerlink" title="从 AlphaGo 到 RLHF"></a>从 AlphaGo 到 RLHF</h2><p>AlphaGo 用策略网络 + 价值网络 + 蒙特卡洛树搜索击败人类冠军；而今天大模型的 RLHF 本质是同一套框架：状态是提示词与已生成文本，动作是生成下一个 token，奖励来自人类偏好训练的奖励模型。强化学习从”教机器玩游戏”走到了”教模型符合人类价值观”，框架未变，变的是状态与奖励的定义。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://heiau.cn">烦恼多一点</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://heiau.cn/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/">https://heiau.cn/2026/09/21/120.强化学习 - 智能体是如何从奖励中学会决策的/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://heiau.cn" target="_blank">非鱼小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a></div><div class="post-share"><div class="social-share" data-image="https://uapis.cn/assets/acg/pc/005FzdTdgy1geet8e6s3lj31hc0u0hav.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/09/21/121.RAG%20-%20%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/" title="检索增强生成解决了什么问题"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxln98mdaj31hc0u018i.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">检索增强生成解决了什么问题</div></div><div class="info-2"><div class="info-item-1">大模型再强也有三个绕不开的短板：知识停留在训练截止日期、对私有数据一无所知、容易一本正经地幻觉。检索增强生成（RAG, Retrieval-Augmented Generation）的思路是：不让模型背答案，而是先帮它查资料，再让它基于资料作答。 为什么需要 RAG 知识过时：模型不知道训练截止之后发生的事 私有知识：公司内部文档、个人笔记从未进入训练语料 幻觉：模型凭参数”印象”作答时，可能编造不存在的事实 可追溯：业务上要求答案能给出出处，纯生成做不到  RAG 把”记忆”外置到可更新的知识库，模型只负责理解与表达，事实由检索到的文档兜底。 RAG 的基本流程离线建库：  文档切分：按段落或固定长度把长文档切成 chunk（保留适当重叠） 向量化：用 Embedding 模型把每个 chunk 转成语义向量 入库：向量存入向量数据库（Milvus、pgvector、Elasticsearch 等）  在线问答：  把用户问题同样向量化 在向量库中检索最相似的 top-k 个 chunk 把问题与检索到的 chunk 拼进提示词，交给大模型生成答案  模型回答时”手里有资料”，...</div></div></div></a><a class="pagination-related" href="/2026/09/21/119.%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%20-%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%20CNN%20%E8%B5%B0%E5%88%B0%20ViT%20%E7%9A%84/" title="计算机视觉是如何从 CNN 走到 ViT 的"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvjy0951rj21hc0u0nay.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">计算机视觉是如何从 CNN 走到 ViT 的</div></div><div class="info-2"><div class="info-item-1">计算机视觉要解决的核心问题是：如何从像素矩阵中理解内容。这条技术路线经历了从手工特征到卷积神经网络（CNN），再到把 Transformer 引入视觉（ViT）的三次跃迁，每一次都是”表示方式”的升级。 卷积与池化：CNN 的两大法宝图像有两个特性：局部相关（像素和邻域关系最密切）、平移不变（猫在左上角还是右下角都是猫）。CNN 用两种操作对应这两个特性：  卷积：小卷积核在图上滑动提取局部特征，参数共享大幅减少参数量 池化：下采样降分辨率，保留主要特征并获得一定的平移鲁棒性  多层卷积堆叠后，网络从边缘纹理逐层抽象到部件和物体，与深度学习的层次化表示一脉相承。 从 AlexNet 到 ResNet：网络越深越好吗2012 年 AlexNet 在 ImageNet 上大幅领先传统方法，宣告深度学习统治视觉的开始。之后网络越堆越深，但深到一定程度出现退化：训练误差反而上升。ResNet 用残差连接（让层学习输入与输出的差值）解决了深层网络的梯度问题，把网络推到上百层，成为后续无数模型的骨干。 ViT：把图像交给 TransformerTransformer 在 NLP 成功后，Vi...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Waline</span><span id="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">烦恼多一点</div><div class="author-info-description">非鱼小站 - 专注 Java 后端、分布式、缓存、消息队列与数据库等技术分享的个人博客</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">128</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%B3%E7%AD%96%E6%A1%86%E6%9E%B6%EF%BC%9A%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E5%86%B3%E7%AD%96%E8%BF%87%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">决策框架：马尔可夫决策过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%B7%E5%80%BC%E5%87%BD%E6%95%B0%E4%B8%8E-Q-learning"><span class="toc-number">2.</span> <span class="toc-text">价值函数与 Q-learning</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AD%96%E7%95%A5%E6%A2%AF%E5%BA%A6%EF%BC%9A%E7%9B%B4%E6%8E%A5%E5%AD%A6%E7%AD%96%E7%95%A5"><span class="toc-number">3.</span> <span class="toc-text">策略梯度：直接学策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%88%A9%E7%94%A8%E7%9A%84%E7%9F%9B%E7%9B%BE"><span class="toc-number">4.</span> <span class="toc-text">探索与利用的矛盾</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E-AlphaGo-%E5%88%B0-RLHF"><span class="toc-number">5.</span> <span class="toc-text">从 AlphaGo 到 RLHF</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/09/21/124.AIGC%20-%20%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%20AI%20%E7%BB%98%E7%94%BB%E7%9A%84/" title="扩散模型是如何实现 AI 绘画的"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/109932872_p0_master1200.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="扩散模型是如何实现 AI 绘画的"/></a><div class="content"><a class="title" href="/2026/09/21/124.AIGC%20-%20%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%20AI%20%E7%BB%98%E7%94%BB%E7%9A%84/" title="扩散模型是如何实现 AI 绘画的">扩散模型是如何实现 AI 绘画的</a><time datetime="2026-09-21T12:46:00.000Z" title="发表于 2026-09-21 20:46:00">2026-09-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/21/123.%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%20-%20%E5%B8%B8%E7%94%A8%E7%9A%84%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%8A%80%E5%B7%A7%E6%9C%89%E5%93%AA%E4%BA%9B/" title="常用的提示词技巧有哪些"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkcs4066j31hc0u0wrj.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="常用的提示词技巧有哪些"/></a><div class="content"><a class="title" href="/2026/09/21/123.%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%20-%20%E5%B8%B8%E7%94%A8%E7%9A%84%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%8A%80%E5%B7%A7%E6%9C%89%E5%93%AA%E4%BA%9B/" title="常用的提示词技巧有哪些">常用的提示词技巧有哪些</a><time datetime="2026-09-21T11:08:00.000Z" title="发表于 2026-09-21 19:08:00">2026-09-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/21/122.AI%20Agent%20-%20AI%20Agent%20%E6%98%AF%E5%A6%82%E4%BD%95%E8%A7%84%E5%88%92%E5%92%8C%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E7%9A%84/" title="AI Agent 是如何规划和使用工具的"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/108386368_p0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI Agent 是如何规划和使用工具的"/></a><div class="content"><a class="title" href="/2026/09/21/122.AI%20Agent%20-%20AI%20Agent%20%E6%98%AF%E5%A6%82%E4%BD%95%E8%A7%84%E5%88%92%E5%92%8C%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E7%9A%84/" title="AI Agent 是如何规划和使用工具的">AI Agent 是如何规划和使用工具的</a><time datetime="2026-09-21T09:50:00.000Z" title="发表于 2026-09-21 17:50:00">2026-09-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/21/121.RAG%20-%20%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/" title="检索增强生成解决了什么问题"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxln98mdaj31hc0u018i.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="检索增强生成解决了什么问题"/></a><div class="content"><a class="title" href="/2026/09/21/121.RAG%20-%20%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/" title="检索增强生成解决了什么问题">检索增强生成解决了什么问题</a><time datetime="2026-09-21T08:35:00.000Z" title="发表于 2026-09-21 16:35:00">2026-09-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/" title="智能体是如何从奖励中学会决策的"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/005FzdTdgy1geet8e6s3lj31hc0u0hav.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="智能体是如何从奖励中学会决策的"/></a><div class="content"><a class="title" href="/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/" title="智能体是如何从奖励中学会决策的">智能体是如何从奖励中学会决策的</a><time datetime="2026-09-21T07:10:00.000Z" title="发表于 2026-09-21 15:10:00">2026-09-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2020 - 2026 By 烦恼多一点</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  let initFn = window.walineFn || null
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const destroyWaline = ele => ele.destroy()
+
+  const initWaline = (Fn, el = document, path = window.location.pathname) => {
+    const waline = Fn({
+      el: el.querySelector('#waline-wrap'),
+      serverURL: 'waline.heiau.cn',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      comment: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyWaline = () => {
+        destroyWaline(waline)
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const loadWaline = (el, path) => {
+    if (initFn) initWaline(initFn, el, path)
+    else {
+      btf.getCSS('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.css')
+        .then(() => import('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.js'))
+        .then(({ init }) => {
+          initFn = init || Waline.init
+          initWaline(initFn, el, path)
+          window.walineFn = initFn
+        })
+    }
+  }
+
+  if (isShuoshuo) {
+    'Waline' === 'Waline'
+      ? window.shuoshuoComment = { loadComment: loadWaline } 
+      : window.loadOtherComment = loadWaline
+    return
+  }
+
+  if ('Waline' === 'Waline' || !false) {
+    if (false) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const disqusReset = conf => {
+    window.DISQUS && window.DISQUS.reset({
+      reload: true,
+      config: conf
+    })
+  }
+
+  const loadDisqus = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyDisqus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    window.disqus_identifier = isShuoshuo ? path : '/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/'
+    window.disqus_url = isShuoshuo ? location.origin + path : 'https://heiau.cn/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/'
+
+    const disqus_config = function () {
+      this.page.url = disqus_url
+      this.page.identifier = disqus_identifier
+      this.page.title = '智能体是如何从奖励中学会决策的'
+    }
+
+    if (window.DISQUS) disqusReset(disqus_config)
+    else {
+      const script = document.createElement('script')
+      script.src = 'https://.disqus.com/embed.js'
+      script.setAttribute('data-timestamp', +new Date())
+      document.head.appendChild(script)
+    }
+
+    btf.addGlobalFn('themeChange', () => disqusReset(disqus_config), 'disqus')
+  }
+
+  const getCount = async() => {
+    try {
+      const eleGroup = document.querySelector('#post-meta .disqus-comment-count')
+      if (!eleGroup) return
+      const cleanedLinks = eleGroup.href.replace(/#post-comment$/, '')
+
+      const res = await fetch(`https://disqus.com/api/3.0/threads/set.json?forum=&api_key=&thread:link=${cleanedLinks}`,{
+        method: 'GET'
+      })
+      const result = await res.json()
+
+      const count = result.response.length ? result.response[0].posts : 0
+      eleGroup.textContent = count
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Waline' === 'Disqus'
+      ? window.shuoshuoComment = { loadComment: loadDisqus }
+      : window.loadOtherComment = loadDisqus
+    return
+  }
+
+  if ('Waline' === 'Disqus' || !false) {
+    if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+    else {
+      loadDisqus()
+      
+    }
+  } else {
+    window.loadOtherComment = loadDisqus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
