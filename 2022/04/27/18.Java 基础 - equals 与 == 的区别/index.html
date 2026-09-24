@@ -204,13 +204,375 @@
   isHighlightShrink: false,
   isToc: false,
   pageType: 'post'
-}</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">128</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/privacy/"><i class="fa-fw fas fa-user-shield"></i><span> 隐私政策</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkittkoij31kw0w0nlj.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">非鱼小站</span></a><a class="nav-page-title" href="/"><span class="site-name">equals 与 == 的区别</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/privacy/"><i class="fa-fw fas fa-user-shield"></i><span> 隐私政策</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">equals 与 == 的区别</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-27T12:46:25.000Z" title="发表于 2022-04-27 20:46:25">2022-04-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-16T09:55:51.807Z" title="更新于 2026-09-16 17:55:51">2026-09-16</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><ul>
+}</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">138</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/privacy/"><i class="fa-fw fas fa-user-shield"></i><span> 隐私政策</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkittkoij31kw0w0nlj.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">非鱼小站</span></a><a class="nav-page-title" href="/"><span class="site-name">equals 与 == 的区别</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/privacy/"><i class="fa-fw fas fa-user-shield"></i><span> 隐私政策</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">equals 与 == 的区别</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-27T12:46:25.000Z" title="发表于 2022-04-27 20:46:25">2022-04-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-16T09:55:51.807Z" title="更新于 2026-09-16 17:55:51">2026-09-16</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><ul>
 <li><p><code>==</code> 与<code>equals</code> 的主要区别是：<code>==</code> 常用于比较原生类型，而 <code>equals()</code> 方法用于检查对象的相等性。</p>
 </li>
 <li><p>另一个不同的点是：如果 <code>==</code> 和 <code>equals()</code> 用于比较对象，当两个引用地址相同，<code>==</code> 返回 true。而 <code>equals()</code> 可以返回 true 或者 false 主要取决于重写实现。最常见的一个例子，字符串的比较，不同情况 <code>==</code> 和 <code>equals()</code> 返回不同的结果。</p>
 </li>
 </ul>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://heiau.cn">烦恼多一点</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://heiau.cn/2022/04/27/18.Java%20%E5%9F%BA%E7%A1%80%20-%20equals%20%E4%B8%8E%20==%20%E7%9A%84%E5%8C%BA%E5%88%AB/">https://heiau.cn/2022/04/27/18.Java 基础 - equals 与 == 的区别/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://heiau.cn" target="_blank">非鱼小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">java</a></div><div class="post-share"><div class="social-share" data-image="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkittkoij31kw0w0nlj.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2022/04/28/19.Java%20%E9%9B%86%E5%90%88%20-%20List%20%E5%92%8C%20Set%20%E5%8C%BA%E5%88%AB/" title="List 和 Set 区别"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/7f0c40d4gy1fqbg4jwszkj21hc0u0q7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">List 和 Set 区别</div></div><div class="info-2"><div class="info-item-1"> List, Set 都是继承自 Collection 接口  List 特点：元素有放入顺序，元素可重复。Set 特点：元素无放入顺序，元素不可重复（注意：元素虽然无放入顺序，但是元素在 set 中的位置是有该元素的 HashCode 决定的，其位置其实是固定的）  List 接口有三个实现类：LinkedList，ArrayList，Vector。Set 接口有两个实现类：HashSet(底层由 HashMap 实现)，LinkedHashSet   </div></div></div></a><a class="pagination-related" href="/2022/04/26/17.Java%20%E5%9F%BA%E7%A1%80%20-%20MVC%20%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3/" title="MVC 设计思想"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxk456b0fj31hc0u0dxu.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">MVC 设计思想</div></div><div class="info-2"><div class="info-item-1">MVC 是三个单词的首字母缩写，它们是 Model（模型）、View（视图）和 Controller（控制）。 这个模式认为，程序不论简单或复杂，从结构上看，都可以分成三层：  最上面的一层，是直接面向最终用户的”视图层”（View）。它是提供给用户的操作界面，是程序的外壳。 最底下的一层，是核心的”数据层”（Model），也就是程序需要操作的数据或信息。 中间的一层，就是”控制层”（Controller），它负责根据用户从”视图层”输入的指令，选取”数据层”中的数据，然后对其进行相应的操作，产生最终结果。  </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2022/07/13/7.Java%20%E5%9F%BA%E7%A1%80%20-%20final,%20finally,%20finalize/" title="final，finally,finalize"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkjma3mwj31hc0u0wvp.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-13</div><div class="info-item-2">final，finally,finalize</div></div><div class="info-2"><div class="info-item-1">final用于声明属性,方法和类, 分别表示属性不可变, 方法不可覆盖, 类不可继承. finally是异常处理语句结构的一部分，表示总是执行. finalize是Object类的一个方法，在垃圾收集器执行的时候会调用被回收对象的此方法，可以覆盖此方法提供垃圾收集时的其他资源回收，例如关闭文件等. JVM不保证此方法总被调用. </div></div></div></a><a class="pagination-related" href="/2022/07/13/6.Java%20%E5%9F%BA%E7%A1%80%20-%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%89%B9%E5%BE%81/" title="面向对象的特征"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkj7vgb3j31hc0u0nhs.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-13</div><div class="info-item-2">面向对象的特征</div></div><div class="info-2"><div class="info-item-1">概述面向对象的三个基本特征是：封装、继承、多态。 封装封装最好理解了。封装是面向对象的特征之一，是对象和类概念的主要特性。封装，也就是把客观事物封装成抽象的类，并且类可以把自己的数据和方法只让可信的类或者对象操作，对不可信的进行信息隐藏。 继承面向对象编程 (OOP) 语言的一个主要功能就是“继承”。继承是指这样一种能力：它可以使用现有类的所有功能，并在无需重新编写原来的类的情况下对这些功能进行扩展。 多态多态性（polymorphisn）是允许你将父对象设置成为和一个或更多的他的子对象相等的技术，赋值之后，父对象就可以根据当前赋值给它的子对象的特性以不同的方式运作。简单的说，就是一句话：允许将子类类型的指针赋值给父类类型的指针。 实现多态，有二种方式，覆盖，重载。 </div></div></div></a><a class="pagination-related" href="/2022/04/23/14.Java%20%E5%9F%BA%E7%A1%80%20-%20Session%20%E4%B8%8E%20Cookie%20%E5%8C%BA%E5%88%AB/" title="Session 与 Cookie 区别"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxk77bbbvj31hc0u0wuv.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-23</div><div class="info-item-2">Session 与 Cookie 区别</div></div><div class="info-2"><div class="info-item-1"> Cookie 数据存放在客户的浏览器上，Session 数据放在服务器上。  Cookie 不是很安全，别人可以分析存放在本地的 Cookie 并进行 Cookie 欺骗，考虑到安全应当使用 Session。  Session 会在一定时间内保存在服务器上。当访问增多，会比较占用你服务器的性能，考虑到减轻服务器性能方面，应当使用 Cookie。  单个 Cookie 保存的数据不能超过 4K，很多浏览器都限制一个站点最多保存 20 个 Cookie。   </div></div></div></a><a class="pagination-related" href="/2022/04/17/8.Java%20%E5%9F%BA%E7%A1%80%20-%20int%20%E5%92%8C%20Integer%20%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/" title="int和Integer有什么区别"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxlhe0a6tj31hc0u0qhh.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-17</div><div class="info-item-2">int和Integer有什么区别</div></div><div class="info-2"><div class="info-item-1">int 是 Java 提供的 8 种原始数据类型之一。Java 为每个原始类型提供了封装类，Integer 是 Java 为 int 提供的封装类。 int 的默认值为 0，而 Integer 的默认值为 null，是引用类型，即 Integer 可以区分出未赋值和值为 0 的区别，int 则无法表达出未赋值的情况， Java 中 int 和 Integer 关系是比较微妙的。关系如下：  int 是基本的数据类型； Integer 是 int 的封装类； int 和 Integer 都可以表示某一个数值； int 和 Integer 不能够互用，因为他们两种不同的数据类型；  </div></div></div></a><a class="pagination-related" href="/2022/04/25/16.Java%20%E5%9F%BA%E7%A1%80%20-%20JDBC%20%E6%B5%81%E7%A8%8B/" title="JDBC 流程"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkgc5msdj31hc0u01cv.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-25</div><div class="info-item-2">JDBC 流程</div></div><div class="info-2"><div class="info-item-1"> 向 DriverManager 类注册驱动数据库驱动程序  调用 DriverManager.getConnection 方法， 通过 JDBC URL，用户名，密码取得数据库连接的 Connection 对象。  获取 Connection 后， 便可以通过 createStatement 创建 Statement 用以执行 SQL 语句。  有时候会得到查询结果，比如 select，得到查询结果，查询（SELECT）的结果存放于结果集（ResultSet）中。  关闭数据库语句，关闭数据库连接。   </div></div></div></a><a class="pagination-related" href="/2022/04/20/11.Java%20%E5%9F%BA%E7%A1%80%20-%20%E8%AF%B4%E8%AF%B4%E5%8F%8D%E5%B0%84%E7%9A%84%E7%94%A8%E9%80%94%E5%8F%8A%E5%AE%9E%E7%8E%B0/" title="说说反射的用途及实现"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxk7ikq1dj31hc0u0dw5.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-20</div><div class="info-item-2">说说反射的用途及实现</div></div><div class="info-2"><div class="info-item-1">反射的用途Java 反射机制是一个非常强大的功能，在很多的项目比如 Spring，MyBatis 都都可以看到反射的身影。通过反射机制，我们可以在运行期间获取对象的类型信息。利用这一点我们可以实现工厂模式和代理模式等设计模式，同时也可以解决 Java 泛型擦除等令人苦恼的问题。 反射的实现获取一个对象对应的反射类，在 Java 中有下列方法可以获取一个对象的反射类  通过 getClass() 方法 通过 Class.forName() 方法 使用 类.class 通过类加载器实现，getClassLoader()  </div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Waline</span><span id="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">烦恼多一点</div><div class="author-info-description">非鱼小站 - 专注 Java 后端、分布式、缓存、消息队列与数据库等技术分享的个人博客</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">128</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/09/21/124.AIGC%20-%20%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%20AI%20%E7%BB%98%E7%94%BB%E7%9A%84/" title="扩散模型是如何实现 AI 绘画的"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/109932872_p0_master1200.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="扩散模型是如何实现 AI 绘画的"/></a><div class="content"><a class="title" href="/2026/09/21/124.AIGC%20-%20%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%20AI%20%E7%BB%98%E7%94%BB%E7%9A%84/" title="扩散模型是如何实现 AI 绘画的">扩散模型是如何实现 AI 绘画的</a><time datetime="2026-09-21T12:46:00.000Z" title="发表于 2026-09-21 20:46:00">2026-09-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/21/123.%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%20-%20%E5%B8%B8%E7%94%A8%E7%9A%84%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%8A%80%E5%B7%A7%E6%9C%89%E5%93%AA%E4%BA%9B/" title="常用的提示词技巧有哪些"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkcs4066j31hc0u0wrj.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="常用的提示词技巧有哪些"/></a><div class="content"><a class="title" href="/2026/09/21/123.%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%20-%20%E5%B8%B8%E7%94%A8%E7%9A%84%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%8A%80%E5%B7%A7%E6%9C%89%E5%93%AA%E4%BA%9B/" title="常用的提示词技巧有哪些">常用的提示词技巧有哪些</a><time datetime="2026-09-21T11:08:00.000Z" title="发表于 2026-09-21 19:08:00">2026-09-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/21/122.AI%20Agent%20-%20AI%20Agent%20%E6%98%AF%E5%A6%82%E4%BD%95%E8%A7%84%E5%88%92%E5%92%8C%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E7%9A%84/" title="AI Agent 是如何规划和使用工具的"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/108386368_p0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI Agent 是如何规划和使用工具的"/></a><div class="content"><a class="title" href="/2026/09/21/122.AI%20Agent%20-%20AI%20Agent%20%E6%98%AF%E5%A6%82%E4%BD%95%E8%A7%84%E5%88%92%E5%92%8C%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E7%9A%84/" title="AI Agent 是如何规划和使用工具的">AI Agent 是如何规划和使用工具的</a><time datetime="2026-09-21T09:50:00.000Z" title="发表于 2026-09-21 17:50:00">2026-09-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/21/121.RAG%20-%20%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/" title="检索增强生成解决了什么问题"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxln98mdaj31hc0u018i.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="检索增强生成解决了什么问题"/></a><div class="content"><a class="title" href="/2026/09/21/121.RAG%20-%20%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/" title="检索增强生成解决了什么问题">检索增强生成解决了什么问题</a><time datetime="2026-09-21T08:35:00.000Z" title="发表于 2026-09-21 16:35:00">2026-09-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/" title="智能体是如何从奖励中学会决策的"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/005FzdTdgy1geet8e6s3lj31hc0u0hav.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="智能体是如何从奖励中学会决策的"/></a><div class="content"><a class="title" href="/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/" title="智能体是如何从奖励中学会决策的">智能体是如何从奖励中学会决策的</a><time datetime="2026-09-21T07:10:00.000Z" title="发表于 2026-09-21 15:10:00">2026-09-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2020 - 2026 By 烦恼多一点</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://heiau.cn">烦恼多一点</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://heiau.cn/2022/04/27/18.Java%20%E5%9F%BA%E7%A1%80%20-%20equals%20%E4%B8%8E%20==%20%E7%9A%84%E5%8C%BA%E5%88%AB/">https://heiau.cn/2022/04/27/18.Java 基础 - equals 与 == 的区别/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://heiau.cn" target="_blank">非鱼小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">java</a></div><div class="post-share"><div class="social-share" data-image="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkittkoij31kw0w0nlj.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2022/04/28/19.Java%20%E9%9B%86%E5%90%88%20-%20List%20%E5%92%8C%20Set%20%E5%8C%BA%E5%88%AB/" title="List 和 Set 区别"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/7f0c40d4gy1fqbg4jwszkj21hc0u0q7z.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">List 和 Set 区别</div></div><div class="info-2"><div class="info-item-1"> List, Set 都是继承自 Collection 接口  List 特点：元素有放入顺序，元素可重复。Set 特点：元素无放入顺序，元素不可重复（注意：元素虽然无放入顺序，但是元素在 set 中的位置是有该元素的 HashCode 决定的，其位置其实是固定的）  List 接口有三个实现类：LinkedList，ArrayList，Vector。Set 接口有两个实现类：HashSet(底层由 HashMap 实现)，LinkedHashSet   </div></div></div></a><a class="pagination-related" href="/2022/04/26/17.Java%20%E5%9F%BA%E7%A1%80%20-%20MVC%20%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3/" title="MVC 设计思想"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxk456b0fj31hc0u0dxu.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">MVC 设计思想</div></div><div class="info-2"><div class="info-item-1">MVC 是三个单词的首字母缩写，它们是 Model（模型）、View（视图）和 Controller（控制）。 这个模式认为，程序不论简单或复杂，从结构上看，都可以分成三层：  最上面的一层，是直接面向最终用户的”视图层”（View）。它是提供给用户的操作界面，是程序的外壳。 最底下的一层，是核心的”数据层”（Model），也就是程序需要操作的数据或信息。 中间的一层，就是”控制层”（Controller），它负责根据用户从”视图层”输入的指令，选取”数据层”中的数据，然后对其进行相应的操作，产生最终结果。  </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2022/04/17/8.Java%20%E5%9F%BA%E7%A1%80%20-%20int%20%E5%92%8C%20Integer%20%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB/" title="int和Integer有什么区别"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxlhe0a6tj31hc0u0qhh.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-17</div><div class="info-item-2">int和Integer有什么区别</div></div><div class="info-2"><div class="info-item-1">int 是 Java 提供的 8 种原始数据类型之一。Java 为每个原始类型提供了封装类，Integer 是 Java 为 int 提供的封装类。 int 的默认值为 0，而 Integer 的默认值为 null，是引用类型，即 Integer 可以区分出未赋值和值为 0 的区别，int 则无法表达出未赋值的情况， Java 中 int 和 Integer 关系是比较微妙的。关系如下：  int 是基本的数据类型； Integer 是 int 的封装类； int 和 Integer 都可以表示某一个数值； int 和 Integer 不能够互用，因为他们两种不同的数据类型；  </div></div></div></a><a class="pagination-related" href="/2022/04/18/9.Java%20%E5%9F%BA%E7%A1%80%20-%20%E9%87%8D%E8%BD%BD%E5%92%8C%E9%87%8D%E5%86%99%E7%9A%84%E5%8C%BA%E5%88%AB/" title="重载和重写的区别"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afely1fnt9ok8lkzj21hc0u0dwv.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-18</div><div class="info-item-2">重载和重写的区别</div></div><div class="info-2"><div class="info-item-1">重载 Overload表示同一个类中可以有多个名称相同的方法，但这些方法的参数列表各不相同（即参数个数或类型不同）。 重写 Override表示子类中的方法可以与父类中的某个方法的名称和参数完全相同，通过子类创建的实例对象调用这个方法时，将调用子类中的定义方法，这相当于把父类中定义的那个完全相同的方法给覆盖了，这也是面向对象编程的多态性的一种表现。子类覆盖父类的方法时，只能比父类抛出更少的异常，或者是抛出父类抛出的异常的子异常，因为子类可以解决父类的一些问题，不能比父类有更多的问题。子类方法的访问权限只能比父类的更大，不能更小。如果父类的方法是private类型，那么，子类则不存在覆盖的限制，相当于子类中增加了一个全新的方法 </div></div></div></a><a class="pagination-related" href="/2022/04/21/12.Java%20%E5%9F%BA%E7%A1%80%20-%20%E8%AF%B4%E8%AF%B4%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%9C%BA%E6%99%AF%E5%8F%8A%E5%AE%9E%E7%8E%B0/" title="说说自定义注解的场景及实现"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvizjlwi5j21hc0u0npd.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-21</div><div class="info-item-2">说说自定义注解的场景及实现</div></div><div class="info-2"><div class="info-item-1">登陆、权限拦截、日志处理，以及各种 Java 框架，如 Spring，Hibernate，JUnit 提到注解就不能不说反射，Java 自定义注解是通过运行时靠反射获取注解。实际开发中，例如我们要获取某个方法的调用日志，可以通过 AOP（动态代理机制）给方法添加切面，通过反射来获取方法包含的注解，如果包含日志注解，就进行日志记录。反射的实现在 Java 应用层面上讲，是通过对 Class 对象的操作实现的，Class 对象为我们提供了一系列方法对类进行操作。在 JVM 这个角度来说，Class 文件是一组以 8 位字节为基础单位的二进制流，各个数据项目按严格的顺序紧凑的排列在 Class 文件中，里面包含了类、方法、字段等等相关数据。通过对 Class 数据流的处理我们即可得到字段、方法等数据。 </div></div></div></a><a class="pagination-related" href="/2022/07/13/7.Java%20%E5%9F%BA%E7%A1%80%20-%20final,%20finally,%20finalize/" title="final，finally,finalize"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkjma3mwj31hc0u0wvp.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-13</div><div class="info-item-2">final，finally,finalize</div></div><div class="info-2"><div class="info-item-1">final用于声明属性,方法和类, 分别表示属性不可变, 方法不可覆盖, 类不可继承. finally是异常处理语句结构的一部分，表示总是执行. finalize是Object类的一个方法，在垃圾收集器执行的时候会调用被回收对象的此方法，可以覆盖此方法提供垃圾收集时的其他资源回收，例如关闭文件等. JVM不保证此方法总被调用. </div></div></div></a><a class="pagination-related" href="/2022/07/13/2.Java%20%E5%9F%BA%E7%A1%80%20-%20%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/" title="双亲委派模型"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkilshjxj31hc0u04hb.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-13</div><div class="info-item-2">双亲委派模型</div></div><div class="info-2"><div class="info-item-1">类加载器加载类的开放性类加载器（ClassLoader) 是Java语言的一项创新，也是Java语言流行的一个重要原因，在类加载的第一阶段“加载”过程中需要通过一个类的全限定名来回去定义此类的二进制字节流，完成这个动作的代码块就是 类加载器，这一动作是放在Java虚拟机外部去实现的，以便让应用程序自己去决定如何获取所需的类。 虚拟机规范并没有指明二进制字节流要从一个Class文件获取，或者说根本没有指明从哪里获取、怎样获取。这种开放使得Java在很多领域得到充分运用，例如：  从ZIP包中读取，这很常见，成为JAR,EAR,WAR格式的基础 从网络中获取，最典型的运用就是Applet 运用时计算生成，最典型的是动态代理技术，在java.lang.reflect.Proxy中，就是用了ProxyGrenerator.generateProxyClass 来为特定接口生成形式为“*$Proxy”的代理类的二进制字节流 有其它文件生成，最典型的JSP应用，由JSP文件生成对应的Class类  类加载器与类的唯一性类加载器虽然只用于实现类的加载动作，但是对于任意一个类，都需要由它的类加载...</div></div></div></a><a class="pagination-related" href="/2022/04/24/15.Java%20%E5%9F%BA%E7%A1%80%20-%20Session%20%E5%88%86%E5%B8%83%E5%BC%8F%E5%A4%84%E7%90%86/" title="Session 分布式处理"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvj1o339ij21hc0u0gw5.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-24</div><div class="info-item-2">Session 分布式处理</div></div><div class="info-2"><div class="info-item-1">Session 复制在支持 Session 复制的 Web 服务器上，通过修改 Web 服务器的配置，可以实现将 Session 同步到其它 Web 服务器上，达到每个 Web 服务器上都保存一致的 Session。  优点：代码上不需要做支持和修改。 缺点：需要依赖支持的 Web 服务器，一旦更换成不支持的 Web 服务器就不能使用了，在数据量很大的情况下不仅占用网络资源，而且会导致延迟。 适用场景：只适用于Web服务器比较少且 Session 数据量少的情况。 可用方案：开源方案 tomcat-redis-session-manager，暂不支持 Tomcat8。  Session 粘滞将用户的每次请求都通过某种方法强制分发到某一个 Web 服务器上，只要这个 Web 服务器上存储了对应 Session 数据，就可以实现会话跟踪。  优点：使用简单，没有额外开销。 缺点：一旦某个 Web 服务器重启或宕机，相对应的 Session 数据将会丢失，而且需要依赖负载均衡机制。 适用场景：对稳定性要求不是很高的业务情景。  Session 集中管理在单独的服务器或服务器集群上使用缓...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Waline</span><span id="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">烦恼多一点</div><div class="author-info-description">非鱼小站 - 专注 Java 后端、分布式、缓存、消息队列与数据库等技术分享的个人博客</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">138</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/09/24/134.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E6%8A%8A%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A5%E5%85%A5%E8%87%AA%E5%B7%B1%E7%9A%84%20Web%20%E5%BA%94%E7%94%A8/" title="如何把大模型接入自己的 Web 应用"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/005FzdTdgy1gegf7lzrdzj31hc0u0tfd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何把大模型接入自己的 Web 应用"/></a><div class="content"><a class="title" href="/2026/09/24/134.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E6%8A%8A%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A5%E5%85%A5%E8%87%AA%E5%B7%B1%E7%9A%84%20Web%20%E5%BA%94%E7%94%A8/" title="如何把大模型接入自己的 Web 应用">如何把大模型接入自己的 Web 应用</a><time datetime="2026-09-24T03:48:00.000Z" title="发表于 2026-09-24 11:48:00">2026-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/24/133.%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20Transformers%20%E5%BA%93%E8%B7%91%E9%80%9A%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB/" title="如何用 Transformers 库跑通文本分类"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvj888ouej21hc0u0k4o.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何用 Transformers 库跑通文本分类"/></a><div class="content"><a class="title" href="/2026/09/24/133.%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20Transformers%20%E5%BA%93%E8%B7%91%E9%80%9A%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB/" title="如何用 Transformers 库跑通文本分类">如何用 Transformers 库跑通文本分类</a><time datetime="2026-09-24T03:30:00.000Z" title="发表于 2026-09-24 11:30:00">2026-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/24/132.%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20PyTorch%20%E6%90%AD%E5%BB%BA%E5%B9%B6%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="如何用 PyTorch 搭建并训练一个神经网络"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxk45w3toj31hc0u01al.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何用 PyTorch 搭建并训练一个神经网络"/></a><div class="content"><a class="title" href="/2026/09/24/132.%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20PyTorch%20%E6%90%AD%E5%BB%BA%E5%B9%B6%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="如何用 PyTorch 搭建并训练一个神经网络">如何用 PyTorch 搭建并训练一个神经网络</a><time datetime="2026-09-24T03:12:00.000Z" title="发表于 2026-09-24 11:12:00">2026-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/24/131.%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20scikit-learn%20%E8%AE%AD%E7%BB%83%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B/" title="如何用 scikit-learn 训练第一个分类模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkijia91j31kw0w0e6g.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何用 scikit-learn 训练第一个分类模型"/></a><div class="content"><a class="title" href="/2026/09/24/131.%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20scikit-learn%20%E8%AE%AD%E7%BB%83%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B/" title="如何用 scikit-learn 训练第一个分类模型">如何用 scikit-learn 训练第一个分类模型</a><time datetime="2026-09-24T02:55:00.000Z" title="发表于 2026-09-24 10:55:00">2026-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/24/130.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20LoRA%20%E5%BE%AE%E8%B0%83%E4%B8%80%E4%B8%AA%E4%B8%93%E5%B1%9E%E6%A8%A1%E5%9E%8B/" title="如何用 LoRA 微调一个专属模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/110394662_p0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何用 LoRA 微调一个专属模型"/></a><div class="content"><a class="title" href="/2026/09/24/130.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20LoRA%20%E5%BE%AE%E8%B0%83%E4%B8%80%E4%B8%AA%E4%B8%93%E5%B1%9E%E6%A8%A1%E5%9E%8B/" title="如何用 LoRA 微调一个专属模型">如何用 LoRA 微调一个专属模型</a><time datetime="2026-09-24T02:38:00.000Z" title="发表于 2026-09-24 10:38:00">2026-09-24</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2020 - 2026 By 烦恼多一点</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.innerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+
+    setTimeout(() => URL.revokeObjectURL(url), 5000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    // Clean up previous event listeners and pending frames
+    if (wrap.__mermaidAbortController) {
+      wrap.__mermaidAbortController.abort()
+      if (wrap.__mermaidRafId) cancelAnimationFrame(wrap.__mermaidRafId)
+    }
+    const ac = new AbortController()
+    wrap.__mermaidAbortController = ac
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+    // Disable default gestures to prevent scroll chaining and pinch-zoom penetration in Chrome
+    svg.style.touchAction = 'none'
+
+    // Cache BoundingClientRect, throttled on scroll to reduce reflow
+    let cachedRect = svg.getBoundingClientRect()
+    let rectDirty = false
+    const markRectDirty = () => { rectDirty = true }
+    window.addEventListener('resize', markRectDirty, { signal: ac.signal })
+    window.addEventListener('scroll', markRectDirty, { signal: ac.signal, capture: true })
+    const getRect = () => {
+      if (rectDirty) {
+        cachedRect = svg.getBoundingClientRect()
+        rectDirty = false
+      }
+      return cachedRect
+    }
+
+    // Precompute clamp bounds from initial viewBox
+    const minW = initVb[2] * 0.1
+    const maxW = initVb[2] * 10
+    const minH = initVb[3] * 0.1
+    const maxH = initVb[3] * 10
+    const clampVb = vb => {
+      const out = vb.slice()
+      out[2] = clamp(out[2], minW, maxW)
+      out[3] = clamp(out[3], minH, maxH)
+      return out
+    }
+
+    // Throttle DOM updates using requestAnimationFrame
+    let pendingVb = null
+    let rafId = null
+    const applyVb = () => {
+      if (pendingVb) {
+        wrap.__mermaidCurViewBox = pendingVb
+        setSvgViewBox(svg, pendingVb)
+        pendingVb = null
+      }
+      rafId = null
+      wrap.__mermaidRafId = null
+    }
+    const setCurVb = vb => {
+      pendingVb = clampVb(vb)
+      if (!rafId) {
+        rafId = requestAnimationFrame(applyVb)
+        wrap.__mermaidRafId = rafId
+      }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      lastPointerX: 0,
+      lastPointerY: 0
+    }
+
+    const onPointerDown = e => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      const curVb = wrap.__mermaidCurViewBox
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      if (state.pointers.size === 1) {
+        state.startVb = curVb.slice()
+        state.lastPointerX = e.clientX
+        state.lastPointerY = e.clientY
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = curVb.slice()
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      const curVb = wrap.__mermaidCurViewBox
+      const rect = getRect()
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = state.pointers.values().next().value
+        const dxClient = p.x - state.lastPointerX
+        const dyClient = p.y - state.lastPointerY
+        state.lastPointerX = p.x
+        state.lastPointerY = p.y
+        const dx = dxClient * (curVb[2] / rect.width)
+        const dy = dyClient * (curVb[3] / rect.height)
+        setCurVb([curVb[0] - dx, curVb[1] - dy, curVb[2], curVb[3]])
+        return
+      }
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const px = curVb[0] + (cx - rect.left) * (curVb[2] / rect.width)
+        const py = curVb[1] + (cy - rect.top) * (curVb[3] / rect.height)
+        setCurVb(zoomAtPoint(state.startVb, factor, px, py))
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      // Release PointerCapture to avoid event capture anomalies
+      if (svg.hasPointerCapture && svg.hasPointerCapture(e.pointerId)) {
+        svg.releasePointerCapture(e.pointerId)
+      }
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+      } else if (state.pointers.size === 1) {
+        const p = state.pointers.values().next().value
+        state.lastPointerX = p.x
+        state.lastPointerY = p.y
+      }
+    }
+
+    const onWheel = e => {
+      // Prevent event bubbling from triggering external scroll
+      e.preventDefault()
+      e.stopPropagation()
+      // Normalize deltaY across deltaMode (Chrome uses pixels, Safari uses lines)
+      let delta = e.deltaY
+      if (e.deltaMode === 1) delta *= 16
+      else if (e.deltaMode === 2) delta *= 400
+
+      // Continuous zoom factor: smoother than fixed 1.1/0.9 steps
+      const zoomFactor = Math.pow(1.001, delta)
+
+      const curVb = wrap.__mermaidCurViewBox
+      const rect = getRect()
+      const px = curVb[0] + (e.clientX - rect.left) * (curVb[2] / rect.width)
+      const py = curVb[1] + (e.clientY - rect.top) * (curVb[3] / rect.height)
+      setCurVb(zoomAtPoint(curVb, zoomFactor, px, py))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (init) setCurVb(init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown, { signal: ac.signal })
+    svg.addEventListener('pointermove', onPointerMove, { signal: ac.signal })
+    svg.addEventListener('pointerup', onPointerUpOrCancel, { signal: ac.signal })
+    svg.addEventListener('pointercancel', onPointerUpOrCancel, { signal: ac.signal })
+    svg.addEventListener('wheel', onWheel, { passive: false, signal: ac.signal })
+    svg.addEventListener('dblclick', onDblClick, { signal: ac.signal })
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      // Clean up event listeners before removing old SVG
+      if (item.__mermaidAbortController) {
+        item.__mermaidAbortController.abort()
+      }
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      let config = {}
+      try {
+        config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      } catch (e) {
+        console.warn('[mermaid] failed to parse dataset.config:', e)
+      }
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+      const handleError = err => {
+        console.error(`[mermaid] render failed for block #${index}:`, err)
+        const errorEl = document.createElement('div')
+        errorEl.className = 'mermaid-error'
+        errorEl.textContent = `Mermaid render error: ${err.message || err}`
+        mermaidSrc.insertAdjacentElement('afterend', errorEl)
+      }
+
+      try {
+        const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+        // mermaid v9 and v10 compatibility
+        if (typeof renderFn === 'string') {
+          renderMermaid(renderFn)
+        } else {
+          renderFn.then(({ svg }) => renderMermaid(svg)).catch(handleError)
+        }
+      } catch (err) {
+        handleError(err)
+      }
+    })
+  }
+
+  const codeToMermaid = $article => {
+    const codeMermaidEle = $article.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    const $article = document.getElementById('article-container')
+    if (!$article) return
+
+    if (false) codeToMermaid($article)
+    const $mermaid = $article.querySelectorAll('.mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
   let initFn = window.walineFn || null
   const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
   const option = null

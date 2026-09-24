@@ -1,0 +1,755 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>如何从零搭建一个本地 RAG 知识库 | 非鱼小站</title><meta name="author" content="烦恼多一点"><meta name="copyright" content="烦恼多一点"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="想让大模型回答你私有文档里的问题，直接把全文塞进去既不现实也很贵。RAG（检索增强生成）的做法是：先把文档建成可检索的知识库，提问时只把最相关的片段喂给模型。这篇教程用 Python 从零搭一个能真正跑起来的本地 RAG。 整体架构RAG 分离线建库和在线问答两个阶段：      graph TD     A[本地文档] --&gt; B[切分成 chunk]     B --&gt; C[向量化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何从零搭建一个本地 RAG 知识库">
+<meta property="og:url" content="https://heiau.cn/2026/09/24/127.RAG%20-%20%E5%A6%82%E4%BD%95%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%9C%AC%E5%9C%B0%20RAG%20%E7%9F%A5%E8%AF%86%E5%BA%93/index.html">
+<meta property="og:site_name" content="非鱼小站">
+<meta property="og:description" content="想让大模型回答你私有文档里的问题，直接把全文塞进去既不现实也很贵。RAG（检索增强生成）的做法是：先把文档建成可检索的知识库，提问时只把最相关的片段喂给模型。这篇教程用 Python 从零搭一个能真正跑起来的本地 RAG。 整体架构RAG 分离线建库和在线问答两个阶段：      graph TD     A[本地文档] --&gt; B[切分成 chunk]     B --&gt; C[向量化">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://uapis.cn/assets/acg/pc/a15b4afely1fnt99tpvpwj21hc0u0e84.jpg">
+<meta property="article:published_time" content="2026-09-24T01:45:00.000Z">
+<meta property="article:modified_time" content="2026-09-24T01:50:22.825Z">
+<meta property="article:author" content="烦恼多一点">
+<meta property="article:tag" content="RAG">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://uapis.cn/assets/acg/pc/a15b4afely1fnt99tpvpwj21hc0u0e84.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "如何从零搭建一个本地 RAG 知识库",
+  "url": "https://heiau.cn/2026/09/24/127.RAG%20-%20%E5%A6%82%E4%BD%95%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%9C%AC%E5%9C%B0%20RAG%20%E7%9F%A5%E8%AF%86%E5%BA%93/",
+  "image": "https://uapis.cn/assets/acg/pc/a15b4afely1fnt99tpvpwj21hc0u0e84.jpg",
+  "datePublished": "2026-09-24T01:45:00.000Z",
+  "dateModified": "2026-09-24T01:50:22.825Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "烦恼多一点",
+      "url": "https://heiau.cn"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://heiau.cn/2026/09/24/127.RAG%20-%20%E5%A6%82%E4%BD%95%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%9C%AC%E5%9C%B0%20RAG%20%E7%9F%A5%E8%AF%86%E5%BA%93/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="baidu-site-verification" content="code-K5vEtQUAsk"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'ca-pub-9517030792573000',
+  enable_page_level_ads: 'true'
+});</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '如何从零搭建一个本地 RAG 知识库',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">138</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/privacy/"><i class="fa-fw fas fa-user-shield"></i><span> 隐私政策</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://uapis.cn/assets/acg/pc/a15b4afely1fnt99tpvpwj21hc0u0e84.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">非鱼小站</span></a><a class="nav-page-title" href="/"><span class="site-name">如何从零搭建一个本地 RAG 知识库</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/privacy/"><i class="fa-fw fas fa-user-shield"></i><span> 隐私政策</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">如何从零搭建一个本地 RAG 知识库</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-24T01:45:00.000Z" title="发表于 2026-09-24 09:45:00">2026-09-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-24T01:50:22.825Z" title="更新于 2026-09-24 09:50:22">2026-09-24</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>想让大模型回答你私有文档里的问题，直接把全文塞进去既不现实也很贵。RAG（检索增强生成）的做法是：先把文档建成可检索的知识库，提问时只把最相关的片段喂给模型。这篇教程用 Python 从零搭一个能真正跑起来的本地 RAG。</p>
+<h2 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h2><p>RAG 分离线建库和在线问答两个阶段：</p>
+<div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    graph TD
+    A[本地文档] --&gt; B[切分成 chunk]
+    B --&gt; C[向量化 Embedding]
+    C --&gt; D[存入向量库]
+    E[用户提问] --&gt; F[问题向量化]
+    F --&gt; G[检索相似 chunk]
+    D --&gt; G
+    G --&gt; H[拼接提示词]
+    H --&gt; I[大模型生成答案]
+  </pre></div>
+
+<h2 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h2><p>创建虚拟环境并安装依赖：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python -m venv venv</span><br><span class="line"><span class="comment"># Windows</span></span><br><span class="line">venv\Scripts\activate</span><br><span class="line"><span class="comment"># macOS / Linux</span></span><br><span class="line"><span class="built_in">source</span> venv/bin/activate</span><br><span class="line"></span><br><span class="line">pip install chromadb sentence-transformers openai</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>chromadb：轻量的本地向量数据库</li>
+<li>sentence-transformers：本地免费的 Embedding 模型</li>
+<li>openai：调用大模型生成最终答案</li>
+</ul>
+<h2 id="步骤一：准备文档"><a href="#步骤一：准备文档" class="headerlink" title="步骤一：准备文档"></a>步骤一：准备文档</h2><p>真实项目里可用 langchain 的加载器读取 PDF、Markdown。这里先用一个示例列表说明：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">documents = [</span><br><span class="line">    <span class="string">&quot;Hexo 是一个基于 Node.js 的静态博客生成器。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Butterfly 是一款流行的 Hexo 主题，支持丰富的配置。&quot;</span>,</span><br><span class="line">    <span class="string">&quot;RAG 通过检索外部知识库来增强大模型的回答。&quot;</span>,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h2 id="步骤二：切分成-chunk"><a href="#步骤二：切分成-chunk" class="headerlink" title="步骤二：切分成 chunk"></a>步骤二：切分成 chunk</h2><p>长文档要切成小段分别向量化。段太长检索不准，太短语义不全：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">split_docs</span>(<span class="params">docs, chunk_size=<span class="number">100</span>, overlap=<span class="number">20</span></span>):</span><br><span class="line">    chunks = []</span><br><span class="line">    <span class="keyword">for</span> doc <span class="keyword">in</span> docs:</span><br><span class="line">        <span class="comment"># 这里按字符切，实际可按段落或句子</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(doc), chunk_size - overlap):</span><br><span class="line">            chunks.append(doc[i:i + chunk_size])</span><br><span class="line">    <span class="keyword">return</span> chunks</span><br><span class="line"></span><br><span class="line">chunks = split_docs(documents)</span><br></pre></td></tr></table></figure>
+
+<p><code>overlap</code> 是相邻 chunk 的重叠字数，避免句子被切断而丢失语义。</p>
+<h2 id="步骤三：向量化并入库"><a href="#步骤三：向量化并入库" class="headerlink" title="步骤三：向量化并入库"></a>步骤三：向量化并入库</h2><p>用 Embedding 模型把每个 chunk 转成向量，存进 Chroma：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> chromadb</span><br><span class="line"><span class="keyword">from</span> sentence_transformers <span class="keyword">import</span> SentenceTransformer</span><br><span class="line"></span><br><span class="line">model = SentenceTransformer(<span class="string">&quot;all-MiniLM-L6-v2&quot;</span>)</span><br><span class="line">client = chromadb.Client()</span><br><span class="line">collection = client.create_collection(<span class="string">&quot;knowledge&quot;</span>)</span><br><span class="line"></span><br><span class="line">embeddings = model.encode(chunks).tolist()</span><br><span class="line">collection.add(</span><br><span class="line">    documents=chunks,</span><br><span class="line">    embeddings=embeddings,</span><br><span class="line">    ids=[<span class="string">f&quot;chunk_<span class="subst">&#123;i&#125;</span>&quot;</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(chunks))],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="步骤四：检索相关片段"><a href="#步骤四：检索相关片段" class="headerlink" title="步骤四：检索相关片段"></a>步骤四：检索相关片段</h2><p>把问题同样向量化，在库里找出最相似的 top-k：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">retrieve</span>(<span class="params">question, k=<span class="number">2</span></span>):</span><br><span class="line">    q_emb = model.encode([question]).tolist()</span><br><span class="line">    result = collection.query(query_embeddings=q_emb, n_results=k)</span><br><span class="line">    <span class="keyword">return</span> result[<span class="string">&quot;documents&quot;</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="步骤五：拼接提示词并生成"><a href="#步骤五：拼接提示词并生成" class="headerlink" title="步骤五：拼接提示词并生成"></a>步骤五：拼接提示词并生成</h2><p>把检索到的片段和问题组装成提示词，交给大模型作答：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> openai <span class="keyword">import</span> OpenAI</span><br><span class="line"></span><br><span class="line">llm = OpenAI(api_key=os.getenv(<span class="string">&quot;OPENAI_API_KEY&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ask</span>(<span class="params">question</span>):</span><br><span class="line">    contexts = retrieve(question)</span><br><span class="line">    context_text = <span class="string">&quot;\n&quot;</span>.join(contexts)</span><br><span class="line">    prompt = <span class="string">f&quot;&quot;&quot;请仅根据以下资料回答问题，资料中没有的信息请回答&quot;不知道&quot;。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">资料：</span></span><br><span class="line"><span class="string"><span class="subst">&#123;context_text&#125;</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">问题：<span class="subst">&#123;question&#125;</span></span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">    resp = llm.chat.completions.create(</span><br><span class="line">        model=<span class="string">&quot;gpt-4o-mini&quot;</span>,</span><br><span class="line">        messages=[&#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: prompt&#125;],</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">return</span> resp.choices[<span class="number">0</span>].message.content</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(ask(<span class="string">&quot;Butterfly 是什么？&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<p>运行后，模型会基于检索到的资料回答，而不是凭空编造。</p>
+<h2 id="在线问答的完整流程"><a href="#在线问答的完整流程" class="headerlink" title="在线问答的完整流程"></a>在线问答的完整流程</h2><div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>
+    graph LR
+    A[用户提问] --&gt; B[问题向量化]
+    B --&gt; C[向量库检索 topk]
+    C --&gt; D[取回相关 chunk]
+    D --&gt; E[拼进提示词]
+    E --&gt; F[大模型生成]
+    F --&gt; G[返回带依据的答案]
+  </pre></div>
+
+<h2 id="优化方向"><a href="#优化方向" class="headerlink" title="优化方向"></a>优化方向</h2><p>跑通之后，可以从这几处继续提升效果：</p>
+<ul>
+<li>切分策略：按句子或段落切，比按字符更合理</li>
+<li>混合检索：叠加 BM25 关键词检索，弥补向量对专有名词的弱项</li>
+<li>重排序：检索后用 rerank 模型对 top-k 精排</li>
+<li>更强的 Embedding：中文场景换用 bge、m3e 等中文模型</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>一个最小可用的 RAG 只需五步：切分、向量化、入库、检索、生成。本地方案用 Chroma + sentence-transformers 就能零成本跑通，非常适合快速验证。理解了这条链路，日后迁移到 Milvus、Elasticsearch 等生产级组件，就只是规模问题。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://heiau.cn">烦恼多一点</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://heiau.cn/2026/09/24/127.RAG%20-%20%E5%A6%82%E4%BD%95%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%9C%AC%E5%9C%B0%20RAG%20%E7%9F%A5%E8%AF%86%E5%BA%93/">https://heiau.cn/2026/09/24/127.RAG - 如何从零搭建一个本地 RAG 知识库/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://heiau.cn" target="_blank">非鱼小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/RAG/">RAG</a></div><div class="post-share"><div class="social-share" data-image="https://uapis.cn/assets/acg/pc/a15b4afely1fnt99tpvpwj21hc0u0e84.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/09/24/128.AI%20Agent%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20Function%20Calling%20%E7%BB%99%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A5%E4%B8%8A%E5%B7%A5%E5%85%B7/" title="如何用 Function Calling 给大模型接上工具"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/110394662_p6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">如何用 Function Calling 给大模型接上工具</div></div><div class="info-2"><div class="info-item-1">大模型本身只会生成文字，既查不了实时天气，也算不准复杂数学。Function Calling（函数调用）让它能”请求”调用你写好的工具：模型判断该用哪个函数、给出参数，你的程序执行后把结果喂回去。这是所有 AI Agent 的地基，这篇教程用 OpenAI 兼容接口完整实现一次。 工作原理模型并不真的执行代码，它只输出”我想调用哪个函数、传什么参数”，执行由你的程序完成：      sequenceDiagram     participant U as 你的程序     participant M as 大模型     participant T as 本地工具函数     U-&gt;&gt;M: 1. 提问 + 工具清单     M--&gt;&gt;U: 2. 返回调用意图 函数名+参数     U-&gt;&gt;T: 3. 执行真实函数     T--&gt;&gt;U: 4. 返回结果     U-&gt;&gt;M: 5. 把结果回填     M--&gt;&gt;U: 6. 生成最终回答     前置准备pip install openai  并设置好 OPEN...</div></div></div></a><a class="pagination-related" href="/2026/09/24/126.%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%20-%20%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E7%BB%93%E6%9E%84%E5%8C%96%E7%9A%84%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%A8%A1%E6%9D%BF/" title="如何编写一个结构化的提示词模板"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvj2wm59hj21hc0u07fv.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">如何编写一个结构化的提示词模板</div></div><div class="info-2"><div class="info-item-1">同样问大模型，有人得到杂乱无章的回答，有人得到结构清晰、可直接用的结果。差别往往不在模型，而在提示词。这篇教程带你把”随口一问”升级成一套可复用的结构化提示词模板，每一步都给出可直接套用的写法。 为什么要结构化零散的提示词有三个问题：模型猜不准你的意图、输出格式不稳定、换个任务又要重头想。结构化模板把要求拆成固定的几块，让模型每次都清楚”我是谁、要做什么、有什么限制、输出成什么样”。一个完整的结构化提示词由这几部分组成：      graph TD     A[角色 Role] --&gt; E[完整提示词]     B[任务 Task] --&gt; E     C[约束 Constraints] --&gt; E     D[示例 Examples] --&gt; E     F[输出格式 Format] --&gt; E     步骤一：设定角色用 system 消息告诉模型它扮演谁，角色决定了语气和专业度： 你是一位有 10 年经验的资深技术编辑，擅长把复杂概念讲得通俗易懂。  角色越具体，回答越贴合场景。”你是助手”远不如”你是资深技术编辑”。 步骤二：明确任务一句话说...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/09/21/121.RAG%20-%20%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/" title="检索增强生成解决了什么问题"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxln98mdaj31hc0u018i.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-21</div><div class="info-item-2">检索增强生成解决了什么问题</div></div><div class="info-2"><div class="info-item-1">大模型再强也有三个绕不开的短板：知识停留在训练截止日期、对私有数据一无所知、容易一本正经地幻觉。检索增强生成（RAG, Retrieval-Augmented Generation）的思路是：不让模型背答案，而是先帮它查资料，再让它基于资料作答。 为什么需要 RAG 知识过时：模型不知道训练截止之后发生的事 私有知识：公司内部文档、个人笔记从未进入训练语料 幻觉：模型凭参数”印象”作答时，可能编造不存在的事实 可追溯：业务上要求答案能给出出处，纯生成做不到  RAG 把”记忆”外置到可更新的知识库，模型只负责理解与表达，事实由检索到的文档兜底。 RAG 的基本流程离线建库：  文档切分：按段落或固定长度把长文档切成 chunk（保留适当重叠） 向量化：用 Embedding 模型把每个 chunk 转成语义向量 入库：向量存入向量数据库（Milvus、pgvector、Elasticsearch 等）  在线问答：  把用户问题同样向量化 在向量库中检索最相似的 top-k 个 chunk 把问题与检索到的 chunk 拼进提示词，交给大模型生成答案  模型回答时”手里有资料”，...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Waline</span><span id="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">烦恼多一点</div><div class="author-info-description">非鱼小站 - 专注 Java 后端、分布式、缓存、消息队列与数据库等技术分享的个人博客</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">138</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">整体架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E5%87%86%E5%A4%87"><span class="toc-number">2.</span> <span class="toc-text">前置准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4%E4%B8%80%EF%BC%9A%E5%87%86%E5%A4%87%E6%96%87%E6%A1%A3"><span class="toc-number">3.</span> <span class="toc-text">步骤一：准备文档</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4%E4%BA%8C%EF%BC%9A%E5%88%87%E5%88%86%E6%88%90-chunk"><span class="toc-number">4.</span> <span class="toc-text">步骤二：切分成 chunk</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4%E4%B8%89%EF%BC%9A%E5%90%91%E9%87%8F%E5%8C%96%E5%B9%B6%E5%85%A5%E5%BA%93"><span class="toc-number">5.</span> <span class="toc-text">步骤三：向量化并入库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4%E5%9B%9B%EF%BC%9A%E6%A3%80%E7%B4%A2%E7%9B%B8%E5%85%B3%E7%89%87%E6%AE%B5"><span class="toc-number">6.</span> <span class="toc-text">步骤四：检索相关片段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4%E4%BA%94%EF%BC%9A%E6%8B%BC%E6%8E%A5%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B9%B6%E7%94%9F%E6%88%90"><span class="toc-number">7.</span> <span class="toc-text">步骤五：拼接提示词并生成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E7%BA%BF%E9%97%AE%E7%AD%94%E7%9A%84%E5%AE%8C%E6%95%B4%E6%B5%81%E7%A8%8B"><span class="toc-number">8.</span> <span class="toc-text">在线问答的完整流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E6%96%B9%E5%90%91"><span class="toc-number">9.</span> <span class="toc-text">优化方向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">10.</span> <span class="toc-text">小结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/09/24/134.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E6%8A%8A%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A5%E5%85%A5%E8%87%AA%E5%B7%B1%E7%9A%84%20Web%20%E5%BA%94%E7%94%A8/" title="如何把大模型接入自己的 Web 应用"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/005FzdTdgy1gegf7lzrdzj31hc0u0tfd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何把大模型接入自己的 Web 应用"/></a><div class="content"><a class="title" href="/2026/09/24/134.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E6%8A%8A%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A5%E5%85%A5%E8%87%AA%E5%B7%B1%E7%9A%84%20Web%20%E5%BA%94%E7%94%A8/" title="如何把大模型接入自己的 Web 应用">如何把大模型接入自己的 Web 应用</a><time datetime="2026-09-24T03:48:00.000Z" title="发表于 2026-09-24 11:48:00">2026-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/24/133.%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20Transformers%20%E5%BA%93%E8%B7%91%E9%80%9A%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB/" title="如何用 Transformers 库跑通文本分类"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvj888ouej21hc0u0k4o.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何用 Transformers 库跑通文本分类"/></a><div class="content"><a class="title" href="/2026/09/24/133.%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20Transformers%20%E5%BA%93%E8%B7%91%E9%80%9A%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB/" title="如何用 Transformers 库跑通文本分类">如何用 Transformers 库跑通文本分类</a><time datetime="2026-09-24T03:30:00.000Z" title="发表于 2026-09-24 11:30:00">2026-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/24/132.%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20PyTorch%20%E6%90%AD%E5%BB%BA%E5%B9%B6%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="如何用 PyTorch 搭建并训练一个神经网络"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxk45w3toj31hc0u01al.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何用 PyTorch 搭建并训练一个神经网络"/></a><div class="content"><a class="title" href="/2026/09/24/132.%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20PyTorch%20%E6%90%AD%E5%BB%BA%E5%B9%B6%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="如何用 PyTorch 搭建并训练一个神经网络">如何用 PyTorch 搭建并训练一个神经网络</a><time datetime="2026-09-24T03:12:00.000Z" title="发表于 2026-09-24 11:12:00">2026-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/24/131.%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20scikit-learn%20%E8%AE%AD%E7%BB%83%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B/" title="如何用 scikit-learn 训练第一个分类模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkijia91j31kw0w0e6g.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何用 scikit-learn 训练第一个分类模型"/></a><div class="content"><a class="title" href="/2026/09/24/131.%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20scikit-learn%20%E8%AE%AD%E7%BB%83%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B/" title="如何用 scikit-learn 训练第一个分类模型">如何用 scikit-learn 训练第一个分类模型</a><time datetime="2026-09-24T02:55:00.000Z" title="发表于 2026-09-24 10:55:00">2026-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/24/130.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20LoRA%20%E5%BE%AE%E8%B0%83%E4%B8%80%E4%B8%AA%E4%B8%93%E5%B1%9E%E6%A8%A1%E5%9E%8B/" title="如何用 LoRA 微调一个专属模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/110394662_p0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何用 LoRA 微调一个专属模型"/></a><div class="content"><a class="title" href="/2026/09/24/130.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20LoRA%20%E5%BE%AE%E8%B0%83%E4%B8%80%E4%B8%AA%E4%B8%93%E5%B1%9E%E6%A8%A1%E5%9E%8B/" title="如何用 LoRA 微调一个专属模型">如何用 LoRA 微调一个专属模型</a><time datetime="2026-09-24T02:38:00.000Z" title="发表于 2026-09-24 10:38:00">2026-09-24</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2020 - 2026 By 烦恼多一点</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.innerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+
+    setTimeout(() => URL.revokeObjectURL(url), 5000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    // Clean up previous event listeners and pending frames
+    if (wrap.__mermaidAbortController) {
+      wrap.__mermaidAbortController.abort()
+      if (wrap.__mermaidRafId) cancelAnimationFrame(wrap.__mermaidRafId)
+    }
+    const ac = new AbortController()
+    wrap.__mermaidAbortController = ac
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+    // Disable default gestures to prevent scroll chaining and pinch-zoom penetration in Chrome
+    svg.style.touchAction = 'none'
+
+    // Cache BoundingClientRect, throttled on scroll to reduce reflow
+    let cachedRect = svg.getBoundingClientRect()
+    let rectDirty = false
+    const markRectDirty = () => { rectDirty = true }
+    window.addEventListener('resize', markRectDirty, { signal: ac.signal })
+    window.addEventListener('scroll', markRectDirty, { signal: ac.signal, capture: true })
+    const getRect = () => {
+      if (rectDirty) {
+        cachedRect = svg.getBoundingClientRect()
+        rectDirty = false
+      }
+      return cachedRect
+    }
+
+    // Precompute clamp bounds from initial viewBox
+    const minW = initVb[2] * 0.1
+    const maxW = initVb[2] * 10
+    const minH = initVb[3] * 0.1
+    const maxH = initVb[3] * 10
+    const clampVb = vb => {
+      const out = vb.slice()
+      out[2] = clamp(out[2], minW, maxW)
+      out[3] = clamp(out[3], minH, maxH)
+      return out
+    }
+
+    // Throttle DOM updates using requestAnimationFrame
+    let pendingVb = null
+    let rafId = null
+    const applyVb = () => {
+      if (pendingVb) {
+        wrap.__mermaidCurViewBox = pendingVb
+        setSvgViewBox(svg, pendingVb)
+        pendingVb = null
+      }
+      rafId = null
+      wrap.__mermaidRafId = null
+    }
+    const setCurVb = vb => {
+      pendingVb = clampVb(vb)
+      if (!rafId) {
+        rafId = requestAnimationFrame(applyVb)
+        wrap.__mermaidRafId = rafId
+      }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      lastPointerX: 0,
+      lastPointerY: 0
+    }
+
+    const onPointerDown = e => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      const curVb = wrap.__mermaidCurViewBox
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      if (state.pointers.size === 1) {
+        state.startVb = curVb.slice()
+        state.lastPointerX = e.clientX
+        state.lastPointerY = e.clientY
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = curVb.slice()
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      const curVb = wrap.__mermaidCurViewBox
+      const rect = getRect()
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = state.pointers.values().next().value
+        const dxClient = p.x - state.lastPointerX
+        const dyClient = p.y - state.lastPointerY
+        state.lastPointerX = p.x
+        state.lastPointerY = p.y
+        const dx = dxClient * (curVb[2] / rect.width)
+        const dy = dyClient * (curVb[3] / rect.height)
+        setCurVb([curVb[0] - dx, curVb[1] - dy, curVb[2], curVb[3]])
+        return
+      }
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const px = curVb[0] + (cx - rect.left) * (curVb[2] / rect.width)
+        const py = curVb[1] + (cy - rect.top) * (curVb[3] / rect.height)
+        setCurVb(zoomAtPoint(state.startVb, factor, px, py))
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      // Release PointerCapture to avoid event capture anomalies
+      if (svg.hasPointerCapture && svg.hasPointerCapture(e.pointerId)) {
+        svg.releasePointerCapture(e.pointerId)
+      }
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+      } else if (state.pointers.size === 1) {
+        const p = state.pointers.values().next().value
+        state.lastPointerX = p.x
+        state.lastPointerY = p.y
+      }
+    }
+
+    const onWheel = e => {
+      // Prevent event bubbling from triggering external scroll
+      e.preventDefault()
+      e.stopPropagation()
+      // Normalize deltaY across deltaMode (Chrome uses pixels, Safari uses lines)
+      let delta = e.deltaY
+      if (e.deltaMode === 1) delta *= 16
+      else if (e.deltaMode === 2) delta *= 400
+
+      // Continuous zoom factor: smoother than fixed 1.1/0.9 steps
+      const zoomFactor = Math.pow(1.001, delta)
+
+      const curVb = wrap.__mermaidCurViewBox
+      const rect = getRect()
+      const px = curVb[0] + (e.clientX - rect.left) * (curVb[2] / rect.width)
+      const py = curVb[1] + (e.clientY - rect.top) * (curVb[3] / rect.height)
+      setCurVb(zoomAtPoint(curVb, zoomFactor, px, py))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (init) setCurVb(init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown, { signal: ac.signal })
+    svg.addEventListener('pointermove', onPointerMove, { signal: ac.signal })
+    svg.addEventListener('pointerup', onPointerUpOrCancel, { signal: ac.signal })
+    svg.addEventListener('pointercancel', onPointerUpOrCancel, { signal: ac.signal })
+    svg.addEventListener('wheel', onWheel, { passive: false, signal: ac.signal })
+    svg.addEventListener('dblclick', onDblClick, { signal: ac.signal })
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      // Clean up event listeners before removing old SVG
+      if (item.__mermaidAbortController) {
+        item.__mermaidAbortController.abort()
+      }
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      let config = {}
+      try {
+        config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      } catch (e) {
+        console.warn('[mermaid] failed to parse dataset.config:', e)
+      }
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+      const handleError = err => {
+        console.error(`[mermaid] render failed for block #${index}:`, err)
+        const errorEl = document.createElement('div')
+        errorEl.className = 'mermaid-error'
+        errorEl.textContent = `Mermaid render error: ${err.message || err}`
+        mermaidSrc.insertAdjacentElement('afterend', errorEl)
+      }
+
+      try {
+        const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+        // mermaid v9 and v10 compatibility
+        if (typeof renderFn === 'string') {
+          renderMermaid(renderFn)
+        } else {
+          renderFn.then(({ svg }) => renderMermaid(svg)).catch(handleError)
+        }
+      } catch (err) {
+        handleError(err)
+      }
+    })
+  }
+
+  const codeToMermaid = $article => {
+    const codeMermaidEle = $article.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    const $article = document.getElementById('article-container')
+    if (!$article) return
+
+    if (false) codeToMermaid($article)
+    const $mermaid = $article.querySelectorAll('.mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  let initFn = window.walineFn || null
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const destroyWaline = ele => ele.destroy()
+
+  const initWaline = (Fn, el = document, path = window.location.pathname) => {
+    const waline = Fn({
+      el: el.querySelector('#waline-wrap'),
+      serverURL: 'waline.heiau.cn',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      comment: false,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyWaline = () => {
+        destroyWaline(waline)
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const loadWaline = (el, path) => {
+    if (initFn) initWaline(initFn, el, path)
+    else {
+      btf.getCSS('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.css')
+        .then(() => import('https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.min.js'))
+        .then(({ init }) => {
+          initFn = init || Waline.init
+          initWaline(initFn, el, path)
+          window.walineFn = initFn
+        })
+    }
+  }
+
+  if (isShuoshuo) {
+    'Waline' === 'Waline'
+      ? window.shuoshuoComment = { loadComment: loadWaline } 
+      : window.loadOtherComment = loadWaline
+    return
+  }
+
+  if ('Waline' === 'Waline' || !false) {
+    if (false) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const disqusReset = conf => {
+    window.DISQUS && window.DISQUS.reset({
+      reload: true,
+      config: conf
+    })
+  }
+
+  const loadDisqus = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyDisqus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    window.disqus_identifier = isShuoshuo ? path : '/2026/09/24/127.RAG%20-%20%E5%A6%82%E4%BD%95%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%9C%AC%E5%9C%B0%20RAG%20%E7%9F%A5%E8%AF%86%E5%BA%93/'
+    window.disqus_url = isShuoshuo ? location.origin + path : 'https://heiau.cn/2026/09/24/127.RAG%20-%20%E5%A6%82%E4%BD%95%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%9C%AC%E5%9C%B0%20RAG%20%E7%9F%A5%E8%AF%86%E5%BA%93/'
+
+    const disqus_config = function () {
+      this.page.url = disqus_url
+      this.page.identifier = disqus_identifier
+      this.page.title = '如何从零搭建一个本地 RAG 知识库'
+    }
+
+    if (window.DISQUS) disqusReset(disqus_config)
+    else {
+      const script = document.createElement('script')
+      script.src = 'https://.disqus.com/embed.js'
+      script.setAttribute('data-timestamp', +new Date())
+      document.head.appendChild(script)
+    }
+
+    btf.addGlobalFn('themeChange', () => disqusReset(disqus_config), 'disqus')
+  }
+
+  const getCount = async() => {
+    try {
+      const eleGroup = document.querySelector('#post-meta .disqus-comment-count')
+      if (!eleGroup) return
+      const cleanedLinks = eleGroup.href.replace(/#post-comment$/, '')
+
+      const res = await fetch(`https://disqus.com/api/3.0/threads/set.json?forum=&api_key=&thread:link=${cleanedLinks}`,{
+        method: 'GET'
+      })
+      const result = await res.json()
+
+      const count = result.response.length ? result.response[0].posts : 0
+      eleGroup.textContent = count
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Waline' === 'Disqus'
+      ? window.shuoshuoComment = { loadComment: loadDisqus }
+      : window.loadOtherComment = loadDisqus
+    return
+  }
+
+  if ('Waline' === 'Disqus' || !false) {
+    if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+    else {
+      loadDisqus()
+      
+    }
+  } else {
+    window.loadOtherComment = loadDisqus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

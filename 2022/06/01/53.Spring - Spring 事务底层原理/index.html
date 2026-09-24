@@ -204,11 +204,373 @@
   isHighlightShrink: false,
   isToc: true,
   pageType: 'post'
-}</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">128</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/privacy/"><i class="fa-fw fas fa-user-shield"></i><span> 隐私政策</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://uapis.cn/assets/acg/pc/107896527_p0.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">非鱼小站</span></a><a class="nav-page-title" href="/"><span class="site-name">Spring 事务底层原理</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/privacy/"><i class="fa-fw fas fa-user-shield"></i><span> 隐私政策</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Spring 事务底层原理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-01T12:46:25.000Z" title="发表于 2022-06-01 20:46:25">2022-06-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-16T09:55:52.011Z" title="更新于 2026-09-16 17:55:52">2026-09-16</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="划分处理单元-IOC"><a href="#划分处理单元-IOC" class="headerlink" title="划分处理单元 IOC"></a>划分处理单元 IOC</h2><p>由于 Spring 解决的问题是对单个数据库进行局部事务处理的，具体的实现首相用 Spring 中的 IOC 划分了事务处理单元。并且将对事务的各种配置放到了 IOC 容器中（设置事务管理器，设置事务的传播特性及隔离机制）。</p>
+}</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">138</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/privacy/"><i class="fa-fw fas fa-user-shield"></i><span> 隐私政策</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://uapis.cn/assets/acg/pc/107896527_p0.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">非鱼小站</span></a><a class="nav-page-title" href="/"><span class="site-name">Spring 事务底层原理</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/privacy/"><i class="fa-fw fas fa-user-shield"></i><span> 隐私政策</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Spring 事务底层原理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-01T12:46:25.000Z" title="发表于 2022-06-01 20:46:25">2022-06-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-16T09:55:52.011Z" title="更新于 2026-09-16 17:55:52">2026-09-16</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="划分处理单元-IOC"><a href="#划分处理单元-IOC" class="headerlink" title="划分处理单元 IOC"></a>划分处理单元 IOC</h2><p>由于 Spring 解决的问题是对单个数据库进行局部事务处理的，具体的实现首相用 Spring 中的 IOC 划分了事务处理单元。并且将对事务的各种配置放到了 IOC 容器中（设置事务管理器，设置事务的传播特性及隔离机制）。</p>
 <h2 id="AOP-拦截需要进行事务处理的类"><a href="#AOP-拦截需要进行事务处理的类" class="headerlink" title="AOP 拦截需要进行事务处理的类"></a>AOP 拦截需要进行事务处理的类</h2><p>Spring 事务处理模块是通过 AOP 功能来实现声明式事务处理的，具体操作（比如事务实行的配置和读取，事务对象的抽象），用 <code>TransactionProxyFactoryBean</code> 接口来使用 AOP 功能，生成 proxy 代理对象，通过 <code>TransactionInterceptor</code> 完成对代理方法的拦截，将事务处理的功能编织到拦截的方法中。读取 IOC 容器事务配置属性，转化为 Spring 事务处理需要的内部数据结构（<code>TransactionAttributeSourceAdvisor</code>），转化为 <code>TransactionAttribute</code> 表示的数据对象。</p>
 <h2 id="对事物处理实现（事务的生成、提交、回滚、挂起）"><a href="#对事物处理实现（事务的生成、提交、回滚、挂起）" class="headerlink" title="对事物处理实现（事务的生成、提交、回滚、挂起）"></a>对事物处理实现（事务的生成、提交、回滚、挂起）</h2><p>Spring 委托给具体的事务处理器实现。实现了一个抽象和适配。适配的具体事务处理器：DataSource 数据源支持、Hibernate 数据源事务处理支持、JDO 数据源事务处理支持，JPA、JTA 数据源事务处理支持。这些支持都是通过设计 <code>PlatformTransactionManager</code>、<code>AbstractPlatforTransaction</code> 一系列事务处理的支持。 为常用数据源支持提供了一系列的 <code>TransactionManager</code>。</p>
 <h2 id="结合"><a href="#结合" class="headerlink" title="结合"></a>结合</h2><p><code>PlatformTransactionManager</code> 实现了 <code>TransactionInterception</code> 接口，让其与 <code>TransactionProxyFactoryBean</code> 结合起来，形成一个 Spring 声明式事务处理的设计体系。</p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://heiau.cn">烦恼多一点</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://heiau.cn/2022/06/01/53.Spring%20-%20Spring%20%E4%BA%8B%E5%8A%A1%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">https://heiau.cn/2022/06/01/53.Spring - Spring 事务底层原理/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://heiau.cn" target="_blank">非鱼小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/spring/">spring</a></div><div class="post-share"><div class="social-share" data-image="https://uapis.cn/assets/acg/pc/107896527_p0.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2022/06/01/54.Spring%20-%20%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0%E5%8A%9F%E8%83%BD/" title="如何自定义注解实现功能"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxlobn7kfj31hc0u01db.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">如何自定义注解实现功能</div></div><div class="info-2"><div class="info-item-1">1.创建自定义注解和创建一个接口相似，但是注解的 interface 关键字需要以 @ 符号开头。 2.注解方法不能带有参数； 3.注解方法返回值类型限定为：基本类型、String、Enums、Annotation 或者是这些类型的数组； 4.注解方法可以有默认值； 5.注解本身能够包含元注解，元注解被用来注解其它注解。 </div></div></div></a><a class="pagination-related" href="/2022/05/31/52.Spring%20-%20Spring%20%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/" title="Spring 事务实现方式"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxlo4q77mj31kw0w0kev.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Spring 事务实现方式</div></div><div class="info-2"><div class="info-item-1">编码方式所谓编程式事务指的是通过编码方式实现事务，即类似于 JDBC 编程实现事务管理。 声明式事务管理方式声明式事务管理又有两种实现方式：  基于 xml 配置文件的方式； 另一个实在业务方法上进行 @Transaction 注解，将事务规则应用到业务逻辑中；  </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2022/05/29/50.Spring%20-%20Spring%20AOP%20%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" title="Spring AOP 实现原理"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvk7nvolrj21hc0u0dx1.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-29</div><div class="info-item-2">Spring AOP 实现原理</div></div><div class="info-2"><div class="info-item-1">Spring AOP 中的动态代理主要有两种方式，JDK 动态代理 和 CGLIB 动态代理。JDK 动态代理通过反射来接收被代理的类，并且要求被代理的类必须实现一个接口。JDK 动态代理的核心是 InvocationHandler 接口和 Proxy 类。 如果目标类没有实现接口，那么 Spring AOP 会选择使用 CGLIB 来动态代理目标类。CGLIB（Code Generation Library），是一个代码生成的类库，可以在运行时动态的生成某个类的子类，注意，CGLIB 是通过继承的方式做的动态代理，因此如果某个类被标记为 final，那么它是无法使用 CGLIB 做动态代理的。 </div></div></div></a><a class="pagination-related" href="/2022/06/03/56.Spring%20-%20Spring%20MVC%20%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" title="Spring MVC 启动流程"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/005FzdTdgy1gegf7m1ungj31hc0u0ahu.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-03</div><div class="info-item-2">Spring MVC 启动流程</div></div><div class="info-2"><div class="info-item-1">在 web.xml 文件中给 Spring MVC 的 Servlet 配置了 load-on-startup，所以程序启动的时候会初始化 Spring MVC，在 HttpServletBean 中将配置的 contextConfigLocation 属性设置到 Servlet 中，然后在 FrameworkServlet 中创建了 WebApplicationContext，DispatcherServlet 根据 contextConfigLocation 配置的 classpath 下的 xml 文件初始化了 Spring MVC 总的组件。 </div></div></div></a><a class="pagination-related" href="/2022/06/05/58.Spring%20-%20Spring%20%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%94%A8%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="Spring 框架中用到了哪些设计模式"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxlnjjpbxj31hc0u0k63.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-05</div><div class="info-item-2">Spring 框架中用到了哪些设计模式</div></div><div class="info-2"><div class="info-item-1"> 代理模式：在 AOP 和 Remoting 中被用的比较多。  单例模式：在 Spring 配置文件中定义的 Bean 默认为单例模式。  模板方法：用来解决代码重复的问题。比如. RestTemplate, JmsTemplate, JpaTemplate。  前端控制器：Spring 提供了 DispatcherServlet 来对请求进行分发。  视图帮助(View Helper )：Spring 提供了一系列的 JSP 标签，高效宏来辅助将分散的代码整合在视图里。  依赖注入：贯穿于 BeanFactory &#x2F; ApplicationContext 接口的核心理念。  工厂模式：BeanFactory 用来创建对象的实例。   </div></div></div></a><a class="pagination-related" href="/2022/05/29/49.Spring%20-%20%E8%AF%B4%E8%AF%B4%20Spring%20AOP/" title="说说 Spring AOP"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvj09uty2j21hc0u01co.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-29</div><div class="info-item-2">说说 Spring AOP</div></div><div class="info-2"><div class="info-item-1">面向切面编程，在我们的应用中，经常需要做一些事情，但是这些事情与核心业务无关，比如，要记录所有 update 方法的执行时间时间，操作人等等信息，记录到日志， 通过 Spring 的 AOP 技术，就可以在不修改 update 的代码的情况下完成该需求。 </div></div></div></a><a class="pagination-related" href="/2022/06/01/54.Spring%20-%20%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0%E5%8A%9F%E8%83%BD/" title="如何自定义注解实现功能"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxlobn7kfj31hc0u01db.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-01</div><div class="info-item-2">如何自定义注解实现功能</div></div><div class="info-2"><div class="info-item-1">1.创建自定义注解和创建一个接口相似，但是注解的 interface 关键字需要以 @ 符号开头。 2.注解方法不能带有参数； 3.注解方法返回值类型限定为：基本类型、String、Enums、Annotation 或者是这些类型的数组； 4.注解方法可以有默认值； 5.注解本身能够包含元注解，元注解被用来注解其它注解。 </div></div></div></a><a class="pagination-related" href="/2022/06/02/55.Spring%20-%20Spring%20MVC%20%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B/" title="Spring MVC 运行流程"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxlhcoxbbj31kw0w0tz3.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-02</div><div class="info-item-2">Spring MVC 运行流程</div></div><div class="info-2"><div class="info-item-1"> Spring MVC 将所有的请求都提交给 DispatcherServlet，它会委托应用系统的其他模块负责对请求进行真正的处理工作。  DispatcherServlet 查询一个或多个 HandlerMapping，找到处理请求的 Controller.  DispatcherServlet 请求提交到目标 Controller  Controller 进行业务逻辑处理后，会返回一个 ModelAndView  Dispatcher 查询一个或多个 ViewResolver 视图解析器,找到 ModelAndView 对象指定的视图对象  视图对象负责渲染返回给客户端。   </div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Waline</span><span id="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">烦恼多一点</div><div class="author-info-description">非鱼小站 - 专注 Java 后端、分布式、缓存、消息队列与数据库等技术分享的个人博客</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">128</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%92%E5%88%86%E5%A4%84%E7%90%86%E5%8D%95%E5%85%83-IOC"><span class="toc-number">1.</span> <span class="toc-text">划分处理单元 IOC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOP-%E6%8B%A6%E6%88%AA%E9%9C%80%E8%A6%81%E8%BF%9B%E8%A1%8C%E4%BA%8B%E5%8A%A1%E5%A4%84%E7%90%86%E7%9A%84%E7%B1%BB"><span class="toc-number">2.</span> <span class="toc-text">AOP 拦截需要进行事务处理的类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E4%BA%8B%E7%89%A9%E5%A4%84%E7%90%86%E5%AE%9E%E7%8E%B0%EF%BC%88%E4%BA%8B%E5%8A%A1%E7%9A%84%E7%94%9F%E6%88%90%E3%80%81%E6%8F%90%E4%BA%A4%E3%80%81%E5%9B%9E%E6%BB%9A%E3%80%81%E6%8C%82%E8%B5%B7%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">对事物处理实现（事务的生成、提交、回滚、挂起）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E5%90%88"><span class="toc-number">4.</span> <span class="toc-text">结合</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/09/21/124.AIGC%20-%20%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%20AI%20%E7%BB%98%E7%94%BB%E7%9A%84/" title="扩散模型是如何实现 AI 绘画的"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/109932872_p0_master1200.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="扩散模型是如何实现 AI 绘画的"/></a><div class="content"><a class="title" href="/2026/09/21/124.AIGC%20-%20%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%20AI%20%E7%BB%98%E7%94%BB%E7%9A%84/" title="扩散模型是如何实现 AI 绘画的">扩散模型是如何实现 AI 绘画的</a><time datetime="2026-09-21T12:46:00.000Z" title="发表于 2026-09-21 20:46:00">2026-09-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/21/123.%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%20-%20%E5%B8%B8%E7%94%A8%E7%9A%84%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%8A%80%E5%B7%A7%E6%9C%89%E5%93%AA%E4%BA%9B/" title="常用的提示词技巧有哪些"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkcs4066j31hc0u0wrj.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="常用的提示词技巧有哪些"/></a><div class="content"><a class="title" href="/2026/09/21/123.%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B%20-%20%E5%B8%B8%E7%94%A8%E7%9A%84%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%8A%80%E5%B7%A7%E6%9C%89%E5%93%AA%E4%BA%9B/" title="常用的提示词技巧有哪些">常用的提示词技巧有哪些</a><time datetime="2026-09-21T11:08:00.000Z" title="发表于 2026-09-21 19:08:00">2026-09-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/21/122.AI%20Agent%20-%20AI%20Agent%20%E6%98%AF%E5%A6%82%E4%BD%95%E8%A7%84%E5%88%92%E5%92%8C%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E7%9A%84/" title="AI Agent 是如何规划和使用工具的"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/108386368_p0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AI Agent 是如何规划和使用工具的"/></a><div class="content"><a class="title" href="/2026/09/21/122.AI%20Agent%20-%20AI%20Agent%20%E6%98%AF%E5%A6%82%E4%BD%95%E8%A7%84%E5%88%92%E5%92%8C%E4%BD%BF%E7%94%A8%E5%B7%A5%E5%85%B7%E7%9A%84/" title="AI Agent 是如何规划和使用工具的">AI Agent 是如何规划和使用工具的</a><time datetime="2026-09-21T09:50:00.000Z" title="发表于 2026-09-21 17:50:00">2026-09-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/21/121.RAG%20-%20%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/" title="检索增强生成解决了什么问题"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxln98mdaj31hc0u018i.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="检索增强生成解决了什么问题"/></a><div class="content"><a class="title" href="/2026/09/21/121.RAG%20-%20%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/" title="检索增强生成解决了什么问题">检索增强生成解决了什么问题</a><time datetime="2026-09-21T08:35:00.000Z" title="发表于 2026-09-21 16:35:00">2026-09-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/" title="智能体是如何从奖励中学会决策的"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/005FzdTdgy1geet8e6s3lj31hc0u0hav.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="智能体是如何从奖励中学会决策的"/></a><div class="content"><a class="title" href="/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/" title="智能体是如何从奖励中学会决策的">智能体是如何从奖励中学会决策的</a><time datetime="2026-09-21T07:10:00.000Z" title="发表于 2026-09-21 15:10:00">2026-09-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2020 - 2026 By 烦恼多一点</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://heiau.cn">烦恼多一点</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://heiau.cn/2022/06/01/53.Spring%20-%20Spring%20%E4%BA%8B%E5%8A%A1%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">https://heiau.cn/2022/06/01/53.Spring - Spring 事务底层原理/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://heiau.cn" target="_blank">非鱼小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/spring/">spring</a></div><div class="post-share"><div class="social-share" data-image="https://uapis.cn/assets/acg/pc/107896527_p0.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2022/06/01/54.Spring%20-%20%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0%E5%8A%9F%E8%83%BD/" title="如何自定义注解实现功能"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxlobn7kfj31hc0u01db.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">如何自定义注解实现功能</div></div><div class="info-2"><div class="info-item-1">1.创建自定义注解和创建一个接口相似，但是注解的 interface 关键字需要以 @ 符号开头。 2.注解方法不能带有参数； 3.注解方法返回值类型限定为：基本类型、String、Enums、Annotation 或者是这些类型的数组； 4.注解方法可以有默认值； 5.注解本身能够包含元注解，元注解被用来注解其它注解。 </div></div></div></a><a class="pagination-related" href="/2022/05/31/52.Spring%20-%20Spring%20%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/" title="Spring 事务实现方式"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxlo4q77mj31kw0w0kev.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Spring 事务实现方式</div></div><div class="info-2"><div class="info-item-1">编码方式所谓编程式事务指的是通过编码方式实现事务，即类似于 JDBC 编程实现事务管理。 声明式事务管理方式声明式事务管理又有两种实现方式：  基于 xml 配置文件的方式； 另一个实在业务方法上进行 @Transaction 注解，将事务规则应用到业务逻辑中；  </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2022/06/03/56.Spring%20-%20Spring%20MVC%20%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" title="Spring MVC 启动流程"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/005FzdTdgy1gegf7m1ungj31hc0u0ahu.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-03</div><div class="info-item-2">Spring MVC 启动流程</div></div><div class="info-2"><div class="info-item-1">在 web.xml 文件中给 Spring MVC 的 Servlet 配置了 load-on-startup，所以程序启动的时候会初始化 Spring MVC，在 HttpServletBean 中将配置的 contextConfigLocation 属性设置到 Servlet 中，然后在 FrameworkServlet 中创建了 WebApplicationContext，DispatcherServlet 根据 contextConfigLocation 配置的 classpath 下的 xml 文件初始化了 Spring MVC 总的组件。 </div></div></div></a><a class="pagination-related" href="/2022/05/27/47.Spring%20-%20Spring%20Bean%20%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" title="Spring Bean 的生命周期"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvj5b07taj21hc0u0173.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-27</div><div class="info-item-2">Spring Bean 的生命周期</div></div><div class="info-2"><div class="info-item-1"> Spring Bean 的生命周期简单易懂。在一个 bean 实例被初始化时，需要执行一系列的初始化操作以达到可用的状态。同样的，当一个 bean 不在被调用时需要进行相关的析构操作，并从 bean 容器中移除。  Spring bean factory 负责管理在 spring 容器中被创建的 bean 的生命周期。Bean 的生命周期由两组回调（call back）方法组成。  初始化之后调用的回调方法。 销毁之前调用的回调方法。   Spring 框架提供了以下四种方式来管理 bean 的生命周期事件：  InitializingBean 和 DisposableBean 回调接口 针对特殊行为的其他 Aware 接口 Bean 配置文件中的 Custom init() 方法和 destroy() 方法 @PostConstruct 和 @PreDestroy 注解方式    </div></div></div></a><a class="pagination-related" href="/2022/05/28/48.Spring%20-%20Spring%20IOC%20%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0/" title="Spring IOC 如何实现"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/108490913_p0.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-28</div><div class="info-item-2">Spring IOC 如何实现</div></div><div class="info-2"><div class="info-item-1"> Spring 中的 org.springframework.beans 包和 org.springframework.context 包构成了 Spring 框架 IoC 容器的基础。  BeanFactory 接口提供了一个先进的配置机制，使得任何类型的对象的配置成为可能。ApplicationContext 接口对 BeanFactory（是一个子接口）进行了扩展，在 BeanFactory 的基础上添加了其他功能，比如与 Spring 的 AOP 更容易集成，也提供了处理 message resource 的机制（用于国际化）、事件传播以及应用层的特别配置，比如针对 Web 应用的 WebApplicationContext。  org.springframework.beans.factory.BeanFactory 是 Spring IoC 容器的具体实现，用来包装和管理前面提到的各种 bean。BeanFactory 接口是 Spring IoC 容器的核心接口。   </div></div></div></a><a class="pagination-related" href="/2022/05/29/49.Spring%20-%20%E8%AF%B4%E8%AF%B4%20Spring%20AOP/" title="说说 Spring AOP"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvj09uty2j21hc0u01co.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-29</div><div class="info-item-2">说说 Spring AOP</div></div><div class="info-2"><div class="info-item-1">面向切面编程，在我们的应用中，经常需要做一些事情，但是这些事情与核心业务无关，比如，要记录所有 update 方法的执行时间时间，操作人等等信息，记录到日志， 通过 Spring 的 AOP 技术，就可以在不修改 update 的代码的情况下完成该需求。 </div></div></div></a><a class="pagination-related" href="/2022/05/31/52.Spring%20-%20Spring%20%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/" title="Spring 事务实现方式"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxlo4q77mj31kw0w0kev.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-31</div><div class="info-item-2">Spring 事务实现方式</div></div><div class="info-2"><div class="info-item-1">编码方式所谓编程式事务指的是通过编码方式实现事务，即类似于 JDBC 编程实现事务管理。 声明式事务管理方式声明式事务管理又有两种实现方式：  基于 xml 配置文件的方式； 另一个实在业务方法上进行 @Transaction 注解，将事务规则应用到业务逻辑中；  </div></div></div></a><a class="pagination-related" href="/2022/06/01/54.Spring%20-%20%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0%E5%8A%9F%E8%83%BD/" title="如何自定义注解实现功能"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxlobn7kfj31hc0u01db.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-01</div><div class="info-item-2">如何自定义注解实现功能</div></div><div class="info-2"><div class="info-item-1">1.创建自定义注解和创建一个接口相似，但是注解的 interface 关键字需要以 @ 符号开头。 2.注解方法不能带有参数； 3.注解方法返回值类型限定为：基本类型、String、Enums、Annotation 或者是这些类型的数组； 4.注解方法可以有默认值； 5.注解本身能够包含元注解，元注解被用来注解其它注解。 </div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Waline</span><span id="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">烦恼多一点</div><div class="author-info-description">非鱼小站 - 专注 Java 后端、分布式、缓存、消息队列与数据库等技术分享的个人博客</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">138</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%92%E5%88%86%E5%A4%84%E7%90%86%E5%8D%95%E5%85%83-IOC"><span class="toc-number">1.</span> <span class="toc-text">划分处理单元 IOC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOP-%E6%8B%A6%E6%88%AA%E9%9C%80%E8%A6%81%E8%BF%9B%E8%A1%8C%E4%BA%8B%E5%8A%A1%E5%A4%84%E7%90%86%E7%9A%84%E7%B1%BB"><span class="toc-number">2.</span> <span class="toc-text">AOP 拦截需要进行事务处理的类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E4%BA%8B%E7%89%A9%E5%A4%84%E7%90%86%E5%AE%9E%E7%8E%B0%EF%BC%88%E4%BA%8B%E5%8A%A1%E7%9A%84%E7%94%9F%E6%88%90%E3%80%81%E6%8F%90%E4%BA%A4%E3%80%81%E5%9B%9E%E6%BB%9A%E3%80%81%E6%8C%82%E8%B5%B7%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">对事物处理实现（事务的生成、提交、回滚、挂起）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E5%90%88"><span class="toc-number">4.</span> <span class="toc-text">结合</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/09/24/134.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E6%8A%8A%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A5%E5%85%A5%E8%87%AA%E5%B7%B1%E7%9A%84%20Web%20%E5%BA%94%E7%94%A8/" title="如何把大模型接入自己的 Web 应用"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/005FzdTdgy1gegf7lzrdzj31hc0u0tfd.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何把大模型接入自己的 Web 应用"/></a><div class="content"><a class="title" href="/2026/09/24/134.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E6%8A%8A%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A5%E5%85%A5%E8%87%AA%E5%B7%B1%E7%9A%84%20Web%20%E5%BA%94%E7%94%A8/" title="如何把大模型接入自己的 Web 应用">如何把大模型接入自己的 Web 应用</a><time datetime="2026-09-24T03:48:00.000Z" title="发表于 2026-09-24 11:48:00">2026-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/24/133.%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20Transformers%20%E5%BA%93%E8%B7%91%E9%80%9A%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB/" title="如何用 Transformers 库跑通文本分类"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvj888ouej21hc0u0k4o.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何用 Transformers 库跑通文本分类"/></a><div class="content"><a class="title" href="/2026/09/24/133.%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20Transformers%20%E5%BA%93%E8%B7%91%E9%80%9A%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB/" title="如何用 Transformers 库跑通文本分类">如何用 Transformers 库跑通文本分类</a><time datetime="2026-09-24T03:30:00.000Z" title="发表于 2026-09-24 11:30:00">2026-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/24/132.%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20PyTorch%20%E6%90%AD%E5%BB%BA%E5%B9%B6%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="如何用 PyTorch 搭建并训练一个神经网络"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxk45w3toj31hc0u01al.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何用 PyTorch 搭建并训练一个神经网络"/></a><div class="content"><a class="title" href="/2026/09/24/132.%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20PyTorch%20%E6%90%AD%E5%BB%BA%E5%B9%B6%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AA%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="如何用 PyTorch 搭建并训练一个神经网络">如何用 PyTorch 搭建并训练一个神经网络</a><time datetime="2026-09-24T03:12:00.000Z" title="发表于 2026-09-24 11:12:00">2026-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/24/131.%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20scikit-learn%20%E8%AE%AD%E7%BB%83%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B/" title="如何用 scikit-learn 训练第一个分类模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkijia91j31kw0w0e6g.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何用 scikit-learn 训练第一个分类模型"/></a><div class="content"><a class="title" href="/2026/09/24/131.%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20scikit-learn%20%E8%AE%AD%E7%BB%83%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B/" title="如何用 scikit-learn 训练第一个分类模型">如何用 scikit-learn 训练第一个分类模型</a><time datetime="2026-09-24T02:55:00.000Z" title="发表于 2026-09-24 10:55:00">2026-09-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/09/24/130.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20LoRA%20%E5%BE%AE%E8%B0%83%E4%B8%80%E4%B8%AA%E4%B8%93%E5%B1%9E%E6%A8%A1%E5%9E%8B/" title="如何用 LoRA 微调一个专属模型"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/110394662_p0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何用 LoRA 微调一个专属模型"/></a><div class="content"><a class="title" href="/2026/09/24/130.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E7%94%A8%20LoRA%20%E5%BE%AE%E8%B0%83%E4%B8%80%E4%B8%AA%E4%B8%93%E5%B1%9E%E6%A8%A1%E5%9E%8B/" title="如何用 LoRA 微调一个专属模型">如何用 LoRA 微调一个专属模型</a><time datetime="2026-09-24T02:38:00.000Z" title="发表于 2026-09-24 10:38:00">2026-09-24</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2020 - 2026 By 烦恼多一点</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.innerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+
+    setTimeout(() => URL.revokeObjectURL(url), 5000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    // Clean up previous event listeners and pending frames
+    if (wrap.__mermaidAbortController) {
+      wrap.__mermaidAbortController.abort()
+      if (wrap.__mermaidRafId) cancelAnimationFrame(wrap.__mermaidRafId)
+    }
+    const ac = new AbortController()
+    wrap.__mermaidAbortController = ac
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+    // Disable default gestures to prevent scroll chaining and pinch-zoom penetration in Chrome
+    svg.style.touchAction = 'none'
+
+    // Cache BoundingClientRect, throttled on scroll to reduce reflow
+    let cachedRect = svg.getBoundingClientRect()
+    let rectDirty = false
+    const markRectDirty = () => { rectDirty = true }
+    window.addEventListener('resize', markRectDirty, { signal: ac.signal })
+    window.addEventListener('scroll', markRectDirty, { signal: ac.signal, capture: true })
+    const getRect = () => {
+      if (rectDirty) {
+        cachedRect = svg.getBoundingClientRect()
+        rectDirty = false
+      }
+      return cachedRect
+    }
+
+    // Precompute clamp bounds from initial viewBox
+    const minW = initVb[2] * 0.1
+    const maxW = initVb[2] * 10
+    const minH = initVb[3] * 0.1
+    const maxH = initVb[3] * 10
+    const clampVb = vb => {
+      const out = vb.slice()
+      out[2] = clamp(out[2], minW, maxW)
+      out[3] = clamp(out[3], minH, maxH)
+      return out
+    }
+
+    // Throttle DOM updates using requestAnimationFrame
+    let pendingVb = null
+    let rafId = null
+    const applyVb = () => {
+      if (pendingVb) {
+        wrap.__mermaidCurViewBox = pendingVb
+        setSvgViewBox(svg, pendingVb)
+        pendingVb = null
+      }
+      rafId = null
+      wrap.__mermaidRafId = null
+    }
+    const setCurVb = vb => {
+      pendingVb = clampVb(vb)
+      if (!rafId) {
+        rafId = requestAnimationFrame(applyVb)
+        wrap.__mermaidRafId = rafId
+      }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      lastPointerX: 0,
+      lastPointerY: 0
+    }
+
+    const onPointerDown = e => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      const curVb = wrap.__mermaidCurViewBox
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      if (state.pointers.size === 1) {
+        state.startVb = curVb.slice()
+        state.lastPointerX = e.clientX
+        state.lastPointerY = e.clientY
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = curVb.slice()
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      const curVb = wrap.__mermaidCurViewBox
+      const rect = getRect()
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = state.pointers.values().next().value
+        const dxClient = p.x - state.lastPointerX
+        const dyClient = p.y - state.lastPointerY
+        state.lastPointerX = p.x
+        state.lastPointerY = p.y
+        const dx = dxClient * (curVb[2] / rect.width)
+        const dy = dyClient * (curVb[3] / rect.height)
+        setCurVb([curVb[0] - dx, curVb[1] - dy, curVb[2], curVb[3]])
+        return
+      }
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const px = curVb[0] + (cx - rect.left) * (curVb[2] / rect.width)
+        const py = curVb[1] + (cy - rect.top) * (curVb[3] / rect.height)
+        setCurVb(zoomAtPoint(state.startVb, factor, px, py))
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      // Release PointerCapture to avoid event capture anomalies
+      if (svg.hasPointerCapture && svg.hasPointerCapture(e.pointerId)) {
+        svg.releasePointerCapture(e.pointerId)
+      }
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+      } else if (state.pointers.size === 1) {
+        const p = state.pointers.values().next().value
+        state.lastPointerX = p.x
+        state.lastPointerY = p.y
+      }
+    }
+
+    const onWheel = e => {
+      // Prevent event bubbling from triggering external scroll
+      e.preventDefault()
+      e.stopPropagation()
+      // Normalize deltaY across deltaMode (Chrome uses pixels, Safari uses lines)
+      let delta = e.deltaY
+      if (e.deltaMode === 1) delta *= 16
+      else if (e.deltaMode === 2) delta *= 400
+
+      // Continuous zoom factor: smoother than fixed 1.1/0.9 steps
+      const zoomFactor = Math.pow(1.001, delta)
+
+      const curVb = wrap.__mermaidCurViewBox
+      const rect = getRect()
+      const px = curVb[0] + (e.clientX - rect.left) * (curVb[2] / rect.width)
+      const py = curVb[1] + (e.clientY - rect.top) * (curVb[3] / rect.height)
+      setCurVb(zoomAtPoint(curVb, zoomFactor, px, py))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (init) setCurVb(init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown, { signal: ac.signal })
+    svg.addEventListener('pointermove', onPointerMove, { signal: ac.signal })
+    svg.addEventListener('pointerup', onPointerUpOrCancel, { signal: ac.signal })
+    svg.addEventListener('pointercancel', onPointerUpOrCancel, { signal: ac.signal })
+    svg.addEventListener('wheel', onWheel, { passive: false, signal: ac.signal })
+    svg.addEventListener('dblclick', onDblClick, { signal: ac.signal })
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      // Clean up event listeners before removing old SVG
+      if (item.__mermaidAbortController) {
+        item.__mermaidAbortController.abort()
+      }
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      let config = {}
+      try {
+        config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      } catch (e) {
+        console.warn('[mermaid] failed to parse dataset.config:', e)
+      }
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+      const handleError = err => {
+        console.error(`[mermaid] render failed for block #${index}:`, err)
+        const errorEl = document.createElement('div')
+        errorEl.className = 'mermaid-error'
+        errorEl.textContent = `Mermaid render error: ${err.message || err}`
+        mermaidSrc.insertAdjacentElement('afterend', errorEl)
+      }
+
+      try {
+        const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+        // mermaid v9 and v10 compatibility
+        if (typeof renderFn === 'string') {
+          renderMermaid(renderFn)
+        } else {
+          renderFn.then(({ svg }) => renderMermaid(svg)).catch(handleError)
+        }
+      } catch (err) {
+        handleError(err)
+      }
+    })
+  }
+
+  const codeToMermaid = $article => {
+    const codeMermaidEle = $article.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    const $article = document.getElementById('article-container')
+    if (!$article) return
+
+    if (false) codeToMermaid($article)
+    const $mermaid = $article.querySelectorAll('.mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
   let initFn = window.walineFn || null
   const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
   const option = null
