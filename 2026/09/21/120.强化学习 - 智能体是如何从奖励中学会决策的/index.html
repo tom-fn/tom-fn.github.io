@@ -257,7 +257,7 @@
 </ul>
 <p>只利用会陷入局部最优，只探索则效率低下。ε-greedy（以小概率随机行动）等机制就是为平衡二者而生。</p>
 <h2 id="从-AlphaGo-到-RLHF"><a href="#从-AlphaGo-到-RLHF" class="headerlink" title="从 AlphaGo 到 RLHF"></a>从 AlphaGo 到 RLHF</h2><p>AlphaGo 用策略网络 + 价值网络 + 蒙特卡洛树搜索击败人类冠军；而今天大模型的 RLHF 本质是同一套框架：状态是提示词与已生成文本，动作是生成下一个 token，奖励来自人类偏好训练的奖励模型。强化学习从”教机器玩游戏”走到了”教模型符合人类价值观”，框架未变，变的是状态与奖励的定义。</p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://heiau.cn">烦恼多一点</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://heiau.cn/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/">https://heiau.cn/2026/09/21/120.强化学习 - 智能体是如何从奖励中学会决策的/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://heiau.cn" target="_blank">非鱼小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a></div><div class="post-share"><div class="social-share" data-image="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkd4s1rxj31hc0u0qo0.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="/pluginsSrc/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="/pluginsSrc/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/09/21/121.RAG%20-%20%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/" title="检索增强生成解决了什么问题"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvjfjzbbaj21hc0u0kjl.jpg" onerror="onerror=null;src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">检索增强生成解决了什么问题</div></div><div class="info-2"><div class="info-item-1">大模型再强也有三个绕不开的短板：知识停留在训练截止日期、对私有数据一无所知、容易一本正经地幻觉。检索增强生成（RAG, Retrieval-Augmented Generation）的思路是：不让模型背答案，而是先帮它查资料，再让它基于资料作答。 为什么需要 RAG 知识过时：模型不知道训练截止之后发生的事 私有知识：公司内部文档、个人笔记从未进入训练语料 幻觉：模型凭参数”印象”作答时，可能编造不存在的事实 可追溯：业务上要求答案能给出出处，纯生成做不到  RAG 把”记忆”外置到可更新的知识库，模型只负责理解与表达，事实由检索到的文档兜底。 RAG 的基本流程离线建库：  文档切分：按段落或固定长度把长文档切成 chunk（保留适当重叠） 向量化：用 Embedding 模型把每个 chunk 转成语义向量 入库：向量存入向量数据库（Milvus、pgvector、Elasticsearch 等）  在线问答：  把用户问题同样向量化 在向量库中检索最相似的 top-k 个 chunk 把问题与检索到的 chunk 拼进提示词，交给大模型生成答案  模型回答时”手里有资料”，...</div></div></div></a><a class="pagination-related" href="/2026/09/21/119.%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%20-%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%20CNN%20%E8%B5%B0%E5%88%B0%20ViT%20%E7%9A%84/" title="计算机视觉是如何从 CNN 走到 ViT 的"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfzphb2j31hc0u0gvv.jpg" onerror="onerror=null;src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">计算机视觉是如何从 CNN 走到 ViT 的</div></div><div class="info-2"><div class="info-item-1">计算机视觉要解决的核心问题是：如何从像素矩阵中理解内容。这条技术路线经历了从手工特征到卷积神经网络（CNN），再到把 Transformer 引入视觉（ViT）的三次跃迁，每一次都是”表示方式”的升级。 卷积与池化：CNN 的两大法宝图像有两个特性：局部相关（像素和邻域关系最密切）、平移不变（猫在左上角还是右下角都是猫）。CNN 用两种操作对应这两个特性：  卷积：小卷积核在图上滑动提取局部特征，参数共享大幅减少参数量 池化：下采样降分辨率，保留主要特征并获得一定的平移鲁棒性  多层卷积堆叠后，网络从边缘纹理逐层抽象到部件和物体，与深度学习的层次化表示一脉相承。 从 AlexNet 到 ResNet：网络越深越好吗2012 年 AlexNet 在 ImageNet 上大幅领先传统方法，宣告深度学习统治视觉的开始。之后网络越堆越深，但深到一定程度出现退化：训练误差反而上升。ResNet 用残差连接（让层学习输入与输出的差值）解决了深层网络的梯度问题，把网络推到上百层，成为后续无数模型的骨干。 ViT：把图像交给 TransformerTransformer 在 NLP 成功后，Vi...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Waline</span><span id="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="avatar"/></div><div class="author-info-name">烦恼多一点</div><div class="author-info-description">专注 Java 后端与 AI 工程实践分享</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">144</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/tom-fn"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/tom-fn" rel="external nofollow noreferrer" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:mfuning@163.com" rel="external nofollow noreferrer" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到非鱼小站！140+ 篇原创技术文章持续更新，欢迎留言交流~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%B3%E7%AD%96%E6%A1%86%E6%9E%B6%EF%BC%9A%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E5%86%B3%E7%AD%96%E8%BF%87%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">决策框架：马尔可夫决策过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%B7%E5%80%BC%E5%87%BD%E6%95%B0%E4%B8%8E-Q-learning"><span class="toc-number">2.</span> <span class="toc-text">价值函数与 Q-learning</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AD%96%E7%95%A5%E6%A2%AF%E5%BA%A6%EF%BC%9A%E7%9B%B4%E6%8E%A5%E5%AD%A6%E7%AD%96%E7%95%A5"><span class="toc-number">3.</span> <span class="toc-text">策略梯度：直接学策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%88%A9%E7%94%A8%E7%9A%84%E7%9F%9B%E7%9B%BE"><span class="toc-number">4.</span> <span class="toc-text">探索与利用的矛盾</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E-AlphaGo-%E5%88%B0-RLHF"><span class="toc-number">5.</span> <span class="toc-text">从 AlphaGo 到 RLHF</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/10/08/144.AI%20Agent%20-%20%E5%A6%82%E4%BD%95%E4%B8%BA%20Agent%20%E8%AE%BE%E8%AE%A1%E9%95%BF%E6%9C%9F%E8%AE%B0%E5%BF%86/" title="如何为 Agent 设计长期记忆"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvj06o6uzj21hc0u0dqd.jpg" onerror="this.onerror=null;this.src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="如何为 Agent 设计长期记忆"/></a><div class="content"><a class="title" href="/2026/10/08/144.AI%20Agent%20-%20%E5%A6%82%E4%BD%95%E4%B8%BA%20Agent%20%E8%AE%BE%E8%AE%A1%E9%95%BF%E6%9C%9F%E8%AE%B0%E5%BF%86/" title="如何为 Agent 设计长期记忆">如何为 Agent 设计长期记忆</a><time datetime="2026-10-08T12:46:25.000Z" title="发表于 2026-10-08 20:46:25">2026-10-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/07/143.%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%20-%20%E6%B8%A9%E5%BA%A6%E4%B8%8E%20top-p%20%E7%AD%89%E8%A7%A3%E7%A0%81%E7%AD%96%E7%95%A5%E5%A6%82%E4%BD%95%E5%BD%B1%E5%93%8D%E7%94%9F%E6%88%90%E6%96%87%E6%9C%AC/" title="温度与 top-p 等解码策略如何影响生成文本"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/7f0c40d4gy1fqbf0e94b8j21hc0xc1ky.jpg" onerror="this.onerror=null;this.src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="温度与 top-p 等解码策略如何影响生成文本"/></a><div class="content"><a class="title" href="/2026/10/07/143.%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%20-%20%E6%B8%A9%E5%BA%A6%E4%B8%8E%20top-p%20%E7%AD%89%E8%A7%A3%E7%A0%81%E7%AD%96%E7%95%A5%E5%A6%82%E4%BD%95%E5%BD%B1%E5%93%8D%E7%94%9F%E6%88%90%E6%96%87%E6%9C%AC/" title="温度与 top-p 等解码策略如何影响生成文本">温度与 top-p 等解码策略如何影响生成文本</a><time datetime="2026-10-07T12:46:25.000Z" title="发表于 2026-10-07 20:46:25">2026-10-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/06/142.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E6%A8%A1%E5%9E%8B%E5%A4%A7%E5%B0%8F%EF%BC%9A%E6%8E%A8%E7%90%86%E6%88%90%E6%9C%AC%E4%B8%8E%E6%95%88%E6%9E%9C%E7%9A%84%E6%9D%83%E8%A1%A1/" title="如何选择模型大小：推理成本与效果的权衡"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/005FzdTdgy1geetgut8qij31hc0u0hbh.jpg" onerror="this.onerror=null;this.src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="如何选择模型大小：推理成本与效果的权衡"/></a><div class="content"><a class="title" href="/2026/10/06/142.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E6%A8%A1%E5%9E%8B%E5%A4%A7%E5%B0%8F%EF%BC%9A%E6%8E%A8%E7%90%86%E6%88%90%E6%9C%AC%E4%B8%8E%E6%95%88%E6%9E%9C%E7%9A%84%E6%9D%83%E8%A1%A1/" title="如何选择模型大小：推理成本与效果的权衡">如何选择模型大小：推理成本与效果的权衡</a><time datetime="2026-10-06T12:46:25.000Z" title="发表于 2026-10-06 20:46:25">2026-10-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/05/141.AIGC%20-%20%E5%A6%82%E4%BD%95%E6%8E%A7%E5%88%B6%20AI%20%E7%BB%98%E7%94%BB%E7%9A%84%E6%9E%84%E5%9B%BE%E4%B8%8E%E9%A3%8E%E6%A0%BC/" title="如何控制 AI 绘画的构图与风格"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxlnt53drj31kw0w01eq.jpg" onerror="this.onerror=null;this.src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="如何控制 AI 绘画的构图与风格"/></a><div class="content"><a class="title" href="/2026/10/05/141.AIGC%20-%20%E5%A6%82%E4%BD%95%E6%8E%A7%E5%88%B6%20AI%20%E7%BB%98%E7%94%BB%E7%9A%84%E6%9E%84%E5%9B%BE%E4%B8%8E%E9%A3%8E%E6%A0%BC/" title="如何控制 AI 绘画的构图与风格">如何控制 AI 绘画的构图与风格</a><time datetime="2026-10-05T12:46:25.000Z" title="发表于 2026-10-05 20:46:25">2026-10-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/04/140.%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E8%BF%87%E6%8B%9F%E5%90%88%E6%98%AF%E5%A6%82%E4%BD%95%E4%BA%A7%E7%94%9F%E7%9A%84%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2/" title="过拟合是如何产生的以及如何防止"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkf5ytavj31kw0w0ts3.jpg" onerror="this.onerror=null;this.src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="过拟合是如何产生的以及如何防止"/></a><div class="content"><a class="title" href="/2026/10/04/140.%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E8%BF%87%E6%8B%9F%E5%90%88%E6%98%AF%E5%A6%82%E4%BD%95%E4%BA%A7%E7%94%9F%E7%9A%84%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2/" title="过拟合是如何产生的以及如何防止">过拟合是如何产生的以及如何防止</a><time datetime="2026-10-04T12:46:25.000Z" title="发表于 2026-10-04 20:46:25">2026-10-04</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2020 - 2026 By 烦恼多一点</span></div><div class="footer_custom_text">非鱼小站 · 把字节堆成塔，一步一印</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/pluginsSrc/instant.page/instantpage.js" type="module"></script><script src="/pluginsSrc/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://heiau.cn">烦恼多一点</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://heiau.cn/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/">https://heiau.cn/2026/09/21/120.强化学习 - 智能体是如何从奖励中学会决策的/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://heiau.cn" target="_blank">非鱼小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a></div><div class="post-share"><div class="social-share" data-image="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkd4s1rxj31hc0u0qo0.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="/pluginsSrc/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="/pluginsSrc/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/09/21/121.RAG%20-%20%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98/" title="检索增强生成解决了什么问题"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvjfjzbbaj21hc0u0kjl.jpg" onerror="onerror=null;src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">检索增强生成解决了什么问题</div></div><div class="info-2"><div class="info-item-1">大模型再强也有三个绕不开的短板：知识停留在训练截止日期、对私有数据一无所知、容易一本正经地幻觉。检索增强生成（RAG, Retrieval-Augmented Generation）的思路是：不让模型背答案，而是先帮它查资料，再让它基于资料作答。 为什么需要 RAG 知识过时：模型不知道训练截止之后发生的事 私有知识：公司内部文档、个人笔记从未进入训练语料 幻觉：模型凭参数”印象”作答时，可能编造不存在的事实 可追溯：业务上要求答案能给出出处，纯生成做不到  RAG 把”记忆”外置到可更新的知识库，模型只负责理解与表达，事实由检索到的文档兜底。 RAG 的基本流程离线建库：  文档切分：按段落或固定长度把长文档切成 chunk（保留适当重叠） 向量化：用 Embedding 模型把每个 chunk 转成语义向量 入库：向量存入向量数据库（Milvus、pgvector、Elasticsearch 等）  在线问答：  把用户问题同样向量化 在向量库中检索最相似的 top-k 个 chunk 把问题与检索到的 chunk 拼进提示词，交给大模型生成答案  模型回答时”手里有资料”，...</div></div></div></a><a class="pagination-related" href="/2026/09/21/119.%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%20-%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%20CNN%20%E8%B5%B0%E5%88%B0%20ViT%20%E7%9A%84/" title="计算机视觉是如何从 CNN 走到 ViT 的"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfzphb2j31hc0u0gvv.jpg" onerror="onerror=null;src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">计算机视觉是如何从 CNN 走到 ViT 的</div></div><div class="info-2"><div class="info-item-1">计算机视觉要解决的核心问题是：如何从像素矩阵中理解内容。这条技术路线经历了从手工特征到卷积神经网络（CNN），再到把 Transformer 引入视觉（ViT）的三次跃迁，每一次都是”表示方式”的升级。 卷积与池化：CNN 的两大法宝图像有两个特性：局部相关（像素和邻域关系最密切）、平移不变（猫在左上角还是右下角都是猫）。CNN 用两种操作对应这两个特性：  卷积：小卷积核在图上滑动提取局部特征，参数共享大幅减少参数量 池化：下采样降分辨率，保留主要特征并获得一定的平移鲁棒性  多层卷积堆叠后，网络从边缘纹理逐层抽象到部件和物体，与深度学习的层次化表示一脉相承。 从 AlexNet 到 ResNet：网络越深越好吗2012 年 AlexNet 在 ImageNet 上大幅领先传统方法，宣告深度学习统治视觉的开始。之后网络越堆越深，但深到一定程度出现退化：训练误差反而上升。ResNet 用残差连接（让层学习输入与输出的差值）解决了深层网络的梯度问题，把网络推到上百层，成为后续无数模型的骨干。 ViT：把图像交给 TransformerTransformer 在 NLP 成功后，Vi...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/63b38801be43e0d30e3f12c6.png" onerror="this.onerror=null;this.src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="avatar"/></div><div class="author-info-name">烦恼多一点</div><div class="author-info-description">专注 Java 后端与 AI 工程实践分享</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">144</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/tom-fn"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/tom-fn" rel="external nofollow noreferrer" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:mfuning@163.com" rel="external nofollow noreferrer" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到非鱼小站！140+ 篇原创技术文章持续更新，欢迎留言交流~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%B3%E7%AD%96%E6%A1%86%E6%9E%B6%EF%BC%9A%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E5%86%B3%E7%AD%96%E8%BF%87%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">决策框架：马尔可夫决策过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%B7%E5%80%BC%E5%87%BD%E6%95%B0%E4%B8%8E-Q-learning"><span class="toc-number">2.</span> <span class="toc-text">价值函数与 Q-learning</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AD%96%E7%95%A5%E6%A2%AF%E5%BA%A6%EF%BC%9A%E7%9B%B4%E6%8E%A5%E5%AD%A6%E7%AD%96%E7%95%A5"><span class="toc-number">3.</span> <span class="toc-text">策略梯度：直接学策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%88%A9%E7%94%A8%E7%9A%84%E7%9F%9B%E7%9B%BE"><span class="toc-number">4.</span> <span class="toc-text">探索与利用的矛盾</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E-AlphaGo-%E5%88%B0-RLHF"><span class="toc-number">5.</span> <span class="toc-text">从 AlphaGo 到 RLHF</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/10/08/144.AI%20Agent%20-%20%E5%A6%82%E4%BD%95%E4%B8%BA%20Agent%20%E8%AE%BE%E8%AE%A1%E9%95%BF%E6%9C%9F%E8%AE%B0%E5%BF%86/" title="如何为 Agent 设计长期记忆"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/a15b4afegy1fmvj06o6uzj21hc0u0dqd.jpg" onerror="this.onerror=null;this.src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="如何为 Agent 设计长期记忆"/></a><div class="content"><a class="title" href="/2026/10/08/144.AI%20Agent%20-%20%E5%A6%82%E4%BD%95%E4%B8%BA%20Agent%20%E8%AE%BE%E8%AE%A1%E9%95%BF%E6%9C%9F%E8%AE%B0%E5%BF%86/" title="如何为 Agent 设计长期记忆">如何为 Agent 设计长期记忆</a><time datetime="2026-10-08T12:46:25.000Z" title="发表于 2026-10-08 20:46:25">2026-10-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/07/143.%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%20-%20%E6%B8%A9%E5%BA%A6%E4%B8%8E%20top-p%20%E7%AD%89%E8%A7%A3%E7%A0%81%E7%AD%96%E7%95%A5%E5%A6%82%E4%BD%95%E5%BD%B1%E5%93%8D%E7%94%9F%E6%88%90%E6%96%87%E6%9C%AC/" title="温度与 top-p 等解码策略如何影响生成文本"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/7f0c40d4gy1fqbf0e94b8j21hc0xc1ky.jpg" onerror="this.onerror=null;this.src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="温度与 top-p 等解码策略如何影响生成文本"/></a><div class="content"><a class="title" href="/2026/10/07/143.%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%20-%20%E6%B8%A9%E5%BA%A6%E4%B8%8E%20top-p%20%E7%AD%89%E8%A7%A3%E7%A0%81%E7%AD%96%E7%95%A5%E5%A6%82%E4%BD%95%E5%BD%B1%E5%93%8D%E7%94%9F%E6%88%90%E6%96%87%E6%9C%AC/" title="温度与 top-p 等解码策略如何影响生成文本">温度与 top-p 等解码策略如何影响生成文本</a><time datetime="2026-10-07T12:46:25.000Z" title="发表于 2026-10-07 20:46:25">2026-10-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/06/142.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E6%A8%A1%E5%9E%8B%E5%A4%A7%E5%B0%8F%EF%BC%9A%E6%8E%A8%E7%90%86%E6%88%90%E6%9C%AC%E4%B8%8E%E6%95%88%E6%9E%9C%E7%9A%84%E6%9D%83%E8%A1%A1/" title="如何选择模型大小：推理成本与效果的权衡"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/005FzdTdgy1geetgut8qij31hc0u0hbh.jpg" onerror="this.onerror=null;this.src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="如何选择模型大小：推理成本与效果的权衡"/></a><div class="content"><a class="title" href="/2026/10/06/142.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E6%A8%A1%E5%9E%8B%E5%A4%A7%E5%B0%8F%EF%BC%9A%E6%8E%A8%E7%90%86%E6%88%90%E6%9C%AC%E4%B8%8E%E6%95%88%E6%9E%9C%E7%9A%84%E6%9D%83%E8%A1%A1/" title="如何选择模型大小：推理成本与效果的权衡">如何选择模型大小：推理成本与效果的权衡</a><time datetime="2026-10-06T12:46:25.000Z" title="发表于 2026-10-06 20:46:25">2026-10-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/05/141.AIGC%20-%20%E5%A6%82%E4%BD%95%E6%8E%A7%E5%88%B6%20AI%20%E7%BB%98%E7%94%BB%E7%9A%84%E6%9E%84%E5%9B%BE%E4%B8%8E%E9%A3%8E%E6%A0%BC/" title="如何控制 AI 绘画的构图与风格"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxlnt53drj31kw0w01eq.jpg" onerror="this.onerror=null;this.src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="如何控制 AI 绘画的构图与风格"/></a><div class="content"><a class="title" href="/2026/10/05/141.AIGC%20-%20%E5%A6%82%E4%BD%95%E6%8E%A7%E5%88%B6%20AI%20%E7%BB%98%E7%94%BB%E7%9A%84%E6%9E%84%E5%9B%BE%E4%B8%8E%E9%A3%8E%E6%A0%BC/" title="如何控制 AI 绘画的构图与风格">如何控制 AI 绘画的构图与风格</a><time datetime="2026-10-05T12:46:25.000Z" title="发表于 2026-10-05 20:46:25">2026-10-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/10/04/140.%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E8%BF%87%E6%8B%9F%E5%90%88%E6%98%AF%E5%A6%82%E4%BD%95%E4%BA%A7%E7%94%9F%E7%9A%84%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2/" title="过拟合是如何产生的以及如何防止"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkf5ytavj31kw0w0ts3.jpg" onerror="this.onerror=null;this.src='https://uapis.cn/assets/acg/pc/0072Vf1pgy1foxkfa3isfj31kw0w0ay4.jpg'" alt="过拟合是如何产生的以及如何防止"/></a><div class="content"><a class="title" href="/2026/10/04/140.%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E8%BF%87%E6%8B%9F%E5%90%88%E6%98%AF%E5%A6%82%E4%BD%95%E4%BA%A7%E7%94%9F%E7%9A%84%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2/" title="过拟合是如何产生的以及如何防止">过拟合是如何产生的以及如何防止</a><time datetime="2026-10-04T12:46:25.000Z" title="发表于 2026-10-04 20:46:25">2026-10-04</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2020 - 2026 By 烦恼多一点</span></div><div class="footer_custom_text">非鱼小站 · 把字节堆成塔，一步一印</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/pluginsSrc/instant.page/instantpage.js" type="module"></script><script src="/pluginsSrc/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
   const parseViewBox = viewBox => {
     if (!viewBox) return null
     const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
@@ -620,132 +620,54 @@
   btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
   window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
 })()</script><script>(() => {
-  let initFn = window.walineFn || null
   const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
-  const option = {"login":"disable"}
+  const option = {"placeholder":"无需登录，留下昵称（或匿名）即可评论交流～","lang":"zh-CN","pageSize":10}
 
-  const destroyWaline = ele => ele.destroy()
+  const initValine = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyValine = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
 
-  const initWaline = (Fn, el = document, path = window.location.pathname) => {
-    const waline = Fn({
-      el: el.querySelector('#waline-wrap'),
-      serverURL: 'https://waline.heiau.cn',
-      pageview: false,
-      dark: 'html[data-theme="dark"]',
-      comment: false,
+    const valineConfig = {
+      el: '#vcomment',
+      appId: '4CLut8cUiunqI7tIlFjmwvwXk-MdYXbMMI',
+      appKey: 'vDHwIfPNTAl7NcuU99uoHPaA',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      visitor: false,
       ...option,
-      path: isShuoshuo ? path : (option && option.path) || path
-    })
-
-    if (isShuoshuo) {
-      window.shuoshuoComment.destroyWaline = () => {
-        destroyWaline(waline)
-        if (el.children.length) {
-          el.innerHTML = ''
-          el.classList.add('no-comment')
-        }
-      }
+      path: isShuoshuo ? path : (option && option.path) || window.location.pathname
     }
+
+    new Valine(valineConfig)
   }
 
-  const loadWaline = (el, path) => {
-    if (initFn) initWaline(initFn, el, path)
-    else {
-      btf.getCSS('/pluginsSrc/@waline/client/dist/waline.css')
-        .then(() => import('/pluginsSrc/@waline/client/dist/waline.js'))
-        .then(({ init }) => {
-          initFn = init || Waline.init
-          initWaline(initFn, el, path)
-          window.walineFn = initFn
-        })
+  const loadValine = async (el, path) => {
+    if (typeof Valine === 'function') {
+      initValine(el, path)
+    } else {
+      await btf.getScript('/pluginsSrc/valine/dist/Valine.min.js')
+      initValine(el, path)
     }
   }
 
   if (isShuoshuo) {
-    'Waline' === 'Waline'
-      ? window.shuoshuoComment = { loadComment: loadWaline } 
-      : window.loadOtherComment = loadWaline
+    'Valine' === 'Valine'
+      ? window.shuoshuoComment = { loadComment: loadValine }
+      : window.loadOtherComment = loadValine
     return
   }
 
-  if ('Waline' === 'Waline' || !false) {
-    if (false) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
-    else setTimeout(loadWaline, 0)
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
   } else {
-    window.loadOtherComment = loadWaline
-  }
-})()</script><script>(() => {
-  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
-
-  const disqusReset = conf => {
-    window.DISQUS && window.DISQUS.reset({
-      reload: true,
-      config: conf
-    })
-  }
-
-  const loadDisqus = (el, path) => {
-    if (isShuoshuo) {
-      window.shuoshuoComment.destroyDisqus = () => {
-        if (el.children.length) {
-          el.innerHTML = ''
-          el.classList.add('no-comment')
-        }
-      }
-    }
-
-    window.disqus_identifier = isShuoshuo ? path : '/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/'
-    window.disqus_url = isShuoshuo ? location.origin + path : 'https://heiau.cn/2026/09/21/120.%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%20-%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%98%AF%E5%A6%82%E4%BD%95%E4%BB%8E%E5%A5%96%E5%8A%B1%E4%B8%AD%E5%AD%A6%E4%BC%9A%E5%86%B3%E7%AD%96%E7%9A%84/'
-
-    const disqus_config = function () {
-      this.page.url = disqus_url
-      this.page.identifier = disqus_identifier
-      this.page.title = '智能体是如何从奖励中学会决策的'
-    }
-
-    if (window.DISQUS) disqusReset(disqus_config)
-    else {
-      const script = document.createElement('script')
-      script.src = 'https://.disqus.com/embed.js'
-      script.setAttribute('data-timestamp', +new Date())
-      document.head.appendChild(script)
-    }
-
-    btf.addGlobalFn('themeChange', () => disqusReset(disqus_config), 'disqus')
-  }
-
-  const getCount = async() => {
-    try {
-      const eleGroup = document.querySelector('#post-meta .disqus-comment-count')
-      if (!eleGroup) return
-      const cleanedLinks = eleGroup.href.replace(/#post-comment$/, '')
-
-      const res = await fetch(`https://disqus.com/api/3.0/threads/set.json?forum=&api_key=&thread:link=${cleanedLinks}`,{
-        method: 'GET'
-      })
-      const result = await res.json()
-
-      const count = result.response.length ? result.response[0].posts : 0
-      eleGroup.textContent = count
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  if (isShuoshuo) {
-    'Waline' === 'Disqus'
-      ? window.shuoshuoComment = { loadComment: loadDisqus }
-      : window.loadOtherComment = loadDisqus
-    return
-  }
-
-  if ('Waline' === 'Disqus' || !false) {
-    if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
-    else {
-      loadDisqus()
-      
-    }
-  } else {
-    window.loadOtherComment = loadDisqus
+    window.loadOtherComment = loadValine
   }
 })()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
