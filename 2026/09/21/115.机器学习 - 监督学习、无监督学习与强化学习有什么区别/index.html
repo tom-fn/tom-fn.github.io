@@ -619,14 +619,14 @@
 })()</script><script>(() => {
   let initFn = window.walineFn || null
   const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
-  const option = null
+  const option = {"login":"disable"}
 
   const destroyWaline = ele => ele.destroy()
 
   const initWaline = (Fn, el = document, path = window.location.pathname) => {
     const waline = Fn({
       el: el.querySelector('#waline-wrap'),
-      serverURL: 'waline.heiau.cn',
+      serverURL: 'https://waline.heiau.cn',
       pageview: false,
       dark: 'html[data-theme="dark"]',
       comment: false,

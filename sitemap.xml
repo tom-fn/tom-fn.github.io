@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://heiau.cn/about/index.html</loc>
+    
+    <lastmod>2026-10-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://heiau.cn/2026/10/08/144.AI%20Agent%20-%20%E5%A6%82%E4%BD%95%E4%B8%BA%20Agent%20%E8%AE%BE%E8%AE%A1%E9%95%BF%E6%9C%9F%E8%AE%B0%E5%BF%86/</loc>
     
     <lastmod>2026-10-08</lastmod>
@@ -1362,15 +1371,6 @@
   
   <url>
     <loc>https://heiau.cn/archive.html</loc>
-    
-    <lastmod>2026-09-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://heiau.cn/about/index.html</loc>
     
     <lastmod>2026-09-16</lastmod>
     

@@ -1,3 +1,4 @@
+https://heiau.cn/about/index.html
 https://heiau.cn/2026/10/08/144.AI%20Agent%20-%20%E5%A6%82%E4%BD%95%E4%B8%BA%20Agent%20%E8%AE%BE%E8%AE%A1%E9%95%BF%E6%9C%9F%E8%AE%B0%E5%BF%86/
 https://heiau.cn/2026/10/04/140.%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E8%BF%87%E6%8B%9F%E5%90%88%E6%98%AF%E5%A6%82%E4%BD%95%E4%BA%A7%E7%94%9F%E7%9A%84%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2/
 https://heiau.cn/2026/10/06/142.%E5%A4%A7%E6%A8%A1%E5%9E%8B%20-%20%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E6%A8%A1%E5%9E%8B%E5%A4%A7%E5%B0%8F%EF%BC%9A%E6%8E%A8%E7%90%86%E6%88%90%E6%9C%AC%E4%B8%8E%E6%95%88%E6%9E%9C%E7%9A%84%E6%9D%83%E8%A1%A1/
@@ -150,7 +151,6 @@ https://heiau.cn/archives/index.html
 https://heiau.cn/categories/index.html
 https://heiau.cn/about.html
 https://heiau.cn/archive.html
-https://heiau.cn/about/index.html
 https://heiau.cn/
 https://heiau.cn/tags/java/
 https://heiau.cn/tags/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/
