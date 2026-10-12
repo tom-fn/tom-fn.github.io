@@ -1,3 +1,4 @@
+https://heiau.cn/vercel.json
 https://heiau.cn/about/index.html
 https://heiau.cn/2026/10/08/144.AI%20Agent%20-%20%E5%A6%82%E4%BD%95%E4%B8%BA%20Agent%20%E8%AE%BE%E8%AE%A1%E9%95%BF%E6%9C%9F%E8%AE%B0%E5%BF%86/
 https://heiau.cn/2026/10/04/140.%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E8%BF%87%E6%8B%9F%E5%90%88%E6%98%AF%E5%A6%82%E4%BD%95%E4%BA%A7%E7%94%9F%E7%9A%84%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2/
